@@ -1,0 +1,637 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Classifying Celeste</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="02f2f141-6c1c-4ec2-91e8-bcae27efd321" class="page sans"><header><h1 class="page-title">Classifying Celeste</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M6.98643729,14.0000972 C5.19579566,14.0000972 3.40419152,13.3106896 2.04245843,11.9323606 C-0.681017475,9.21200555 -0.680780251,4.76029539 2.04293482,2.04012507 C4.76664406,-0.68004331 9.22427509,-0.68004331 11.9480135,2.04013479 C13.272481,3.36277455 14,5.1330091 14,6.99552762 C14,8.87640182 13.2721894,10.6285043 11.9480135,11.9509302 C10.5679344,13.3105924 8.77756503,14.0000972 6.98643729,14.0000972 Z M10.2705296,7.00913883 L10.2705296,8.46099754 L10.2705296,8.65543362 L10.076181,8.65543362 L8.6543739,8.65543362 L5.72059514,8.65543362 L5.52619796,8.65543362 L5.52619796,8.46099754 L5.52619796,5.52541044 L5.52619796,3.37946773 L5.52619796,3.18502193 L5.72059514,3.18502193 L7.17253164,3.18502193 L7.36692883,3.18502193 L7.36692883,3.37946773 L7.36692883,6.81467358 L10.076181,6.81467358 L10.2705296,6.81467358 L10.2705296,7.00913883 Z M12.1601539,6.99552762 C12.1601539,5.61697497 11.6190112,4.32597154 10.6393933,3.34769528 C8.63253764,1.34336744 5.35197452,1.34061603 3.34153136,3.33944106 C3.33868273,3.34219247 3.33607716,3.34494388 3.33322852,3.34769528 C1.32397148,5.35459953 1.32372842,8.63641682 3.33322852,10.6433794 C5.34295224,12.6504489 8.62968901,12.6504489 10.6393933,10.6433794 C11.6190112,9.66506426 12.1601539,8.37408027 12.1601539,6.99552762 Z"></path></svg></span>Created</th><td><time>@Dec 4, 2020 7:56 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><h1 id="fbd518f3-52f3-465b-90ac-10286ed44751" class="">About Celeste</h1><hr id="3a803cb6-c3a1-4a40-abfd-5f83f5516980"/><p id="de771b4d-650f-4842-89de-d6a30e8c086f" class="">Celeste is a single-player 2D platformer developed by Maddy Thorson and Noel Berry. The game is about you being Madeline who is climbing to the peak of the mountain &quot;Celeste&quot;. The goal of the game is to overcome obstacles on the way and make it to the end of the level.</p><p id="534657ab-05c4-48dc-8bba-a7a93bf2ece0" class="">The game consists of 7 levels which consist of subparts. In each subpart, you have to reach an exit point without taking damage. Taking damage resets you back to the starting point. </p><h3 id="00f0e574-bbd5-4c95-b119-99bfef34112a" class="">About the Player</h3><hr id="1f07a3fb-5147-4a2b-b70d-e0e4c8074c27"/><div id="5967fc58-85cf-4bad-b7aa-c2d22b3267de" class="column-list"><div id="f73918a8-2cd0-4cdf-aa0c-3f38bfb75936" style="width:12.5%" class="column"><figure id="f7632c8e-5d51-41c9-820c-fbcd0a85f553" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled.png"><img style="width:120px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled.png"/></a></figure></div><div id="ea714d71-8d39-4eb8-a27a-1721c0801b11" style="width:87.5%" class="column"><p id="816ebdb3-3b4b-4011-8bbf-84e9b8139747" class=""><strong>Madeline</strong> is the main character whose actions are governed by our controls. She is restricted in <strong>8 directions of motion </strong>and primarily has 3 special moves other than basic left and right movement. those are:</p></div></div><p id="48a97b3c-8e51-48ea-ac4e-095d43768c3f" class=""><strong>Directions of movement</strong></p><div id="18a17579-8c95-4a08-9b06-0a2fc2f0dd0b" class="column-list"><div id="3e57798a-78ff-4132-92a8-6e6c527e6493" style="width:18.75%" class="column"><figure id="2860ff0e-defe-4032-b93a-1b8e65e1d68a" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%201.png"><img style="width:192px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%201.png"/></a></figure></div><div id="166ca8c8-5292-4fc9-8748-4b3c524f3c24" style="width:81.25%" class="column"><p id="9a4392fa-ee65-4b90-905c-968c968d077e" class="">Madeline can move in 8 directions as described in the left diagram. These and the other moves have fixed button/button combinations assigned to them.</p></div></div><p id="2b478faa-c974-40a8-b407-2151a2120e15" class=""><strong>Jump</strong></p><div id="c3846a31-759c-41c6-8b40-639ad39694bd" class="column-list"><div id="c576299a-38ed-477d-be62-7d5118dc05cd" style="width:43.75%" class="column"><figure id="fe262aab-4290-42ca-ac73-57fbf0187922" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/jump.gif"><img style="width:288px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/jump.gif"/></a><figcaption>Allows her to go over gaps.</figcaption></figure></div><div id="ff4c8dc3-3e75-4b1e-8ce4-95e1608a8519" style="width:56.25%" class="column"><p id="13b205fe-e854-4765-a159-2b1bebdb8913" class="">She has the ability to jump to a certain height, which can be then done again only when she hits the ground.</p><p id="2c32f9e6-5d8f-4766-9e38-352da6691656" class="">
+</p></div></div><p id="42608767-9f10-4abe-b19b-be51d61c3713" class=""><strong>Dash</strong></p><div id="f068d402-5507-4418-b4f2-f14bb1a37e6e" class="column-list"><div id="8d2d4e1f-3eb1-4477-8ebd-2f89cee85012" style="width:37.5%" class="column"><figure id="61dfc105-7fa9-4a17-9aa9-994c2ebe5914" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/dash.gif"><img style="width:400px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/dash.gif"/></a><figcaption>dashing gave her extra momentum to make to the platform.</figcaption></figure></div><div id="1dc2a94d-e75b-4f12-97c2-a020d14b5864" style="width:62.5%" class="column"><p id="dfaac2f5-ab79-49d8-9e01-4cba0c2f73c9" class="">When Madeline has the &quot;charge&quot; she can dash in any direction, this gives her extra momentum and the ability to dash into &quot;space blocks&quot; (described later). The charge gets used up when she dashes and is restored when she hits the ground or passes through the space block.
+(There are other objects which also recharge her, but those are not used in the proof)</p></div></div><p id="d119a01c-5422-4a9d-bd00-25238a84d5a9" class=""><strong>Grab</strong></p><div id="07a09047-6bd7-4bc9-b910-c95a7ce07618" class="column-list"><div id="eba56d9e-1896-4cef-8508-5c2f8c105f60" style="width:37.5%" class="column"><figure id="375d076c-acdb-4d5c-aa50-06a79fba48a1" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/grab.gif"><img style="width:400px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/grab.gif"/></a><figcaption>She is able to climb walls with this ability.</figcaption></figure></div><div id="6696de35-b8e6-4cf0-9f8b-328578e9da81" style="width:62.5%" class="column"><p id="419fec30-79eb-43b6-b325-7c38625aba0c" class="">Since she is a mountain climber, she has the ability to climb walls and wedges. But she has stamina, which limits the amount of time she can grab onto a wall before sliding down. This stamina is restored when she makes contact with the ground</p></div></div><h1 id="3ca8eaf2-d1d6-4a2e-a880-fd76910da443" class="">Level Implementation</h1><hr id="809e5d4a-09d3-47d5-97ce-8d3db91a2eb1"/><h2 id="bb9c37dd-36ba-4166-b1f3-9e1adee64582" class="">Frames</h2><figure id="993c5f23-25da-4634-9364-2adb3cfef766" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%202.png"><img style="width:1280px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%202.png"/></a><figcaption>bottom left corner is the entry point and the top right corner is the exit point.</figcaption></figure><h3 id="6a1fdedf-5f0d-4a55-923b-eb1b722a138e" class="">What are frames?</h3><p id="d1215fed-3b43-45d4-bd80-dfb6057bc328" class="">Frames are areas of games which has a start and an endpoint. You have access to one frame at a time. Using the entries and the exits, you move from 1 frame to another. So Frames serve as the checkpoints in the game. Frames do not have a limit of size since your screen can scroll. </p><p id="9ae8f13e-c6e3-43b1-b600-ca98f1b978c3" class="">The game has been split into such frames, which are puzzles on their own, which require planning and reflexes to reach the endpoint. There are multiple ways to solve these puzzles due to the game&#x27;s versatility and the mechanisms in it.</p><p id="fb6d8c4c-8073-4725-9be9-6d350a2d1266" class="">A graph of such frames connected together makes up a level of the game. To construct our proof, we will make frames which we will join together to make our level.</p><h2 id="26f0a269-6162-467b-9821-bcf03644e11f" class="">Objects</h2><p id="bb6835c6-0d03-4b56-a9ac-889d8a7c5af7" class="">Revolving around the basic 3 operations the game has a lot of mechanisms that add to the fun and the difficulty of the game. These are added to the game as the player makes progress in the levels.</p><p id="7a88891f-ace5-4d51-9928-73a3dc6acd73" class="">For our proof, we will mainly use 3 of the objects. They are:</p><ul id="b87225af-081a-4ba9-8af8-1efa032cb8c6" class="bulleted-list"><li>Unstable Platform</li></ul><ul id="5fac0f17-0da7-4497-ae19-bc14a35d6317" class="bulleted-list"><li>Button door</li></ul><ul id="20d7e41b-47bf-4e46-b1bc-eda1dc6e42f1" class="bulleted-list"><li>Space block</li></ul><p id="503e14ab-bd10-4687-8d24-3da76a86d5a2" class="">The purpose of these objects will be explained later.</p><h3 id="5c5b05da-4b54-48ab-81d4-c0593cc6d7c2" class="">Unstable platform</h3><div id="39cd45e3-5532-4385-aa8f-404d0eb37d72" class="column-list"><div id="53fbd7f3-a8e4-46a2-91e8-58a9f2dccd16" style="width:43.75%" class="column"><figure id="0faa53cf-9f5d-4fbc-b44a-9a2f39e87363" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%203.png"><img style="width:288px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%203.png"/></a><figcaption>Forms back at the same position as before.</figcaption></figure></div><div id="2919757c-627d-4d08-8a51-ba52f1c05860" style="width:56.25%" class="column"><figure id="4b1eb981-6c15-454e-928b-ed92fceec486" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/unstable-platform-1.gif"><img style="width:384px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/unstable-platform-1.gif"/></a><figcaption>In slow motion</figcaption></figure></div></div><p id="f7d7f5bb-5ef9-456d-b5bf-7fa742e6cffa" class="">A stone platform that can float, this platform breaks when Madeline stands on this platform for more than a second. After the platform breaks, Madeline if not jumped will fall down.</p><p id="799b440d-3c1f-4af8-853e-2eb342f898cf" class="">This platform then forms back in the same place. But it can only be broken when stood upon and can not be broken from below, making it like a trap door if placed correctly.</p><h2 id="e0a9e2d8-f878-439f-a032-42b906d484d7" class="">Button door</h2><div id="a5e265c0-719d-4e82-8834-009a1a9e6ceb" class="column-list"><div id="152a02c0-21be-4513-9f15-9d69131b7203" style="width:43.75%" class="column"><figure id="7295b03a-2b09-4d56-963c-c3ad63788321" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%204.png"><img style="width:288px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%204.png"/></a><figcaption>Multiple doors in a single frame are allowed. But one button per door.</figcaption></figure></div><div id="e4efa4d7-0a94-4125-a239-97d44d8e168e" style="width:56.25%" class="column"><figure id="9725ad05-e0bf-4f0e-8381-547916abf8e3" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/button_door.gif"><img style="width:384px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/button_door.gif"/></a><figcaption>Visual representation</figcaption></figure></div></div><p id="93ce53d8-f40e-41df-aa24-4a5cb9e7ec70" class="">A door that can only be unlocked using its specific button. This button must be placed in the same frame as the door, but it has the freedom to be placed anywhere in the frame.</p><p id="06a4ae39-af25-4849-8aec-ec222169baf9" class="">Once the door is opened it can not be closed again.</p><h2 id="abb51acd-7183-4953-9e4d-a2b27d82ac19" class="">Space Block</h2><div id="81838614-db85-44fc-b37f-253b35763f06" class="column-list"><div id="b3b65a7b-5ce1-472a-b80d-89410486c7ed" style="width:50%" class="column"><figure id="97a92700-a5a2-41d2-9e86-bc3c5122ab18" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%205.png"><img style="width:288px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%205.png"/></a><figcaption>Space blocks!</figcaption></figure></div><div id="e83ec913-66ae-4c21-882d-e6a50fc3af0f" style="width:50%" class="column"><figure id="664e2993-6d3d-4e15-a012-8a90101bffa6" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/space-block.gif"><img style="width:384px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/space-block.gif"/></a><figcaption>Visually pleasing space blocks</figcaption></figure></div></div><p id="6850f466-9ab8-479c-8195-7990b1b655b4" class="">A block of celestial material which lets you float into and out in a straight line when you dash into it. Once Madeline dashes into the block, you can not stop her from reaching the other opening of the block in a straight line.</p><p id="f04fc0d9-5cc8-4224-a169-f8f1c95024a1" class="">If the other side of the line is blocked with a wall, Madeline dies and respawns at the start of the frame.</p><h2 id="8c58727a-5ab3-449f-9dda-7967c3edbf4b" class="">Level put together</h2><p id="0ec87090-69d5-42e9-9cc0-386ee6234d6b" class="">A level consists of many frames, but there is only 1 flag at the top of the level and there is only 1 initial start point of the level. For most of the levels, there is only 1 linear path from the start to end with a sequence of frames, but some other levels are more complex, which include sub-tasks and other detours. </p><p id="62072cc2-7be3-4c60-8290-196464aa4da3" class="">Here is an example, this is the 1st level in the game, the frames have been arranged according to the order.</p><figure id="2cc4c267-02d2-4a34-82f0-2c9e70821bb4" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%206.png"><img style="width:576px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%206.png"/></a><figcaption>Bottom left being the start and the top right being the end.</figcaption></figure><h1 id="f01de083-0d46-41ed-b64e-f033deee0e20" class="">Complexity Classification</h1><hr id="e59e53ae-c223-41fe-851a-e9cf1daa840d"/><p id="39c51a14-91d1-4de6-98c9-951acfe43318" class="">Now that the game has been well defined, we work on classification of the game. Classification has been discussed broadly under the Complexity zoo section. Now we adapt one of the methods.
+
+Whenever we say &quot;Celeste belongs to X complexity class&quot;, we mean to say that the decision problem of deciding whether finish point is reachable from start point.</p><h2 id="ad21e8e1-e684-4a7e-aa1a-71a48a3f83a1" class="">Basic Observation</h2><p id="731bb52a-6372-4923-b0b8-499029401d77" class="">Given a level and a path, that is the moves required to reach the endpoint, You can verify if the path is correct just by applying those moves.</p><p id="52714174-d66b-4d70-b798-61bca5d55701" class="">The moves are polynomial, why? We repeat the sections only after visiting other sections. Since the number of sections themselves are polynomial, we can only have polynomial moves before we complete the level.</p><p id="c46da21f-9240-4eae-839b-cbb864f0e166" class="">This clearly implies that the game is NP. For example, for the 1st level, we can map the path from start to end as seen below.</p><figure id="c8798555-e511-42c8-8087-0fac80db7207" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%207.png"><img style="width:576px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%207.png"/></a><figcaption>In this pattern we can always map from start to end.</figcaption></figure><p id="f71b3817-e7f7-4c6e-b4c6-f1d517227c16" class="">Now since we have proven that Celeste is NP. We can try to prove that it is NP-Hard, essentially proving that it is NP-Complete.</p><p id="03e0e60d-8249-4e2e-8781-18f3dbd199a8" class="">Due to many paths of the game which do not lead to the end, and certain mechanisms that lock us out which we will see in the future, We can not immediately tell that there exists a polynomial-time algorithm to solve the levels.</p><p id="6f6c3ce3-ac5f-4f48-91e9-6c8ec983acdb" class="">So we will try proving that this game is NP Hard.</p><h1 id="17c2624e-d9f4-45a0-be6b-1bcc3ab241c1" class="">Framework for NP-Hardness</h1><hr id="7f7fd70e-5498-4dee-9817-e0f890467062"/><p id="aa83258d-4aa3-4ec7-9976-37679ddd1567" class="">To prove the NP-hardness of Celeste, we here describe a framework for reducing 3SAT to a 2-D platform game. This framework is based on (link source here).  Using this framework in hand, we can prove the hardness of games by just constructing the necessary gadgets.<div class="indented"><figure id="68f2727c-1c9d-428f-b62c-135b1683589f" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%208.png"><img style="width:672px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%208.png"/></a><figcaption>General Framework for NP-Hardness</figcaption></figure></div></p><p id="a4e3eac8-e6b4-4ac5-8276-2f1aa606b5cf" class="">The framework is a reduction of the 3SAT problem. We start from the Start gadget, and end at the Finish Gadget. At each Variable gadget, we make a choice and turn on the Clause gadgets according to the choice, which in essence is making a literal true or false. </p><p id="dceabc83-2d46-453b-bf1e-3dcca74e911f" class="">At the end, we make a pass through all of the clauses sequentially and we are able to pass through them if all of them are satisfied. Since the game is 2D, we also need a Crossover gadget. The Crossover gadget makes sure that if there are two overlapping connections, we travel the connections one by one. Here are more details for the gadgets:</p><h3 id="66fd8272-934c-4a4c-8530-b2dd5ab48f26" class="">Start and Finish</h3><p id="2dea46ed-7a36-4319-8838-56cff1d884fb" class="">The start and end gadgets contain the spawn point and the end goal respectively.</p><h3 id="f3f85dc3-d1b3-428b-b377-c60074cadf24" class=""><strong>Variable</strong></h3><p id="21572c21-f7e2-4577-ba01-655bdae08d2a" class="">Each variable gadget must force the player to make a binary choice (select x or ~x). Once a choice is taken the other choice should not be accessible. Each variable gadget should be accessible from and only from the previous variable gadget is such a way that it is independent of the choice of the previous gadget and going back is not allowed.</p><h3 id="da1a477f-2a3c-47b4-88b7-d421664006b4" class="">Clause</h3><p id="a7f4f771-d839-48fe-b8ab-c0e86ae8aaff" class="">Each literal in the clause must be connected to the corresponding variable. Also, when the player visits the clause, there should be a way to unlock the corresponding clause.</p><h3 id="745c029b-2a2c-491c-9750-62be60bfb65b" class="">Check</h3><p id="57ecf3ee-a2f1-4cad-bfc7-4045becc2644" class="">After all the variables are passed through, all the clauses are run through sequentially. If the clause is unlocked, then the player moves on to the next clause else loses.</p><h3 id="e690a772-03b9-4d0f-8a11-b66b8fd3c891" class="">Crossover</h3><p id="208d3c6b-0d0a-4c6d-a0b4-62e69734c284" class="">The crossover gadget allows passage via two pathways that cross each other. The passage must be such that there is no leakage among them.</p><hr id="474a3431-3100-427e-92a4-c048edf34b34"/><blockquote id="6c163029-0a34-41a2-8d83-5df4080bfe17" class="">If we can build these gadgets using a game, we can reduce 3SAT to that game using this framework and show that the game is NP-Hard.</blockquote><h1 id="0635f5d9-c51d-40a6-8779-9c1b372bd255" class="">Celeste is NP-Hard</h1><hr id="1d23419c-ad84-488b-b7aa-510feedec76d"/><p id="aa5d09e2-6acd-42dd-a243-016b9a94625a" class="">To prove that Celeste is NP-hard, we will try to use the above framework to reduce 3SAT to Celeste.</p><h2 id="5cff21ae-a29a-445a-a78b-1014338a24ad" class="">The Variable Gadget</h2><p id="aaf70ef9-dbfe-499e-aec0-18856d3ce82b" class="">A Boolean Variable can take 2 values, True or False, and It might have multiple occurrences throughout the formula.</p><p id="cd4dee01-75a6-4395-bae4-26a31f2e6cb4" class="">The verification of 3SAT is done by giving the satisfiable values to the variables, hence the values can not be changed in the middle of the substitution.</p><p id="51e33055-cb4b-4bc1-a185-b67a14d9f87a" class="">For now, we need to take care of the binary and the irreversible nature of boolean variables. We do this with the help of an <strong>Unstable Platform</strong>.</p><figure id="9c34ee86-7aa3-47d4-ac88-b72ec0bfedac" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%209.png"><img style="width:624px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%209.png"/></a><figcaption>Exits are covered by Unstable platforms making them one way traps.</figcaption></figure><h3 id="a42fef00-2170-451a-a843-cd5d51aa261d" class="">Gadget description</h3><p id="648339eb-ac72-45a1-895a-30a218ef3087" class="">These exits have an Unstable platform covering them, these have to be broken before the exit can be used. Why the unstable platform?</p><p id="55aa3668-bbb1-40c6-a72a-55ed3011bd01" class="">Madeline falls from the top on the platform, that is the only entry to the Gadget. The Gadget has 2 exits on the sides of the floor, each leading to a tunnel.</p><p id="02b34ec0-3d60-4ecd-b445-532f5216f691" class="">The unstable platform makes Madeline seal her choice. Once the path is taken, there is no way to access this frame again other than restarting since the platform will reform blocking the entry. </p><h2 id="7ed85669-b952-4d94-bd40-476441f29ce0" class="">Clause Gadget</h2><p id="9a937f00-8a3c-4cf6-920f-9a6f7ae05bf6" class="">Each Clause has 3 variables, out of which even if 1 were true the Clause would be true. To implement that in our frame, we use <strong>The Button Door</strong>.</p><figure id="ac5fe0c0-b266-486f-9464-1280ed84cf03" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2010.png"><img style="width:576px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2010.png"/></a><figcaption>The colorful dots represent space block and the hits are reachable by Madeline.</figcaption></figure><h3 id="b6b5756d-6013-4d5c-b1dc-4b7b037e7b7d" class="">Gadget description</h3><p id="2542b927-f3ff-4d37-a3e4-238a1519c17c" class=""> A Clause gadget consists of 3 Parallel Button Doors, the buttons are accessed through the variable tunnels. For now, do not worry about how the tunnels are connected.</p><p id="617edb71-6da2-4488-b0b2-820b363849cd" class="">The main idea is that even if 1 door opens it is sufficient for Madeline to pass through the region.</p><p id="403a11a9-a938-449b-b01c-f30afb340862" class="">Madeline presses the buttons according to the values she took for the variables, these will unlock the doors, if the variables made a clause true, the clause would have at least 1 door open.</p><h1 id="3587461e-fa57-40fc-bb94-289bc20e762b" class="">Support Gadgets</h1><hr id="bcc38271-003b-4596-b903-1cc8dbf639d2"/><p id="5f6de2da-0a29-437e-97ad-bedf81d81bf6" class="">Now the Above gadgets must be connected, for that, we use our support gadgets that will be constructed as per the requirements.</p><h2 id="53cc9d58-b16d-4869-ae46-a46d907a6fb1" class="">The Tunnel</h2><p id="b69950ea-5b6f-4c9e-87d8-37c5273807a6" class="">To connect the Variable exit to the Buttons of the Clause, we use a Tunnel gadget.</p><figure id="2faf4d5e-be4d-4c3a-b739-31dcf19a3868" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2011.png"><img style="width:576px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2011.png"/></a><figcaption>x1 Tunnel only has access to button which have x1 as their variable in their clause.</figcaption></figure><h3 id="d01c128c-51fe-49fa-8480-f6628196d807" class="">Gadget description</h3><p id="51d883cf-8c18-444e-89bf-afebd30b4b11" class="">Below the buttons, there are Tunnels leading from the exits of the variables. The variables have access to the buttons they can set true according to the boolean expression.</p><p id="693fb789-4ee9-48b6-8aac-eab673757370" class="">For example, if <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is chosen to be true, then Madeline gets access to the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> tunnel and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">¬</mi><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\neg x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord">¬</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>if she had chosen false. <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> tunnel has access to buttons that open a door to the clause having <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>.</p><p id="55deaa14-bcbe-446d-bb79-4189350b3ea1" class="">How do we block the variables from accessing the other doors? For that, we have constructed the <strong>Crossover Gadget</strong>. The space blocks that are displayed in the diagram are used in a specific manner described in the Crossing Frame.</p><h2 id="ac487605-7766-4bfb-854f-cb8115c19bb9" class="">Crossover Gadget</h2><p id="05d07a4b-2981-414b-ae8a-9ff291c99dfc" class="">Since the game is 2D, you can not avoid paths from crossing each other during the construction of such a level. We can make sure that the intersection of the paths happens only in the form of a cross.</p><figure id="37fb4f1d-723d-40f8-b183-2c73c1a2f929" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2012.png"><img style="width:624px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2012.png"/></a></figure><h3 id="155e770b-dd8a-4576-b1ae-d534492f993c" class="">Gadget description</h3><p id="8dfe1a10-2615-4c6d-81ba-febc02d431dd" class="">Suppose we want Madeline to go from A1 to A2 or B1 to B2 or the other direction. But she shouldn&#x27;t be able to go from an A to a B or vice versa.</p><p id="153f9760-da42-4c22-a1cb-09a1d8057318" class="">The Space block as described before teleports the player from 1 end to the other in a straight line without any interference. Encountering a wall will kill Madeline and she will respawn at the start of the frame.</p><p id="64c323f1-8b6a-4934-b805-6ed7a35eb03c" class="">So we put the space blocks in the intersection of the paths in such a way that there are no straight lines connecting the opening side of A to B.</p><p id="7aae1925-8766-4003-8cab-4d54ff1e6a49" class=""><strong>Note:</strong> It might seem like you can draw a line from A to B but remember that Madeline can only move in 8 directions, so the lines can be parallel or 45 degrees inclined with the axis. So no such line will exist.</p><p id="6275c982-7eb6-46bc-aa21-0a67bb64ec52" class="">This means that the only way she can travel through the space block is in a straight line parallel to the axis, hence she can not access A from B or vice versa.</p><h1 id="06468744-b464-4708-9904-2d8ae0aa4476" class="">Sequence of Frames</h1><hr id="ec324c55-3290-4ab0-b392-3067d349deae"/><p id="78a5abfc-8bbf-4f33-887a-81d9dc36f247" class="">Now that all the frames have been constructed, we decide the sequence of the frames.</p><p id="e18dbe8c-2b1c-483b-87f1-a0d94eff300f" class="">Let <code>n</code> be the number of variables in the Boolean expression distributed into <code>k</code> clauses.</p><h3 id="74390e15-d798-43f0-9787-4c63d4ae1b1e" class="">Variable order</h3><p id="6d900f5e-be6d-467b-b7a5-5b6104823e4f" class="">We will assume the order of the variables to be <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>3</mn></msub><mo>…</mo><msub><mi>x</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">x_1, x_2, x_3 \dots x_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>. We select values for these variables in the same order. So the <strong>starting position</strong> will be in the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> gadget since we pick its value first.</p><h3 id="af78df6b-6499-42e9-9d46-18303afe01d4" class="">Transition between variables</h3><figure id="65be303e-7288-4cb0-bcfd-b41ae1736212" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2013.png"><img style="width:480px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2013.png"/></a><figcaption>Transition from x1 to x2 after completing the path</figcaption></figure><hr id="a558507b-c344-4b3e-9542-e5f0805ba1ca"/><p id="a25417c4-9f44-4644-999c-c09e4af843e2" class="">From the variable gadget of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, we choose its value and go to the respective tunnel. In the tunnel, we press all the accessible buttons, After all the buttons, we reach the end of the tunnel. Now since the values of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> have been already picked and substituted, we have to pick a value for the next variable hence we must go to the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> variable gadget.</p><p id="2fa38997-3997-4a4b-a19b-2fdc9e12ba2d" class="">In such order we pick the value of all the variables, click the buttons which open the clause doors, and continue until we reach the end of the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">x_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> variable. Since we ran out of variables, where do we go now?</p><h3 id="f5c579d4-0068-497a-80e4-be2dfd08a5a6" class="">Final passage</h3><hr id="f47b1734-5b6a-42f0-8159-fa10a151349e"/><figure id="e4ddd884-8602-4353-8ca8-cc73ab5c303d" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2014.png"><img style="width:672px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2014.png"/></a><figcaption>Example case where n = 3</figcaption></figure><hr id="c4d65c19-2010-42f2-b175-d69e6477be06"/><p id="3dbaa6b3-c8d1-4368-9a6d-f9ca7c93cdf7" class="">At the end of the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">x_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> passage, we should have an entrance to the Final passage containing the clauses. Madeline after choosing all the variables will now have to reach the flag. </p><p id="f27f3459-eb75-4e5b-8b65-1aea7d137d9c" class="">The path to the flag lies on the other side of the passage. If at least one door from each Clause is open only then will she be able to reach to the flag, else she won&#x27;t be able to complete the level.</p><p id="b4c3b202-fe51-46fa-8021-0dfa9c3a180a" class="">This was the AND of all the OR clauses, leading to a normal form with 3 variables in each clause.</p><h3 id="45818fb5-c7f7-45ab-8615-fa1905233694" class="">Why not put the flag at the end?</h3><p id="ea1ae2b0-8e5e-469f-b06b-d9d9c1b21fe3" class="">The flag is always at the top of the level. So we need to redirect the player from the end of the final passage to the flag. Since there are other Paths that come between it, we use crossover frame.  </p><h1 id="9e3b91fd-1b84-40df-a805-cc3beaf37e64" class="">Final Level</h1><hr id="c41ef475-7045-43d7-9bc9-dbe71029aa7d"/><p id="63b459ba-8a30-43d7-a7f0-4f0f97b92932" class="">Now that all the separate parts have been explained, we put together our final level. The Boolean expression for which the level has been implemented is:</p><figure id="b71027f8-43ae-4236-b0be-bc66ecd9601f" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>∨</mo><msub><mi>x</mi><mn>2</mn></msub><mo>∨</mo><mi mathvariant="normal">¬</mi><msub><mi>x</mi><mn>3</mn></msub><mo stretchy="false">)</mo><mo>∧</mo><mo stretchy="false">(</mo><mi mathvariant="normal">¬</mi><msub><mi>x</mi><mn>1</mn></msub><mo>∨</mo><msub><mi>x</mi><mn>2</mn></msub><mo>∨</mo><msub><mi>x</mi><mn>3</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x_1 \vee x_2 \vee \neg x_3) \wedge (\neg x_1 \vee x_2 \vee x_3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∨</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7055600000000001em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∨</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">¬</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">¬</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∨</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7055600000000001em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∨</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></div></figure><figure id="f95a918f-578a-4511-8bda-e9ea9786db44" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2015.png"><img style="width:2160px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2015.png"/></a></figure><h1 id="292c554e-75e8-4542-b78b-9b302771f8f8" class="">Example Substitution</h1><hr id="76740ca8-7e5c-4af3-9230-c63a49e85949"/><p id="aabb9f10-666f-419b-82e8-219daebea75e" class="">Let the substitution of the variables be:</p><ul id="46a41011-59e1-46d4-be99-08c0f99f2a26" class="bulleted-list"><li><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x_1 = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="092181ae-9dc6-43e1-808f-a7b3ae7ecd19" class="bulleted-list"><li><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x_2 = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="20fde86c-63ef-4858-a453-a44943abaae7" class="bulleted-list"><li><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>3</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x_3 = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span><span>﻿</span></span></li></ul><p id="c19ba4ef-55cf-4181-ac1e-2033e5f901e1" class="">We start with the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> gadget, take the true tunnel, and activate the door. After which we end up with a tunnel with an exit leading to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> gadget.</p><figure id="99e5b677-580d-49bc-bd7c-021ca678bd49" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2016.png"><img style="width:432px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2016.png"/></a></figure><p id="cfaef30d-6365-4d29-a648-deae2261bb1b" class="">Now we are in the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> , we take the false tunnel, but since there is no <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> in the expression, there is no door that can be opened from this tunnel. So we just continue and end up in the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">x_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> frame.</p><figure id="5f6706e5-d533-484d-bd03-1bd9415fa1db" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2017.png"><img style="width:432px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2017.png"/></a></figure><p id="1a592ffb-d631-4cf2-aee1-a49aceda57f2" class="">In the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">x_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> frame, we repeat the same procedure. We open a door in the 2nd OR clause and end up at the end of the tunnel which leads to a space block. This space block when used will take Madeline to the beginning of the Final passage.</p><figure id="0e6350b0-429c-4d0d-9688-483756972923" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2018.png"><img style="width:432px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2018.png"/></a></figure><p id="2123c122-96f8-488b-a78c-dcc6507c6a59" class="">Now one door of each clause has opened, Madeline can pass the final passage and make it to the flag.</p><figure id="a0863a59-395e-4703-875b-eff8d402b37c" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2019.png"><img style="width:432px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2019.png"/></a></figure><p id="3b01f52a-7553-4eb7-aa17-24b71aa90f16" class="">Since Madeline was able to reach the flag. The level could be completed, hence the expression as expected is satisfied with the given values.</p><h1 id="679f8a70-4006-44c4-9f10-2930cd6d4972" class="">Conclusion</h1><hr id="f63f3068-f804-48b7-8704-7f524a436728"/><p id="2110df23-db95-4255-8108-386bf3d19c0c" class="">This proves that Celeste is at least as hard as 3SAT, making it NP-Hard. In conclusion, the game is both NP and NP-Hard, making it an NP-Complete puzzle.</p><h1 id="bb0fc9bd-89f0-4aa4-a3f0-972d949bb058" class="">Making Celeste PSPACE-Complete</h1><hr id="f0e0611c-3017-4101-bfbf-5d80c249b9e8"/><p id="ae219428-c913-4e56-88ee-51526e1b2e89" class="">In this section, we describe how making a small change to Celeste can make it PSPACE-Complete. In the proof the Celeste is NP-Complete, we used a button door which opened when we pressed the green button and then was obsolete. </p><p id="40573a64-f581-443c-87c9-9c5c322f62a6" class="">We now make an addition to the game. <strong>The door can now be close using a red button.</strong> When the door is open, the red button is deflated and can be activated and when the door is closed the green button can be activated.</p><h1 id="2cc014d0-4585-4b89-b7c4-d4d01e103953" class="">Celeste belongs to PSPACE</h1><p id="40ffa9a4-73c2-4261-bd37-4345b5455073" class="">To prove that Celeste is a PSPACE-Complete puzzle, we have to first show that it belongs to PSPACE.</p><p id="46e1a630-550d-4ac7-a2d6-a86d80c44652" class=""> It is sufficient to show that Celeste belongs to NPSPACE since <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>P</mi><mi>S</mi><mi>P</mi><mi>A</mi><mi>C</mi><mi>E</mi><mo>⊆</mo><mi>P</mi><mi>S</mi><mi>P</mi><mi>A</mi><mi>C</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">NPSPACE \subseteq PSPACE</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span></span><span>﻿</span></span> by Savitch&#x27;s Theorem.</p><p id="94be92d5-2ba3-4395-855e-b65b8a7d11d4" class="">That means, for any given traversal on the level, it has to use polynomial space with respect to the size of the level.</p><p id="46942eec-ddc7-4e60-aee9-897bdd8b8cf6" class="">Since the game&#x27;s element behaviour is a simple (deterministic) function of the player’s moves.
+Therefore, we can solve a level by making moves non-deterministically while maintaining the current game state (which is polynomial),</p><h1 id="8983fc69-89fe-4a5b-aa6e-ffcec861be62" class="">Framework for PSPACE-Hardness</h1><hr id="11a85163-690a-4aa2-a7e8-afd57ff6f316"/><p id="2bda1d41-542b-480f-b741-d04bcc63f53a" class="">To prove NP-Hardness of Celeste, we here describe a framework for reducing TBFQ problem to a 2-D platform game. This framework is based on (link source here).  Using this framework in hand, we can prove hardness of games by just constructing the necessary gadgets.</p><p id="0ce6f0fa-9e96-4480-b820-471dc1f51a21" class="">For this framework we need one more gadget: <strong>Pressure Button Door Gadget.</strong></p><figure id="3cc8807d-1367-45d8-ab04-88fcdb0c1fc4" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2020.png"><img style="width:336px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2020.png"/></a><figcaption>Pressure Button Door Gadget</figcaption></figure><h3 id="0f3db6e1-eced-4e4c-baf7-1c5d899e0ac6" class="">Gadget description</h3><p id="bf238d28-1e93-4aaf-88f9-d685957ed936" class="">In Celeste, to press the button, Madeline has to dash into it. The button in the above frame is thick enough to prevent Madeline to pass through the tunnel without pressing the button.<strong> Forcing her to press the button</strong>.</p><ul id="5d6fbc9d-9013-4cc8-b1bb-2bdc22b6ccf6" class="bulleted-list"><li>The <strong>open path</strong> has a button which the player is forced to press.</li></ul><ul id="9cf362fc-cfa5-439a-8e1a-809c51d6317b" class="bulleted-list"><li>The <strong>traverse path</strong> is the path containing the door which can be traversed if the door is opened.</li></ul><ul id="cf2fbb32-9728-49cc-a983-92336e4fd919" class="bulleted-list"><li>The <strong>close path</strong> button forces the player to close the door.</li></ul><h2 id="82a3819c-7985-414f-b58c-b07b6d0244f9" class="">The general framework for PSPACE-Hardness</h2><figure id="07f603b2-96c2-4ba7-a621-5237db7aa624" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2021.png"><img style="width:1157px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2021.png"/></a><figcaption>Framework for PSPACE-Hardness</figcaption></figure><p id="957a0d39-7f97-460b-8a22-e8ddba99a98c" class="">A given fully quantified boolean formula <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∃</mi><mi>x</mi><mi mathvariant="normal">∀</mi><mi>y</mi><mi mathvariant="normal">∃</mi><mi>z</mi><mo>…</mo><mi>ϕ</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo separator="true">,</mo><mi>z</mi><mo separator="true">,</mo><mo>…</mo><mtext> </mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\exists x \forall y \exists z \dots \phi (x, y, z, \dots)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∃</span><span class="mord mathdefault">x</span><span class="mord">∀</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord">∃</span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">ϕ</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span>, where <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi></mrow><annotation encoding="application/x-tex">\phi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">ϕ</span></span></span></span></span><span>﻿</span></span> is in 3-CNF is
+translated into a row of <strong>Quantifier gadgets</strong>, followed by a row of <strong>Clause gadgets</strong>, connected by
+several paths.</p><div id="3538df09-02d6-4c8a-ad60-c751f707867f" class="column-list"><div id="9670d8aa-ad33-4dca-b92d-5866f6d7e491" style="width:25%" class="column"><figure id="090fffb2-65b7-40cb-8280-25cc78845c5d" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2022.png"><img style="width:336px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2022.png"/></a><figcaption>Clause gadget</figcaption></figure></div><div id="42820e31-399a-481c-8a67-000610d38156" style="width:75%" class="column"><p id="a021e35e-7585-42ae-86cd-9cf90f74082d" class="">The clause gadget is built using three gates whose pressure buttons are in quantifier gadgets.</p></div></div><p id="a4831687-9436-4bb1-ad02-a61615d01381" class="">For building Quantifier gadgets we use a special notation in a tunnel as shown below:</p><figure id="56f36d91-7979-4f33-ab9a-a8b0c85f5dcc" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2023.png"><img style="width:528px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2023.png"/></a><figcaption>Shorthand notation for tunnels</figcaption></figure><p id="36f28368-8141-4001-a7ec-3f85c69d29d1" class="">Here, +a opens the gate corresponding to variable and a and -a closes the gate corresponding to gate a. The player is forced to press these buttons as described before.</p><h3 id="c31475ea-51e9-4469-add2-8b184d4b0104" class="">Existential quantifier</h3><div id="04e5158a-59e7-41dc-9772-2fe43d7c3257" class="column-list"><div id="a759c91c-947d-4bac-aa9d-a818d574de12" style="width:37.5%" class="column"><figure id="88367d5c-2bd4-4cb1-893c-570f4834bd63" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2024.png"><img style="width:288px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2024.png"/></a><figcaption>Existential Quantifier</figcaption></figure></div><div id="86b05c80-f935-4011-b01e-68438719f44d" style="width:62.5%" class="column"><p id="a92ca1ac-f4f2-490f-aaf2-de01fabd4ae2" class=""> The player can only select one of the path ways and once it is selected, the player can never change his choice.</p></div></div><h3 id="4e42fb64-68e5-468d-ba41-7c4e421d4241" class="">Universal quantifier</h3><div id="92237667-f474-4d9f-aaf4-9bfa48c91056" class="column-list"><div id="085837e7-7803-4064-b87b-a7ffd47e1692" style="width:43.75%" class="column"><figure id="b16bfd25-46d0-4836-9903-d41df26e7a72" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2025.png"><img style="width:358px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2025.png"/></a><figcaption>Universal Quantifier</figcaption></figure></div><div id="296b87e8-d5e9-46ed-b2f3-9c73c533d35f" style="width:56.25%" class="column"><p id="0bb67f1c-f1c0-4e48-86cd-75609da3f3c4" class="">The player first proceeds to mark the variable as true and while backtracking has to traverse through the clauses again with the variable marked as false. After both possibilities are tried the player is able to move forward.</p></div></div><h3 id="ec266a35-96f7-41a7-8bba-78f7cd364292" class="">Condition for Traversal</h3><p id="1581e333-5aea-45b5-9b0b-e492833eec27" class="">Traversing a quantifier gadget sets the corresponding variable in the clauses. When passing through an existential quantifier gadget, the player can set it according to their choice. For the universal quantifier gadget, the variable is first set to true. </p><p id="7356008a-84bb-4bfb-bfe1-961a0f6988c3" class="">A clause can only be traversed if at least one of the variables is set in it. After traversing all the quantifier gadgets, the player does a clause check and is only able to pass if all the clauses are satisfied. If the player succeeds, they are routed to lower parts of the quantifier gadgets, where they are rerouted to the last universal quantifier in the sequence. </p><p id="40305fd5-2674-4389-bb57-4ab417dafccf" class="">The corresponding variable is then set to False and the clauses are traversed again. This process continues and the player keeps backtracking and trying out all possibilities.</p><p id="b2d37eea-5504-428c-b3ff-21ba45a86350" class="">We will later show how to build these quantifier gadgets using Celeste game entities.</p><h1 id="87419621-c723-4f84-af1b-3aba527083d5" class="">Modified Celeste is PSPACE-Hard</h1><hr id="700de551-8ac6-4034-9a46-8c82ca0c513c"/><p id="ef05edc7-9a33-4a19-8c82-22ad0800cdb5" class="">Using the previously described framework, we will build corresponding gadgets and thus show a reduction from the TQBF problem to Celeste, implying the Celeste is PSPACE-Hard.</p><h2 id="c380b9f6-2771-4001-b466-8c2f461c2fca" class="">Door Gadget</h2><div id="ce62adbd-73fe-4036-8eb4-28de8282a026" class="column-list"><div id="b6a14eb9-dcc8-4e32-b24d-9c962396b688" style="width:31.25%" class="column"><figure id="30615a7f-fd28-45d8-8462-a1e3ae4ad8d9" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2026.png"><img style="width:240px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2026.png"/></a><figcaption>Forcing to press a button</figcaption></figure></div><div id="f4d7130c-607c-4e9d-aba3-e7b9a6590b5a" style="width:68.75%" class="column"><p id="5449465e-5162-4a69-9ab7-3b76e2ae173a" class="">For creating a door gadget we first need to create a way to force the player to dash into a button to activate it. We do this using a narrow tunnel and <strong>leaving only enough space to pass if the button is pressed.</strong></p><p id="8469f6b6-9d90-4169-9254-f6291757b5f4" class="">
+</p></div></div><div id="7d042809-6863-4d8b-8bdb-ae045febceaa" class="column-list"><div id="6e4f3784-9c02-4fb5-8bb3-e9466228eb5e" style="width:50%" class="column"><figure id="4d61eddd-8ff0-47e2-86f1-9e8b8871f990" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2027.png"><img style="width:432px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2027.png"/></a><figcaption>Door Gadget</figcaption></figure></div><div id="2470fcaa-cb75-4e4d-b9f1-536646007117" style="width:50%" class="column"><p id="8ccd70ed-1c0f-4530-afe7-9ec1d77cffe0" class="">Now, using this force button, we create a door gadget.</p><p id="cd71eb40-2fdb-45d1-baaa-c97f2f172ce2" class="">The button above will open the door, and the button below will close the door, and since the path is thin, Madeline will not be able to pass through until the button is pressed.</p></div></div><h2 id="e5e34c65-bffa-4540-8eee-c76b9521f236" class="">Multi-Tunnel Gadget</h2><div id="8b01d374-b6d2-4861-9645-8acea56a3d31" class="column-list"><div id="e62a9981-d0e7-44fd-8937-2a075eb1bb60" style="width:50%" class="column"><figure id="233a39f3-156b-4c20-a9ee-22e637da3c53" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2028.png"><img style="width:480px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2028.png"/></a><figcaption>Multi-Tunnel Gadget</figcaption></figure></div><div id="6cbd2e33-12a0-49a7-a731-ef2d0b044c58" style="width:50%" class="column"><p id="65787de2-2b55-426a-982e-7209e88b4fa1" class="">For <strong>clubbing</strong> multiple open/close symbols together, we use a multi tunnel gadget. This is just a helpful gadget to make Quantifier Gadgets.</p></div></div><h1 id="84084527-9943-476b-927f-45eaa27ffc78" class="">Putting it all together</h1><p id="c18e852b-5cd9-422c-9fa8-21c5fa51e109" class="">Since we were able to make the gadgets described in the framework, we have a reduction from the TBFQ problem to Modified Celeste, thus Modified Celeste is PSPACE-Hard</p><h1 id="855c30dd-63ba-413c-bb4d-eb469a3a7794" class="">Conclusion</h1><hr id="43000453-e57a-42c2-b97f-6891d9c5beef"/><p id="58c7c319-970e-4903-a83c-c38399291143" class="">In conclusion, the modified game is both PSPACE and PSPACE-Hard, making it a PSPACE-Complete puzzle.</p><h1 id="b6e77e06-3670-44c9-bbb1-bf2956024360" class="">But what exactly changed?</h1><p id="9997cdd4-c7b3-4dec-acb2-7df9f5e9499d" class="">On adding the close button, we added a requirement to keep track of all the doors that are open. Before once a door was open, it <strong>always remained open.</strong> Before we had to only keep track of the current state sequentially as all the doors will be opened in a sequence. Knowing that a door is openly implied that all the previous doors were opened so as to reach the current door. </p><p id="2c736d4e-d6c8-43e8-8089-29df15414d84" class="">But after adding the close button, at any point of the game, all the doors are independent and knowledge of the open state of a door gives us no info about the other doors. So, we have to keep track of all the other doors. This makes the game harder and makes its PSPACE-Hard instead of NP-Hard.</p><p id="3290c87e-434f-4e82-aaca-17078620f4dc" class=""><strong>Lack of knowledge about the status of all the doors makes the game PSPACE-Complete .</strong></p><p id="ae18fbeb-23cb-441a-8130-db19bfe7f8cc" class="">
+</p><figure id="781f6baa-4af4-4b91-9486-b1efe1832d28" class="image"><a href="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2029.png"><img style="width:1920px" src="Classifying%20Celeste%20f7632c8e5d5141c9820cfbcd0a85f553/Untitled%2029.png"/></a></figure><hr id="9c29bcf6-9f4e-4f76-910a-60af37330261"/><p id="272764d1-fb66-4dc3-ab51-4ff1bf342394" class="">
+</p></div></article></body></html>

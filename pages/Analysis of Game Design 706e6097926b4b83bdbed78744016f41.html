@@ -1,0 +1,638 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Analysis of Game Design</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="28ad8725-5c07-4797-975f-fbe0c33c4199" class="page sans"><header><h1 class="page-title">Analysis of Game Design</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M6.98643729,14.0000972 C5.19579566,14.0000972 3.40419152,13.3106896 2.04245843,11.9323606 C-0.681017475,9.21200555 -0.680780251,4.76029539 2.04293482,2.04012507 C4.76664406,-0.68004331 9.22427509,-0.68004331 11.9480135,2.04013479 C13.272481,3.36277455 14,5.1330091 14,6.99552762 C14,8.87640182 13.2721894,10.6285043 11.9480135,11.9509302 C10.5679344,13.3105924 8.77756503,14.0000972 6.98643729,14.0000972 Z M10.2705296,7.00913883 L10.2705296,8.46099754 L10.2705296,8.65543362 L10.076181,8.65543362 L8.6543739,8.65543362 L5.72059514,8.65543362 L5.52619796,8.65543362 L5.52619796,8.46099754 L5.52619796,5.52541044 L5.52619796,3.37946773 L5.52619796,3.18502193 L5.72059514,3.18502193 L7.17253164,3.18502193 L7.36692883,3.18502193 L7.36692883,3.37946773 L7.36692883,6.81467358 L10.076181,6.81467358 L10.2705296,6.81467358 L10.2705296,7.00913883 Z M12.1601539,6.99552762 C12.1601539,5.61697497 11.6190112,4.32597154 10.6393933,3.34769528 C8.63253764,1.34336744 5.35197452,1.34061603 3.34153136,3.33944106 C3.33868273,3.34219247 3.33607716,3.34494388 3.33322852,3.34769528 C1.32397148,5.35459953 1.32372842,8.63641682 3.33322852,10.6433794 C5.34295224,12.6504489 8.62968901,12.6504489 10.6393933,10.6433794 C11.6190112,9.66506426 12.1601539,8.37408027 12.1601539,6.99552762 Z"></path></svg></span>Created</th><td><time>@Dec 4, 2020 7:53 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td></td></tr></tbody></table></header><div class="page-body"><h2 id="686c2737-b100-4358-96b0-efb4a8164555" class="">Discussion on the Design Aspects of Platformers</h2><p id="cc2eddf5-bced-4ad2-a9cf-d56f4b8e815b" class="">Before talking about how to <strong>generalize hardness results</strong> concerning 2D Platform Games, let&#x27;s talk about <strong>how games are designed</strong>.</p><h2 id="1833c747-5ef8-4910-8717-f4a56d38cc0b" class="">Introduction</h2><p id="c32fa004-fb2b-4262-921f-f0f39bfb3ca7" class="">In October 1958, Physicist William Higinbotham created `Tennis for two&#x27; which is thought to be the first ever video game. The idea was very simple: Two players on either side of the net adjust the angle of their shots and try to hit the ball over the net. Since then, more and more games were designed, some with very unique aspects to them, leading to the current day, where we have a vast ocean of games with tonnes of unique designs.</p><p id="55bea3ba-85d8-4f37-a608-44107afbf1d0" class="">In this article, we&#x27;ll be discussing some of the key design aspects of one specific genre, i.e., platformers.</p><h2 id="6597b510-7dd9-48d3-8780-dfdd93d69b41" class="">Platformers</h2><figure id="706e6097-926b-4b83-bdbe-d78744016f41" class="image"><a href="Analysis%20of%20Game%20Design%20706e6097926b4b83bdbed78744016f41/Untitled.png"><img style="width:480px" src="Analysis%20of%20Game%20Design%20706e6097926b4b83bdbed78744016f41/Untitled.png"/></a><figcaption>Celeste</figcaption></figure><p id="762e0376-39b3-4332-ad50-4fa646b698c4" class="">Platformers are 2D, side-scrolling video games where the player controls one character. The objective of platformers is to reach set checkpoints in each level, usually indicating the end of that level.</p><h2 id="7e03bbd9-8a18-4ab3-b389-4690e4d2adca" class="">Examples</h2><p id="3fe7d797-809b-42a1-9bbb-3bcce4edbf5c" class="">Classics like Super Mario Bros., Super Contra, Sonic the Hedgehog and Celeste illustrate the idea of platformers very clearly. We will use them as `role-models&#x27; throughout our discussion.</p><h2 id="e749a09d-8a3e-46c0-bacf-d686abad1108" class="">Structural Analysis</h2><hr id="788c9221-0027-48ca-9fb2-aa4c854ac8d9"/><h3 id="50f51c35-40e5-403b-a9af-e3a0d0f91ae7" class="">Frequent Rewards</h3><p id="4f8edefa-8a6f-4981-a0b2-25764fdf3051" class="">Platformers are usually designed with multiple levels (like in Super Mario Bros.). The idea behind multiple levels is to keep the player motivated to keep completing more and more levels. This reward system at small intervals is usually the safer and most commonly used method of designing platformers.</p><h3 id="7d8e8b94-5476-4051-ae0c-6606d367d1fd" class="">Continuity</h3><p id="b1f4928b-8363-4c3f-992a-795c8cb749ee" class="">Straying slightly from the previous structure are games like Celeste, where the game is designed in a continuous manner. The rewards for completing `levels&#x27; are placed relatively far apart. This kind of approach is usually backed with a very strong storyline to keep the player motivated instead of a frequent reward system. In Celeste, specifically, each &#x27;scene&#x27; of the game itself is very challenging and hence sort of acts like a level in itself. Overcoming the challenge in each scene acts as an alternative to a level-by-level reward system even though no explicit reward is presented to the player. Along with this, Celeste is backed with a beautiful storyline that keeps the players more than just engaged.</p><h3 id="39f063cb-5e28-4d30-87c7-9ca265f4dec7" class="">Rewarding with a high score</h3><p id="d2b97bab-1e94-4974-a8f6-3fd7b2fed3dd" class="">Apart from this, there are also infinite side-scrollers where the objective is to maximize your score. The motivation for the player to keep playing is to beat his/her own score each time or to beat scores of other players.</p><h3 id="1a629ebe-d1e0-4316-98ac-c366b66ac9ae" class="">Game Over</h3><p id="298f7cd5-2b96-4d11-846a-2905c1fd6eb1" class="">Most games have a very basic storyline to the least. The game usually ends when the story comes to a conclusive end. The player usually completes the bigger objective that was known from the start (in most cases). For example, in Super Mario Bros., Mario wants to rescue Princess Peach. In Celeste, Madeline wants to climb to the top of a mountain. This sense of closure makes the player feel positive about the game and is possibly the safest strategy that game designers use in hopes that the player leaves positive reviews about the game and to make an overall good impression of the game.</p><p id="d1aa6db2-170a-4011-a45a-093a9aee4090" class="">As opposed to this, some designers like to make their video game open-ended. This is not a safe strategy at all as it can lead to dissatisfaction among the players. Then why make it open-ended at all? An open-ended game is, in most cases, backed with an absolutely great story/great gameplay. It works only when the game delivers enough to actually make the player think about the open ending. These kind of thoughts on the game are a sign of `greatness of the game&#x27; in the video game community that all game designers aspire for. Note that the kind of open-endings we discussed are different from cliffhangers. An open-end is where the player is left uncertain as to what happened next. The player is never intended to know and the end is left open to interpretation. A cliffhanger, on the other hand is used to create a feeling of suspense, where the mystery element is known to be revealed in the future. This is usually done to create anticipation for the next video game in the series.</p><h2 id="9dc8ec60-3e87-4c75-a2b7-f6c256e8d3e7" class="">Analysis of the game&#x27;s elements</h2><hr id="fa46d5bc-4f8e-4d77-b885-fb41d8c06f2a"/><p id="c06dc731-08d9-47eb-a117-c94d58b71f56" class="">A games element include enemies/obstacles, power-ups and other things that the player can interact with. We&#x27;ll discuss some platformer-specific elements.</p><h3 id="882e2db4-17c3-442c-b02b-a432def9751a" class="">Ground</h3><p id="313253e4-60e8-43f2-bc8d-3055f26806e7" class="">This may seem like an obvious aspect to most of the games, but it needs to be discussed as it is the most important element in any platformer. As the name suggests, platformers are based on the fact that the player interacts with the platform (ground). The key aspect of a platformer that separates it from other genres is the placement of the ground.
+In most games, the ground is only used as a background factor. It doesn&#x27;t usually play any role other than having something to stand on.
+In platformers, however, the ground&#x27;s placement itself poses a challenge to the player. The ground itself becomes one of the obstacles for the player. In Super Mario Bros., for example, there are gaps in the ground that Mario has to jump over in order to not die. The ground is also placed in other interesting ways to make getting things like power-ups harder. It is a designer&#x27;s job to focus primarily on the ground&#x27;s placement, before the other elements.</p><h3 id="63d69433-8374-45db-bab0-73c5735c2b84" class="">Obstacles</h3><p id="135f0bf7-8764-43ee-9d1d-3feacb5072b4" class="">Enemies or other forms of obstacles are also an integral part of platformers. The difficulty of a level primarily depends on the way these obstacles are placed and also on how the obstacles interact with the player. The choice of these obstacles and their placement should be done extremely carefully as putting strong ones at the very beginning of the game could lead the player to think that the game is too hard and be demotivated. A weak set of obstacles placed a long way from the beginning could make the player feel the opposite way and would lead to dissatisfaction. The safest strategy is to place them in an increasing order of difficulty. The obstacles can be of various types, some are destroy-able like the enemies in Super Mario, some are not like the spikes in Celeste.</p><h3 id="011c8b0e-16ff-4e62-b619-e76a3a21ec70" class="">The Player</h3><p id="1a0b48c0-b3ba-49d0-9250-5ade7e6f061a" class="">The player is completely controlled by the player and hence it is important for a game designer what freedoms the player needs to be given. In most platformers, the player is given the freedom of moving left-right and jumping. Here, too, the kind of jump the player makes is very important to the player as it determines the player&#x27;s mastery of control throughout the entire game. Celeste, in particular, does an amazing job in the jump aspect. Different games also give other freedoms like the ability to fire a gun in Super Contra and shoot fireballs in Super Mario. Celeste gives the ability to dash and climb walls. Sonic gives the ability to roll. It is impossible to list down the possible freedoms as it is upto the designer&#x27;s creativity.</p><h3 id="181433c2-2514-45f7-9608-251dce4a9d5e" class="">Death</h3><p id="2461f975-20ae-4616-9e58-0505fca0cc40" class="">Deciding how the player dies is also extremely important as this can be the difference between an extremely hard game and an easy one. In games like Super Mario, a very beautiful system is implemented. You die immediately once you hit an enemy. But this can be avoided if you have the power of a mushroom. So this makes the game hard but if you play good enough to conserve a mushroom, then you&#x27;re at low risk. Also in Super Mario, you have a limit to the number of times you can die, making the game very challenging. In Super Contra, a health system is used. In Celeste, you die immediately when you hit an obstacle. No exceptions. But here, you can try a level infinite number of times. All of these different systems are designed very well, giving the player just the right amount of challenge that fits well with the game.</p><h2 id="3d6aeb3d-646f-49fc-b1b2-9a8b2a9f1d5b" class="">Conclusion</h2><hr id="9301311c-5e3f-4e0a-9994-719ed770e274"/><p id="ca4fb65e-59d6-45c3-8b4c-e757f00a4145" class="">We discussed some key aspects of platformers and why they are designed the way they are. There are a lot of more aspects that can be talked about but I shall end the discussion here as these are some general aspects that apply to most platformers.</p><hr id="4a2a5653-0e31-423e-8b02-3f9049a17c63"/><h1 id="a9ac343e-eeab-4085-9941-243127a8d563" class="">Platformers: Introduction to Generalizations</h1><p id="a907d61e-a399-4f41-a960-997254b23589" class="">The analysis of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>-D platform games are of great mathematical and computational interest in the recent times. Many of the traditional games and puzzles have undergone rigorous mathematical analysis over the last century and are proved to be conditionally hard (whether <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo mathvariant="normal">≠</mo><mi>N</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">P \neq NP</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span></span><span>﻿</span></span>) while others are provably intractable (as discussed with respect to chess). A similar approach to video games, in particular <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>-D platform games, has been fairly recent and the complexity of many video games are yet to be studied and remains largely unexplored.</p><p id="182eeb13-516d-4c9a-8932-1e882bad314b" class="">In essence, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>-D Platformers are puzzles. As a result they are often complete for either NP or PSPACE. It might even be argued that this factor allows such games to be &quot;humanly interesting&quot; to play.</p><p id="f8337805-134e-41c8-aef7-278a1168dc6b" class="">The completeness analyses that we are interested about are often found un-applicable for modern games, especially non-platform games. This is because most of modern age games use Turing-equivalent scripting languages that allow designers to have <em>undecidable puzzles</em> as a part of the game play. </p><h3 id="d7e64dec-f29e-4aba-a808-44d0ec006493" class="">NP-Completeness</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="d104aabb-35df-4070-b02e-b01f2d327c8a"><div style="font-size:1.5em"><img class="icon" src="Analysis%20of%20Game%20Design%20706e6097926b4b83bdbed78744016f41/unknown_(4).png"/></div><div style="width:100%">In case of NP-complete games, we have levels whose solution demands some degree of <em>ingenuity</em>, but such levels are usually solved within a polynomial number of <em>manipulations</em>, and the challenge is merely to find them.</div></figure><h3 id="c3124d2b-0869-47f6-817a-96fe4925ed78" class="">PSPACE-Completeness</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="44f4215d-1b74-4316-80b3-26a6a4d25a8f"><div style="font-size:1.5em"><img class="icon" src="Analysis%20of%20Game%20Design%20706e6097926b4b83bdbed78744016f41/unknown_(4).png"/></div><div style="width:100%">In contrast, the additional complexity of a PSPACE-complete game seems to reside in the presence of levels whose solution requires an exponential number of manipulations, and this may be perceived as a nuisance by the player, as it makes for tediously long playing
+sessions.</div></figure><h1 id="6f5f50e0-d200-42b3-8255-9e67bac42ab0" class="">On Platformers</h1><hr id="5eb4172e-bb50-4abd-8730-ed254d065c5c"/><p id="d84abea0-7e31-43e8-9a9c-57e5fc896aa8" class="">We approach the analysis of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>-D platform games by observing that all such games have certain common features. Any <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>-D platform game typically involves a sequential set of puzzles (<em>levels</em>). At each level, the player must manipulate his/her avatar to the predesignated end point, performing tasks along the way. The avatar is controlled by the player using a limited simple commands (step, jump, crouch etc.). Further, the avatar is affected by some form of gravity, as a consequence of which maximum jump height is limited and avatar could potentially fall from a height. Each level in such games are represented by a <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>-D map representing a vertical slice of a virtual world which usually consists of horizontal platforms, hence the name <em>platform game</em>.</p><p id="7e973582-d3cc-4aef-913a-f6d27dbee5a4" class="">In addition, many of these games have certain common features, as enlisted below:</p><ul id="d3915626-0903-4b03-976d-525ff307b03d" class="bulleted-list"><li>long fall: The height of the longest safe fall (that does not hurt the avatar), which is taken to be larger than the maximum jump height.</li></ul><ul id="7a039a4a-ea6b-41e6-b7d8-4f404f5a6e97" class="bulleted-list"><li>opening doors: The game world may contain a variable number off-doors and suitable mechanisms to open them.</li></ul><ul id="d5ab4c32-080a-4959-ba56-2b748566afc5" class="bulleted-list"><li>closing doors: The game world contains a mechanism to close doors, and a way to force the player to trigger such a mechanism.</li></ul><ul id="d36b8a10-e10a-47c1-8dee-05bc56501fd1" class="bulleted-list"><li>collecting items: The game world contains items that must be collected.</li></ul><ul id="8c40565a-e741-438b-8726-8ffd2fa1d7de" class="bulleted-list"><li>enemies: The game world contains enemy characters that must be killed or avoided in order to solve the level.</li></ul><ul id="1a9d1a52-5771-4efc-b5e3-8a4633c6fb68" class="bulleted-list"><li>time limit: The given level of the game must be completed within the given time limit.</li></ul><p id="b3dd1cd1-e287-4078-b2aa-ddcdfe7917f1" class="">These features allow for several generalizations or <em>metatheorems </em>concerning these platformers which help us understanding and approaching the problem (<em>decision problem associated</em>) with greater abstraction.</p><p id="17985c3e-bac8-4241-8f2b-e8b6f0ba96e2" class="">While certain or combination of features are easy from an algorithmic point, other features, or certain combinations of thereof, are hard to manipulate. Thus having such a feature within the game essentially imply that the game itself is hard to solve, regardless of other details.</p><p id="6676f1c2-8dd2-4374-89c3-f623a246002d" class="">For any given game, these meta-theorems can be adjusted according to details of the particular game. In the next section we state the several metatheorems as well as some relevant conjectures.</p><h1 id="e4fb3586-d6c9-4917-94fd-6d2579eaa0eb" class="">Meta-theorems</h1><hr id="328d8976-76d9-4980-bafb-66263191b7e3"/><ol id="2e3c1757-49ee-4960-9a7a-4c3f9e9c57bb" class="numbered-list" start="1"><li><em>A 2-D platform game where the levels are constant and there is </em><em><strong>no time limit</strong></em><em> is in </em><strong><em>P</em></strong><em>, even if the collecting items feature is present.</em></li></ol><ol id="66134375-eb61-4dbb-b48f-54d82e0a3539" class="numbered-list" start="2"><li><em>Any game exhibiting both</em><strong><em> location traversal</em></strong><em> (with or without a starting location or an exit location) and </em><strong><em>single-use paths</em></strong><em> is </em><strong><em>NP-hard</em></strong><em>.</em></li></ol><ol id="2f017e4c-4497-4cbc-a2cd-1e28122abf4b" class="numbered-list" start="3"><li><em>Any 2-D platform game that exhibits the features l</em><strong><em>ong fall and opening doors </em></strong><em>is </em><strong><em>NP-hard</em></strong><em>.</em></li></ol><ol id="1ffb5cdb-8892-4af3-894e-90ad8509ef71" class="numbered-list" start="4"><li><em>Any 2-D platform game that exhibits the features </em><strong><em>long fall, opening doors and closing doors</em></strong><em> is </em><strong><em>PSPACE-hard</em></strong><em>.</em></li></ol><ol id="4f5b2ba1-38c4-4ba1-a2f5-8d575f577229" class="numbered-list" start="5"><li><em>A game is </em><strong><em>NP-hard</em></strong><em> if either of the following holds:</em><p id="df794e90-7da0-483d-9d75-f44bd137425b" class=""><em>(a) The game features </em><strong><em>collectible </em></strong><em>tokens, toll roads, and location traversal.
+(b) The game features </em><strong><em>cumulative </em></strong><em>tokens, toll roads, and location traversal.
+(c) The game features </em><strong><em>collectible cumulative</em></strong><em> tokens, toll roads, and the avatar has to reach an exit location.</em></p></li></ol><ol id="13a7efab-3e9f-4dd1-ad6d-fe19219cfbfd" class="numbered-list" start="6"><li><em>A game is </em><strong><em>NP-hard</em></strong><em> if it contains </em><strong><em>doors and one-way paths</em></strong><em>, and either of the following holds:</em><p id="c79bacd9-6008-4845-afbc-4e9308d5c7cb" class=""><em>(a) The game features </em><em><strong>collectible</strong></em><em> keys and location traversal.
+(b) The game features </em><em><strong>cumulative</strong></em><em> keys and location traversal.
+(c) The game features </em><em><strong>collectible cumulative</strong></em><em> keys and the avatar has to reach an exit location.</em></p></li></ol><ol id="6d22e6a0-ced2-4f6b-a2ad-4995f645fa9a" class="numbered-list" start="7"><li><em>If a game features </em><strong><em>doors and pressure plates</em></strong><em>, and the avatar has to reach an exit location in order to win, then:</em><p id="4c215e65-ccdf-4b03-a3a3-123864f5b50c" class=""><em>(a) Even if </em><strong><em>no door</em></strong><em> can be </em><strong><em>closed by a pressure plate</em></strong><em>, and if crossovers are
+allowed, then the game is </em><strong><em>P-hard</em></strong><em>.</em></p><p id="ed02a13e-1a31-45a2-b338-2ffaa633bd28" class=""><em>(b) Even if </em><strong><em>no two pressure plates</em></strong><em> control the same door, the game is </em><strong><em>NP-hard</em></strong><em>.</em></p><p id="6837c6d3-3bf2-4e25-9e80-efe2098896dc" class=""><em>(c) If </em><strong><em>each</em></strong><em> door may be controlled by </em><strong><em>two pressure plates</em></strong><em>, then the game is </em><strong><em>PSPACE-hard</em></strong><em>.</em></p></li></ol><ol id="1f5340ce-38e1-49fa-a7ba-c4eade7aa456" class="numbered-list" start="8"><li><em>If a game features</em><strong><em> doors and k-buttons</em></strong><em>, and the avatar has to reach an exit location in order to win, then:</em><p id="521775a0-98ce-4bd4-8c53-845ab4777a35" class=""><em>(a) If </em><strong><em>k &gt; 1,</em></strong><em> and crossovers are allowed, then the game is</em><strong><em> P-hard.</em></strong><em>
+(b) If </em><strong><em>k &gt; 2,</em></strong><em> then the game is </em><strong><em>NP-hard.</em></strong><em>
+(c) If </em><strong><em>k &gt; 3,</em></strong><em> then the game is </em><strong><em>PSPACE-hard.</em></strong></p></li></ol><ol id="3cb44f55-ad59-4066-969f-60136506520c" class="numbered-list" start="9"><li><em>There exists an NP-complete game featuring doors and 2-buttons in which the avatar has to reach an exit location. (One that we end up proving in CELESTE).</em></li></ol><h2 id="f056bfac-555b-44af-8ed9-98a8ce0698a0" class="">Applications</h2><p id="3a1a2158-b726-495b-87c3-99ada81ce303" class="">These results can be use to directly analyse the complexity of several <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>-D platform games. For instance, Commander Keen, Crystal Caves, Secret Agent and Bio-Menace can be shown to be <strong>NP-hard</strong> due to presence of switches for activation of moving platforms. Similarly, Jill of the Jungle
+and Hocus Pocus are also <strong>NP-hard</strong> due to the presence of switches that toggle walls, so are Crash Bandicoot and Jazz Jackrabbit <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>, due to crates on breaking which sets of new floor tiles are activated. Duke Nukem with the traditionally observed <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span></span><span>﻿</span></span> key-cards will be <strong>P</strong>, while the generalized case with <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span></span><span>﻿</span></span>-keys will be <strong>NP-hard</strong>.</p><p id="32477864-87e9-4900-97a0-350f1ce974a9" class="">The game<em> Prince of Persia </em>is quite interesting. An instance of the word problem for linear bound automata (WordLBA) is reduced to a instance of the game. The general layout of an instance of the game Prince of Persia is as shown below:</p><figure id="1681259b-e25a-41db-b880-c89c391a3bf1" class="image"><a href="Analysis%20of%20Game%20Design%20706e6097926b4b83bdbed78744016f41/Untitled%201.png"><img style="width:551px" src="Analysis%20of%20Game%20Design%20706e6097926b4b83bdbed78744016f41/Untitled%201.png"/></a></figure><p id="8b44c7b5-aedd-40f8-81b0-bc679edbb122" class="">The reduction allows us to conclude that the game <em>Prince of Persia</em> is <strong>PSPACE-hard</strong>. Further, it is known that the game is in <strong>NPSPACE</strong>. These results, along with Savitch’s theorem which states that <strong>NPSPACE = PSPACE</strong>, can be used to show that the game Prince of Persia belongs to <strong>PSPACE-complete</strong>.</p><p id="7a0f02a6-611e-40da-bab5-a0eeadd02599" class="">The case of the generalized version of the game <em>Lemmings </em>is also quite interesting. A proof was given by Cormode in his 2004 paper in which <em>Lemmings </em>is shown to belong to <strong>NP</strong>. However, the author of the original article on this topic argues against the proof by noting that the setup used Cormode’s proof with an exhaustive trial and error algorithm fails if the number of theoretically possible configurations is not polynomial in the input size. Using the earlier given meta-theorems, the author goes on to show the sequence of instances <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><msub><mi>I</mi><mi>n</mi></msub><msubsup><mo stretchy="false">}</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mi mathvariant="normal">∞</mi></msubsup></mrow><annotation encoding="application/x-tex">\{I_n\}_{n=1}^{\infty}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-2.4518920000000004em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∞</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24810799999999997em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is valid for the game <em>Lemmings </em>and a counter example to the Cormode’s proof. Further, this result is shown to be true for a simple (non generalized version) of the game <em>Lemming </em>too. The author goes on to conclude that while Concorde’s proof of the game being <strong>NP-hard</strong> is valid, we cannot comment whether the problem belongs <strong>NP </strong>or not.</p></div></article></body></html>
