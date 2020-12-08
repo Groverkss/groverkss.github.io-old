@@ -1,0 +1,756 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Domain Name System (DNS)</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="cda303ef-deec-4c5d-89ba-66ad43559f3b" class="page sans"><header><h1 class="page-title">Domain Name System (DNS)</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><h2 id="fca3082a-f037-48bf-a08c-52e5bf71898e" class="">Parsing a URL</h2><pre id="b556b6a7-f37e-4f5d-9702-bc6e4a973ff0" class="code"><code>http://cs144.scs.stanford.edu/labs/cs.html
+----   ---------------------- ------------
+|                |                  |
+v                v                  v
+Application      Host              File
+protocol and
+port</code></pre><p id="16c141ac-60dc-40a7-9282-1ad0205e9b27" class=""> <strong>Application protocol and port: </strong>what protocol to use and what port. For HTTP the port is by default 80.</p><p id="9c7c0c4a-c8cb-4a22-b320-9f08dab37d87" class=""><strong>Host: </strong>Human readable name delimited by periods specifying the node we want to contact.</p><p id="dd6bbc40-5121-4f27-8187-559c6e6494a5" class=""><strong>File: </strong>Application level specification of what file we want.</p><hr id="c7e3b7ec-968c-471a-992a-ed377def1535"/><p id="60cd7357-c0a4-459c-b952-8d0cca48d6bb" class="">To contact a server we need a IP Address. But its easier to remember a human readable name than an IP address. How do we convert the human readable name (host) to an IP address?</p><p id="1b806a37-9491-4209-bae2-34245b45da42" class="">We can of course convert the name to an IP address ourselves, for example this is a valid URL:</p><pre id="ba473fa1-a58a-45d1-a912-ebdd17b8a9d5" class="code"><code>http://171.66.3.9/labs/cs.html
+----   ---------- ------------
+|              |           |
+v              v           v
+Application    Host       File
+protocol and
+port</code></pre><p id="386a9455-1eb6-47eb-9a09-507db1aedcc1" class="">
+</p><p id="921b6eff-107c-4d91-a7af-468c6787d198" class="">To map these hosts to IP addresses, we use what we call a <strong>Domain Name System (DNS).</strong></p><h2 id="d5f84038-0134-422c-8a11-0ab7232f56db" class="">DNS</h2><p id="abdc23e1-1d97-4acd-9fd5-b6162b559482" class="">Requirements for DNS:</p><ol id="75b8282e-b6bb-4e65-b15c-65e6b363298e" class="numbered-list" start="1"><li>Map names to addresses</li></ol><ol id="6fd40c7c-25fe-4d07-a056-5fda06375528" class="numbered-list" start="2"><li>Should be able to map <em>huge</em> number of records</li></ol><ol id="ae454ccd-6274-4c24-b7c8-332654ca29ed" class="numbered-list" start="3"><li>Must have distributed control: people can control their own names</li></ol><ol id="1fc494ac-0ee1-4656-9ab9-3726be79d61c" class="numbered-list" start="4"><li>Must be robust to individual node failures</li></ol><hr id="8fe8f70c-d56b-4a92-9851-86528670c1a0"/><p id="5cdc4064-c43d-4072-adb6-0b78d350300a" class="">Properties that make DNS feasible:</p><ol id="96bf30b1-55d7-48cc-8f28-602eba0c50b3" class="numbered-list" start="1"><li>Read-only or read-mostly database: queries are much more often than updates</li></ol><ol id="7bb5586e-0dd3-4d27-a22f-315cf9aa150f" class="numbered-list" start="2"><li>Loose consistency: changes can take time to propagate</li></ol><p id="cec5f5a0-86af-4d23-bd8a-c3815a8457d7" class="">These properties allow for extensive caching. Look up a name and use the result for a long time.</p><h2 id="0b7ae529-b19d-46c8-b816-89b6ab71448e" class="">DNS Name Architecture</h2><p id="8a275402-2163-44e2-a282-def302bf6233" class="">One of the requirements is the control be distributed, that is the structure should be hierarchical.</p><pre id="eb7e564e-ec3b-4d2d-b6d6-7104e5184573" class="code"><code>                                   |
+                                   |
+             +---------------------+------------------+
+             |                     |                  |
+            MIL                   EDU                ARPA
+             |                     |                  |
+             |                     |                  |
+       +-----+-----+               |     +------+-----+-----+
+       |     |     |               |     |      |           |
+      BRL  NOSC  DARPA             |  IN-ADDR  SRI-NIC     ACC
+                                   |
+       +--------+------------------+---------------+--------+
+       |        |                  |               |        |
+      UCI      MIT                 |              UDEL     YALE
+                |                 ISI
+                |                  |
+            +---+---+              |
+            |       |              |
+           LCS  ACHILLES  +--+-----+-----+--------+
+            |             |  |     |     |        |
+            XX            A  C   VAXA  VENERA Mockapetris
+</code></pre><p id="898b2473-50cc-411d-9de5-2ba25ec1b370" class="">At the top, we have the <strong>root</strong> servers, which have <strong>top level domains (TLDs) </strong>under them. These TLDs are further divided into server domains. These server domains have further subdomains.</p><h2 id="ad9d4b08-d68e-4e1a-9c28-b3a872232a16" class="">DNS Servers</h2><p id="36213905-db44-4e60-8b90-d9089611c9b8" class="">As shown before, there are hierarchical zones (&quot;root&quot; zone, edu, stanford, scs).</p><p id="beca9739-d3e1-4a3a-8ea9-6b7b3499e1af" class="">Each zone can be separately administrated.</p><p id="73abb18b-44a6-4d54-9bef-d8f21bbf99bb" class="">Each zone has several copies of servers from where queries can be performed. So even if one server fails, the other servers are able to process requests. These copies of servers have the same IP address and it is chosen which server to contact to perform the query usually the nearest one. Due to this, the DNS server are very robust.</p><p id="0f65e417-222b-4314-8eb1-f04c18b91a75" class="">The root zone: 13 servers, highly replicated <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo separator="true">,</mo><mi>c</mi><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(a, b, c, \dots, m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">c</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span><div class="indented"><p id="d36d3a15-8d5e-4939-9f57-9f19804b16b4" class="">Bootstrap: When a system wants to ask about a domain, it first contacts the root server. The root server IPs are saved in a file in the system.</p></div></p><h2 id="1e3d7e1e-7e2e-4dac-839f-c6b15e773637" class="">A DNS Query</h2><figure id="f11c69b7-b3b4-4d3a-a4d9-1b9e511f9482" class="image"><a href="Domain%20Name%20System%20(DNS)%20f11c69b7b3b44d3aa4d91b9e511f9482/Untitled.png"><img style="width:336px" src="Domain%20Name%20System%20(DNS)%20f11c69b7b3b44d3aa4d91b9e511f9482/Untitled.png"/></a></figure><p id="f74ecb8c-71b4-4705-8661-ddf5fd0d8a25" class="">There are two types of queries. Recursive and Non-recursive. Recursive queries ask the domain server to resolve the whole query, while non-recursive query asks the domain server to resolve part of the query.</p><p id="90117165-f6f5-44f7-8c99-143113631f50" class="">Lets say that the client wants to resolve &quot;www.stanford.edu&quot;. First, the client sends a recursive query to the resolver to resolve &quot;www.stanford.edu&quot;. </p><p id="dc76dd0f-3e49-4883-9350-0917b4d0c9c6" class="">Now, the resolver does not know where &quot;edu&quot; domain server is. So, it sends a non-recursive query to the root server to get the IP Address of the &quot;edu&quot; domain server and stores it in its cache. </p><p id="9fa49aff-fb85-46f3-8f46-67188ecac330" class="">Once, it has the IP Address of the &quot;edu&quot; server, it sends a non-recursive query to it regarding the IP Address of &quot;stanford&quot; and caches it.</p><p id="10e7a738-3f0e-4a53-a836-2620f7acbdb4" class="">Now, the resolver does a non-recursive query to the &quot;stanford&quot; server for &quot;www&quot; subdomain and caches it. Once it completes the whole URL, it sends the resolved query back to the client.</p><p id="4bb71f6a-a166-49dd-afec-d2bfd913ce54" class="">On the next queries, some of the queries are already in the cache and it is faster to perform queries.</p><p id="6ad94c4d-d873-4dd8-96b0-d0184b069beb" class="">Mostly UDP on port 53 is used for DNS queries. </p><h2 id="dd58bc23-1d82-4ccb-8255-d99e34b3a367" class="">Resource Records</h2><p id="5fc1f0f9-fc2c-4bb3-8fec-44925a3b698c" class="">A domain name identifies a node. Each node has a set of resource information, which may be empty. </p><p id="c62dd492-c966-4739-956f-40819cffd4a9" class="">The set of resource information associated with a particular name is composed of separate resource records (RRs). A RR has the following data:</p><pre id="0d33c697-d13c-495c-8da2-e4f61a815910" class="code"><code>owner           which is the domain name where the RR is found.
+
+type            which is an encoded 16 bit value that specifies the type
+                of the resource in this resource record.  Types refer to
+                abstract resources.
+
+                This memo uses the following types:
+
+                A               a host address
+
+                CNAME           identifies the canonical name of an
+                                alias
+
+                HINFO           identifies the CPU and OS used by a host
+
+                MX              identifies a mail exchange for the
+                                domain.  See [RFC-974 for details.
+
+                NS
+                the authoritative name server for the domain
+
+                PTR
+                a pointer to another part of the domain name space
+
+                SOA
+                identifies the start of a zone of authority]
+
+class           which is an encoded 16 bit value which identifies a
+                protocol family or instance of a protocol.
+
+                This memo uses the following classes:
+
+                IN              the Internet system
+
+                CH              the Chaos system
+
+TTL             which is the time to live of the RR.  This field is a 32
+                bit integer in units of seconds, an is primarily used by
+                resolvers when they cache RRs.  The TTL describes how
+                long a RR can be cached before it should be discarded.
+
+RDATA           which is the type and sometimes class dependent data
+                which describes the resource:
+
+                A               For the IN class, a 32 bit IP address
+
+                                For the CH class, a domain name followed
+                                by a 16 bit octal Chaos address.
+
+                CNAME           a domain name.
+
+                MX              a 16 bit preference value (lower is
+                                better) followed by a host name willing
+                                to act as a mail exchange for the owner
+                                domain.
+
+                NS              a host name.
+
+                PTR             a domain name.
+
+                SOA             several fields.</code></pre><h2 id="ea1fd78f-218b-4e04-907a-ca983f6b623b" class="">Queries</h2><p id="1bef044c-aaf1-47de-ae68-302513e398bd" class="">Queries are messages which may be sent to a name server to provoke a response. In Internet, queries are carried in UDP datagrams or TCP connections.  The response by the name server either answers the
+question posed in the query, refers the requester to another set of name servers, or signals some error condition.</p><p id="097d329a-0b7d-4b5a-9a2a-28b68d7e80cf" class="">In general, the user does not generate queries directly, but instead makes a request to a resolver which in turn sends one or more queries to name servers and deals with the error conditions and referrals that may
+result.</p><p id="23de7bc4-0381-4738-810f-9c8cc197cbb4" class="">DNS queries and responses are carried in a standard message format.  The message format has a header containing a number of fixed fields which are always present, and four sections which carry query parameters and
+RRs.</p><p id="c4939614-1f68-45cc-affd-388e23f57a01" class="">The most important field in the header is a four bit field called an opcode which separates different queries.  Of the possible 16 values, one (standard query) is part of the official protocol, two (inverse query and status query) are options, one (completion) is obsolete, and the rest are unassigned.</p><p id="4a379a5d-9ae2-4d2b-a73d-1b4f5b0799c9" class="">The four sections are:</p><pre id="866ef82b-502d-4a80-92cc-786b04c416e2" class="code"><code>Question        Carries the query name and other query parameters.
+
+Answer          Carries RRs which directly answer the query.
+
+Authority       Carries RRs which describe other authoritative servers.
+                May optionally carry the SOA RR for the authoritative
+                data in the answer section.
+
+Additional      Carries RRs which may be helpful in using the RRs in the
+                other sections. </code></pre><h2 id="e1de5980-df4c-4e04-9a24-9b80e6ae1374" class="">Example Queries</h2><p id="0fd334f0-632c-4a40-ba1a-67d9f26f3ff2" class=""><strong>Query:</strong> QNAME=SRI-NIC.ARPA, QTYPE=A</p><pre id="8224e144-face-4cfe-b5ff-16fdf52d5b88" class="code"><code>The query would look like:
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY                                     |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=A           |
+               +---------------------------------------------------+
+    Answer     | &lt;empty&gt;                                           |
+               +---------------------------------------------------+
+    Authority  | &lt;empty&gt;                                           |
+               +---------------------------------------------------+
+    Additional | &lt;empty&gt;                                           |
+               +---------------------------------------------------+</code></pre><p id="c03e0ac7-7a6b-4575-94a6-37b69a4e5933" class="">The Answer, Authority, Additional section of queries is always empty.</p><pre id="5ede6062-e6d1-4f19-9e20-c136884013f8" class="code"><code>The response from C.ISI.EDU would be:
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=SRI-NIC.ARPA., QCLASS=IN, QTYPE=A           |
+               +---------------------------------------------------+
+    Answer     | SRI-NIC.ARPA. 86400 IN A 26.0.0.73                |
+               |               86400 IN A 10.0.0.51                |
+               +---------------------------------------------------+
+    Authority  | &lt;empty&gt;                                           |
+               +---------------------------------------------------+
+    Additional | &lt;empty&gt;                                           |
+               +---------------------------------------------------+</code></pre><p id="5fddd09e-9f5e-4728-a2bc-2fe9b2e638cc" class="">The header of the response looks like the header of the query, except that the RESPONSE bit is set, indicating that this message is a response, not a query, and the Authoritative Answer (AA) bit is set indicating that the address RRs in the answer section are from authoritative data.  The question section of the response matches the question section of the query.</p><h2 id="1b2798be-0ad1-41f9-949f-dcc929a3c418" class="">Resources</h2><ol id="941fe859-17cf-4d8c-aef6-da8901b98b75" class="numbered-list" start="1"><li>RFC1034: <a href="https://tools.ietf.org/html/rfc1034">https://tools.ietf.org/html/rfc1034</a></li></ol><ol id="1cd26a56-e700-4625-acb3-ea08b166760f" class="numbered-list" start="2"><li>RFC1035: <a href="https://tools.ietf.org/html/rfc1034">https://tools.ietf.org/html/rfc103</a>5</li></ol><ol id="7d1cd4e7-b74f-4ec0-a7fb-1aec4a47bea7" class="numbered-list" start="3"><li>Stanford Lectures: <a href="https://youtu.be/jn_aQjdR9oM">https://youtu.be/jn_aQjdR9oM</a></li></ol></div></article></body></html>
