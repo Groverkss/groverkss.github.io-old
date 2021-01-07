@@ -1,0 +1,627 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Search</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="311f79a4-ab42-4048-9e80-4521324c5e6b" class="page sans"><header><h1 class="page-title">Search</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><blockquote id="da2ecadf-aaf1-4d27-9b43-5337f26d6c6f" class="">Agents that plan ahead</blockquote><h2 id="2011a04b-8a36-4cfa-b314-71c16d13872d" class="">Reflex Agents</h2><div id="76ce1eb2-4842-4569-b3cd-b6ee41f3ec30" class="column-list"><div id="e2db3c8b-0b45-487a-bb63-2dacc7d0ad27" style="width:50%" class="column"><ul id="336495c6-b8ac-4e8c-91aa-ee43027a18d3" class="bulleted-list"><li>Choose action based on current percept (and maybe memory(</li></ul><ul id="f6d468a3-c707-4319-9df3-3c8de401fc60" class="bulleted-list"><li>May have memory or a model of the world&#x27;s current state.</li></ul><ul id="39a9dc54-ac4b-41d7-8e54-29f9b972d770" class="bulleted-list"><li>Do not consider the future consequences of their actions</li></ul><ul id="f1a27701-b7ae-494a-99a9-30ecc27a535f" class="bulleted-list"><li><strong>Consider how the world IS</strong></li></ul></div><div id="77891eb2-5b18-4be3-a311-13528ce164ce" style="width:50%" class="column"><figure id="7e7dfc64-15da-4dc8-9069-c62206e746c4" class="image"><a href="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled.png"><img style="width:380px" src="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled.png"/></a></figure></div></div><p id="80be0656-8545-4ebb-8fb7-a286ef820a97" class="">Can a reflex agent be rational?</p><h2 id="3f20aaf5-142f-488e-87c9-8118f0cf25be" class="">Planning Agents</h2><div id="b6c4409a-4949-47d3-8d9b-3eb6f6cca698" class="column-list"><div id="93578599-cd2e-413b-8e06-5466f07b105e" style="width:50%" class="column"><ul id="4756a258-8a97-4493-9138-5da2b64c4c7f" class="bulleted-list"><li>Decisions based on (hypothesized) consequences of actions.</li></ul><ul id="853a759d-184a-47c3-8efe-7d21f805ca6c" class="bulleted-list"><li>Must have a model of how world evolves in response to actions</li></ul><ul id="84d8c520-7b99-4621-bc7d-61bff529603a" class="bulleted-list"><li>Must formulate a goal</li></ul><ul id="43b1d00e-bc92-4803-b120-4448fc23544b" class="bulleted-list"><li><strong>Consider how the world WOULD BE</strong>.</li></ul></div><div id="9a5260c9-d37d-4b72-9ddb-633c532ff6d1" style="width:50%" class="column"><figure id="53949ba7-17a1-41b5-84a5-141e1af395fa" class="image"><a href="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%201.png"><img style="width:369px" src="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%201.png"/></a></figure></div></div><h1 id="e0899768-6aad-4574-8107-137c8651d793" class="">Search Problems</h1><p id="ccfd2f5a-cc96-4320-b767-154d19e3d090" class="">A <strong>search problems </strong>consists of:</p><ul id="700cc6e9-4d86-45de-8f25-17e576b87337" class="bulleted-list"><li>A state space</li></ul><ul id="d941ec69-682c-4a02-87c0-48d4889d207e" class="bulleted-list"><li>A successor function (with actions, costs)</li></ul><ul id="ff3f5352-796f-49e9-8c83-005c94f83763" class="bulleted-list"><li>A start state and a goal test</li></ul><p id="e82baed2-b7af-4367-bea4-13c7e8f11190" class="">A <strong>solution </strong>is a sequence of actions (a plan) which transforms the start state to a goal state.</p><blockquote id="ab747c6f-ba27-48bb-baf8-4af3b46a2342" class="">Search problems are just a modeling of a problem</blockquote><h3 id="db7f0945-ef16-47cb-9617-3bd944e74d68" class="">What&#x27;s in a State Space?</h3><p id="11fb6fb4-6bad-4040-86da-3f7c4b55ff57" class="">The <strong>world state </strong>includes every last detail of the environment.</p><figure id="ad78385a-c6b9-4cfa-8386-6f12bc4e5fcc" class="image"><a href="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%202.png"><img style="width:234px" src="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%202.png"/></a></figure><p id="8a98c27d-c239-46f2-bf23-6811cca36c92" class="">A <strong>search state</strong> keeps only the details needed for planning (abstraction)</p><div id="f3a8875d-f9c0-444b-9023-cca681df8358" class="column-list"><div id="46604c9a-64ad-4ea9-b53f-420c97c581b7" style="width:50%" class="column"><p id="97148f0c-de83-4243-99aa-c36507666379" class=""><strong>Problem: Pathing</strong></p><ul id="b3ceacc1-99e1-4754-8586-933441240d25" class="bulleted-list"><li>States: (x, y) locations</li></ul><ul id="20997053-3afc-44b4-8be2-377c0b15c878" class="bulleted-list"><li>Actions: NSEW</li></ul><ul id="fe79e526-5673-450c-9168-416d052a1e40" class="bulleted-list"><li>Successor: update locations only</li></ul><ul id="88c6823a-2679-484e-8c21-4390b7ebdafe" class="bulleted-list"><li>Goal test: is (x, y) = END</li></ul></div><div id="3100d483-01b0-4d13-b9de-da501e4c2205" style="width:50%" class="column"><p id="4874fafb-fb6f-48d4-98f6-f78d9a560e01" class=""><strong>Problem: Eat-All-Dots</strong></p><ul id="237921ff-2c48-47a0-8fa7-8d1966494415" class="bulleted-list"><li>States: {(x, y), dot booleans}</li></ul><ul id="752e17df-285b-4972-b2ea-7eaf03ab524e" class="bulleted-list"><li>Actions: NSEW</li></ul><ul id="7be9af21-2aaa-4775-94d1-bf277a86ce3b" class="bulleted-list"><li>Successor: Update location and possibly a dot boolean</li></ul><ul id="0522e266-9d40-442b-9dc3-4be39dd2fcc1" class="bulleted-list"><li>Goal test: dots all false</li></ul></div></div><h3 id="89925d04-033c-4df7-81f0-54692126e8c2" class="">State Space Size?</h3><p id="16521a3a-c71a-4a8b-96f5-cca295c847bb" class="">Given world:</p><figure id="8871a262-02d0-42a1-9bf2-56e0c2e552a3" class="image"><a href="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%203.png"><img style="width:270px" src="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%203.png"/></a></figure><p id="8d5a3b97-dc0d-4c27-b671-4fdc798022eb" class=""><strong>World State:</strong></p><ul id="9fbccd7a-5deb-43f6-8989-1aceaa0d8ae1" class="bulleted-list"><li>Agent positions: 120</li></ul><ul id="f7bf2206-fd3c-4876-8ba3-d376cf98fcc7" class="bulleted-list"><li>Food count: 30</li></ul><ul id="4d49bc69-baa8-49d2-a37e-a2abd8293bd6" class="bulleted-list"><li>Ghost positions: 12</li></ul><ul id="de1c738d-f93d-420e-ac60-72df7b4ec19b" class="bulleted-list"><li>Agent-facing: NSEW</li></ul><p id="fda058fe-7649-4a70-8663-b1367c74c891" class=""><strong>World State space size</strong>: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>120</mn><mo>×</mo><msup><mn>2</mn><mn>30</mn></msup><mo>×</mo><mn>12</mn><mo>×</mo><mn>12</mn><mo>×</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">120 \times 2^{30} \times 12 \times 12 \times 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span></span><span>﻿</span></span></p><p id="9e183361-1e80-407d-afe0-52a56c7c3c03" class=""><strong>Eat-All-Dots Space Size: </strong> <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>120</mn><mo>×</mo><msup><mn>2</mn><mn>30</mn></msup></mrow><annotation encoding="application/x-tex">120 \times 2^{30}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></p><p id="8227f2d1-5e6c-456a-91c8-681d584983d2" class=""><strong>Pathing Space Size: </strong><strong><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>120</mn></mrow><annotation encoding="application/x-tex">120</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mord">0</span></span></span></span></span><span>﻿</span></span></strong></p><h3 id="a80f743e-a700-4f97-833f-90607469185e" class="">State Space Graphs</h3><div id="a753a4fe-c019-4379-addd-d3a7aadace6b" class="column-list"><div id="9ffb421a-a74d-418b-b484-48a35ce21071" style="width:50%" class="column"><p id="0edd8df8-b508-48f7-aaeb-c1c0d8bf55cf" class="">State Space Graph: A mathematical representation of a search problem</p><ul id="693cec8f-039e-4355-a50e-0da9c256a7ac" class="bulleted-list"><li>Nodes are (abstracted) world configurations</li></ul><ul id="0987c6af-e651-4b1a-b6ea-96aabc5f584b" class="bulleted-list"><li>Arcs represent successors (action results)</li></ul><ul id="00a68887-d830-44f8-8ec3-7380ae423305" class="bulleted-list"><li>The goal test is a set of goal nodes (maybe only one)</li></ul><p id="59420e8b-516d-433a-bf28-ffadf961d85a" class="">In a state space graph, each state occurs only once</p><p id="c4ae9e91-b2df-44c4-911a-635ccbe469d6" class="">We can rarely build this full graph in memory (it&#x27;s too big), but it&#x27;s a useful idea.</p></div><div id="76e27ef6-e374-4c46-8656-e62664a9c652" style="width:50%" class="column"><figure id="bb492138-26d1-4f69-81f7-c4e2456329af" class="image"><a href="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%204.png"><img style="width:240px" src="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%204.png"/></a></figure></div></div><h3 id="b96285fb-3192-48d1-95cc-5b345faee204" class="">Search Trees</h3><ul id="877bfa37-526f-4311-a3ec-9d230b7176e2" class="bulleted-list"><li>A &quot;what if&quot; tree of plans and their outcomes</li></ul><ul id="a3268fd9-60aa-4916-ba01-76e08f24a35c" class="bulleted-list"><li>The start state is the root node </li></ul><ul id="bb71ba64-99bf-4459-a45b-3fc0fa251a67" class="bulleted-list"><li>Children correspond to successors</li></ul><ul id="7eea4e6b-c7da-40c4-9b14-92bb368a1ff3" class="bulleted-list"><li>Nodes show states, but correspond to PLANS that achieve those states</li></ul><ul id="7210f183-3823-4bc6-926e-1059dc4b682e" class="bulleted-list"><li><strong>For most problems we actually never build the whole tree</strong></li></ul><figure id="b5bd6b7d-68ef-4ddd-a145-e155559955e9" class="image"><a href="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%205.png"><img style="width:528px" src="Search%207e7dfc6415da4dc89069c62206e746c4/Untitled%205.png"/></a></figure></div></article></body></html>
