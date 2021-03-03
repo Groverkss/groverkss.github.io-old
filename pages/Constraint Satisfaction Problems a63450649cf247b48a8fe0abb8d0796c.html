@@ -1,0 +1,630 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Constraint Satisfaction Problems</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f2282d43-e144-4e3a-a69f-b55fc5c812ef" class="page sans"><header><h1 class="page-title">Constraint Satisfaction Problems</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><h3 id="063acb38-4d55-4f69-a105-6986c2faae6c" class="">What is a search for?</h3><p id="f4c5c008-fe28-4827-97d8-196bba40f4f7" class="">Assumptions about the world: a single agent, deterministic actions, fully observed state, discrete state space.</p><p id="99729437-ec02-4958-b5df-bb699247201a" class="">We have used search for now:<div class="indented"><p id="18452aa1-3bfb-4af3-877a-9eaeb784f4ac" class="">Planning problems: sequences of actions<div class="indented"><p id="305758bf-6f3a-42e8-995b-f72c6c8a4b5e" class="">The path to the goal is the important thing</p><p id="88298244-569d-443c-9393-3c9c88a7c24d" class="">Paths have various costs, depths</p><p id="e0989f01-8b6a-451a-ba4f-e982e3bace9a" class="">Heuristics give problem-specific guidance: hey the goal is over this way mate</p></div></p></div></p><hr id="a172ccdf-19ce-4c13-9b5c-163a545eddcf"/><p id="e17c3205-ae4d-450b-bb7b-22b5f252dac4" class="">Another class of search problems:<div class="indented"><p id="90c93cbb-596c-4a77-916d-8f1b6567c437" class="">Identification problems: assignments to variables<div class="indented"><p id="793bd0a1-ddca-4a46-bcf0-d825b147379b" class="">You just want the goal assignment, the path/cost doesn&#x27;t matter</p><p id="c89c8a57-0805-4fd1-bec6-51f64ef98e90" class="">Generally paths at the same depth</p><p id="61dbdc3c-56d8-494d-b226-95f84a2f6630" class="">CSPs are specialized class of identification problems</p></div></p></div></p><h1 id="0e2bfe7a-589c-40cf-b8fd-29746c2d1bd6" class="">Constraint Satisfaction Problem</h1><p id="475e9e26-a2f6-45b4-b7bf-54a7b53e1c56" class="">How are CSPs different from a standard search problems:<div class="indented"><p id="c67f6f00-8fa2-499e-af55-8b0dda8f90ce" class="">Standard Search Problems:<div class="indented"><p id="71c13e3a-2b5c-4ef3-99b5-02a3258635d9" class="">State is a &quot;black box&quot;: arbitrary data structure</p><p id="788f6d4d-e475-4b28-8c59-61ab301d469b" class="">Goal test can be any function over states</p><p id="c99302e9-8314-47bb-ba0b-3d938029e273" class="">Successor function can also be anything </p></div></p><p id="1a98d2bb-e15f-4c52-acc5-ed4c5b6882f7" class="">Constraint Satisfaction Problems (CSPs):<div class="indented"><p id="0dfc0a50-dc28-4551-af38-130b2163d70e" class="">A special subset of search problems</p><p id="b72bef99-6b9f-4157-84ee-efe5dba0fbd9" class="">State is defined by <strong>variables </strong><strong><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>X</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">X_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></strong><strong> </strong>with values from a <strong>domain</strong> <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span></span><span>﻿</span></span>: sometimes <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span></span><span>﻿</span></span> depends on <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span></span><span>﻿</span></span></p><p id="5e6a6e68-bb6c-4ceb-9189-c17b2b2d7328" class="">Goal test is a <strong>set of constraints</strong> specifying allowable combination of values for subsets of variables.</p></div></p><p id="d441da16-7948-452e-9031-a5cd0be597c5" class="">Because we have structure to the search, we can have better algorithms to solve.</p></div></p><h3 id="991c0a67-28f0-4270-83ec-01c6aa077fc0" class="">Example: Map Coloring</h3><div id="84442c18-a7b1-464c-b307-40ff6fdecc98" class="column-list"><div id="bdb54c22-e34d-4cfa-a8f8-0111d131af7c" style="width:68.75%" class="column"><p id="f801cb28-65ae-4791-9c8c-3af39575a2ac" class=""><strong>Variables</strong>: WA, NT, Q, NSW, B, SA, T</p><p id="5be7e47b-98f8-4f02-8374-f52e2928dbbc" class=""><strong>Domains</strong>: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mo stretchy="false">{</mo><mi>r</mi><mi>e</mi><mi>d</mi><mo separator="true">,</mo><mi>g</mi><mi>r</mi><mi>e</mi><mi>e</mi><mi>n</mi><mo separator="true">,</mo><mi>b</mi><mi>l</mi><mi>u</mi><mi>e</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">D = \{ red, green, blue\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">d</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">u</span><span class="mord mathdefault">e</span><span class="mclose">}</span></span></span></span></span><span>﻿</span></span></p><p id="d89c8bfe-5f5d-41d6-9cce-10ff7525c6ed" class=""><strong>Constraints:</strong> Adjacent regions must have different colors<div class="indented"><p id="3b8a93a1-be31-4110-8aa7-b0baea618ccd" class="">Implicit Constraints: WA <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">≠</mo></mrow><annotation encoding="application/x-tex">\neq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mrel"><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span></span><span class="mrel">=</span></span></span></span></span></span><span>﻿</span></span> NT</p><p id="df07557a-e9b8-4594-8613-ebd5fc24c6ef" class="">Explicit <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext>WA, NT</mtext><mo stretchy="false">)</mo><mo>∈</mo><mo stretchy="false">{</mo><mo stretchy="false">(</mo><mi>r</mi><mi>e</mi><mi>d</mi><mo separator="true">,</mo><mtext> </mtext><mi>g</mi><mi>r</mi><mi>e</mi><mi>e</mi><mi>n</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mo stretchy="false">(</mo><mi>r</mi><mi>e</mi><mi>d</mi><mo separator="true">,</mo><mtext> </mtext><mi>b</mi><mi>l</mi><mi>u</mi><mi>e</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mo>…</mo><mtext> </mtext><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">(\text{WA, NT}) \in \{(red,\ green), (red,\ blue), \dots\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord text"><span class="mord">WA, NT</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">d</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace"> </span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">d</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace"> </span><span class="mord mathdefault">b</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">u</span><span class="mord mathdefault">e</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mclose">}</span></span></span></span></span><span>﻿</span></span></p></div></p><p id="47f13dc5-03b4-4f2b-b1e2-593ca97f82f7" class=""><strong>Solutions:</strong> Assignments satisfying all constraints</p></div><div id="f4636af5-2cf8-4356-8a57-95b37664baa3" style="width:31.250000000000007%" class="column"><figure id="a6345064-9cf2-47b4-8a8f-e0abb8d0796c" class="image"><a href="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled.png"><img style="width:288px" src="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled.png"/></a></figure></div></div><h3 id="8b398c31-289b-45e8-bd9d-a99e674de0fe" class="">Constraint Graphs</h3><div id="c1b861b6-eb67-4e2f-827d-ac4293accdc5" class="column-list"><div id="77939099-bb17-4a04-83ba-ebb5781eabba" style="width:42.105263157894726%" class="column"><figure id="745ebaae-5462-4971-9ab5-b54627eb742a" class="image"><a href="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled%201.png"><img style="width:240px" src="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled%201.png"/></a></figure></div><div id="47737f60-17d4-40c2-9a63-0458906f2676" style="width:57.89473684210527%" class="column"><p id="1fc485a1-2d0b-4c7f-8f87-9b08adc7f3e7" class="">The constraint graph doesn&#x27;t tell what the constraints are but tells where they are. An edge denotes that there is a constraint between them.</p><p id="558da589-d4b9-41d3-b71d-c06512dfbef9" class=""><strong>Binary CSP: </strong>Each constraint- related (at most) two variables.</p><p id="cf9e2f0f-d270-4799-9612-3a692d286fbc" class=""><strong>Binary constraint graph:</strong> nodes are variables, arc show constraints</p><p id="c6ce6afd-88af-4c7e-85cd-e5093624ddad" class="">
+</p></div></div><h3 id="fa6ce17a-f7bc-40bf-824c-b16d3eb94e43" class="">Varieties of CSPs</h3><p id="d51b1596-54fc-42d5-b03b-42cf81c26820" class=""><strong>Finite Domains</strong><div class="indented"><p id="de7df353-55c1-49cd-afa3-20b6acd76282" class="">Size <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">d</span></span></span></span></span><span>﻿</span></span> means <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>d</mi><mi>n</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(d^n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> complete assignments</p></div></p><p id="3ff13f11-97c7-4773-ae9d-dba519536388" class=""><strong>Infinite domains (integers, strings, etc.)</strong><div class="indented"><p id="5c99c8a1-5517-4be0-9b5e-156e9e50b519" class="">Linear constraints solvable, nonlinear undecidable</p></div></p><h1 id="5ec4714e-2199-4bde-9394-6b6b1ad5ba5a" class="">Backtracking Search</h1><p id="fb43b7ad-6c01-4361-a889-4e0302fb3185" class="">Backtracking search is the basic uninformed algorithm</p><p id="28979cb6-f5ba-41c5-9f5d-4ebbc95a095e" class="">Idea 1: One variable at a time</p><p id="1ea73d16-3cb2-4812-a1c4-c930666ac6a9" class="">Idea 2: Check constraints as you go</p><p id="1ab4c464-366b-4710-8bde-7bdd25dd633a" class="">
+</p><p id="ccec7952-51f1-43e0-8bcc-17b76f9f4d7a" class="">Depth-first search with these two improvements is called <em>backtracking search</em></p><p id="acaad0c2-c58c-4751-aaf4-4d1389419f78" class="">Algorithm:</p><figure id="b525232b-0143-43f4-9e14-72683302ba42" class="image"><a href="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled%202.png"><img style="width:607px" src="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled%202.png"/></a></figure><p id="9ae0870f-a35b-4299-a8ba-3dc3deaea6b5" class="">Backtracking = DFS + variable-ordering + fail-on-violation</p><h3 id="3017dfff-4521-40f9-8c76-27621736b4bc" class="">Improving Backtracking Search</h3><ul id="9a43ba7f-ed28-4d82-8f98-8fa4e235f33e" class="bulleted-list"><li>Ordering<ul id="6bd40815-1d80-4c29-bb48-738357cbd2a3" class="bulleted-list"><li>Which variable to assign next</li></ul><ul id="6e32c570-6d24-4325-abc0-467be0fb0907" class="bulleted-list"><li>In what order</li></ul></li></ul><ul id="323a453a-35f9-48bd-9bbe-7575d1ecc081" class="bulleted-list"><li>Filtering<p id="6ac588bd-4050-47ef-9f19-1f313164b2c0" class="">Detect failure early</p></li></ul><ul id="88231ddb-68b0-400e-948e-cc129f533443" class="bulleted-list"><li>Structure<p id="a801e857-043b-480d-b0bc-18a713610e5a" class="">Exploiting problem structure</p></li></ul><h2 id="a77ede73-37f2-4691-91a9-f8c0a95cfe5e" class="">Filtering</h2><div id="e1e158f5-ca0d-4c0f-bfe5-18c510c14766" class="column-list"><div id="269e8328-db03-4319-b1d4-c846b63c705a" style="width:50%" class="column"><p id="24ed4690-fcf7-4a11-9687-3ec8c37f590d" class="">Keep track of domains for unassigned variables and cross off bad options</p><p id="ddf5fdac-2e86-4ba1-a054-9d8b00bb2503" class="">Image on right shows domains map coloring problem described before</p></div><div id="a9f60e42-bfce-407b-b824-79af95d3bfb6" style="width:50%" class="column"><figure id="e0a05309-8a4b-438a-9693-4b79e990c4f1" class="image"><a href="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled%203.png"><img style="width:288px" src="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled%203.png"/></a></figure><p id="d0da4475-4df2-4942-9c51-6a9ad27fa2ec" class="">
+</p></div></div><h3 id="82f25991-8aba-42b1-a909-3a3eb62daf8b" class="">Consistency of a Single Arc</h3><p id="55789247-db97-461a-9040-2d4316faf6bb" class="">An arc <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>→</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">X \rightarrow Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span></span></span></span></span><span>﻿</span></span> is <strong>consistent</strong> iff for <em>every x</em> is the tail there is <em>some y</em> in the head which could be assigned without violating a constraint.</p><p id="2ae30732-38c7-4e6f-9824-9d08f024da8d" class=""><strong>Forward Checking: </strong>Enforcing consistency of arcs pointing to each new assignment.</p><h3 id="d4bb10a5-158c-4b30-abe2-9fd1e6012743" class="">Arc Consistency of an Entire CSP</h3><p id="0733036b-53b5-4d52-847e-d0e554dabca1" class="">A simple form of propagation makes sure <strong>all</strong> arcs are consistent:</p><p id="a2cff57d-0104-41d1-b427-5af76ceb0808" class="">Algorithm:</p><figure id="c8d6bff5-f61a-41c7-9ce7-f49879863cdf" class="image"><a href="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled%204.png"><img style="width:624px" src="Constraint%20Satisfaction%20Problems%20a63450649cf247b48a8fe0abb8d0796c/Untitled%204.png"/></a></figure><p id="ab7defd4-0841-4a62-b759-0c372ab7f879" class="">Runtime: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><msup><mi>d</mi><mn>3</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2d^3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span>, can be reduced to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><msup><mi>d</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2d^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></p><h2 id="0d6a4ddd-9225-451f-bd42-b4fd8ccb0c49" class="">Ordering</h2><p id="04cdb9a0-2e90-45a1-877f-187139d6843f" class=""><strong>Variable Ordering: Minimum Remaining Values</strong><div class="indented"><p id="d57286c6-2a83-4fbb-bb21-97d1f464ab16" class="">Choose the variable with the fewest legal left values in its domain</p><p id="33d3b941-ab9a-4689-a1f0-edccf87aadae" class="">&quot;Fail-fast&quot; Ordering</p></div></p><p id="23cc5934-2b04-41b9-a373-da36d1eff340" class=""><strong>Variable Ordering: Least Constraining Value</strong><div class="indented"><p id="1630ae0a-ed93-465a-9aae-40dedfb6d322" class="">Given a choice of variables, choose the <em>least</em> <em>constraining value</em></p><p id="ebcc4c35-ec07-4c80-883c-a7dc0c9cd4bf" class="">i.e. the one that rules out the fewest values in the remaining variables</p></div></p></div></article></body></html>
