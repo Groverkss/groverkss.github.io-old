@@ -1,0 +1,645 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Introduction</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="62251d96-6fef-4bcd-98cc-738be9766cfb" class="page sans"><header><h1 class="page-title">Introduction</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><p id="b7e06acf-1292-43ce-9667-01a24d6f3f37" class=""><strong>Domain Specific Languages:</strong> A computer language specialized to a particular application domain.</p><h1 id="7a5fa74b-3b2e-4b69-bcac-a50a9485bfb8" class="">Paths of a language</h1><p id="8a33ceaa-2b9c-44ee-9553-7fb4eb9727d7" class="">The network of paths of an implementation represented as a mountain:</p><figure id="a1162718-6b7c-43e9-94a4-447d4096ace5" class="image"><a href="Introduction%20a11627186b7c43e994a4447d4096ace5/Untitled.png"><img style="width:624px" src="Introduction%20a11627186b7c43e994a4447d4096ace5/Untitled.png"/></a></figure><p id="15172c7a-5597-4771-be0c-623cc1c7c054" class="">You start off at the bottom with the program as raw source text, a string of characters. Each phase analyzes the program and transforms it to some higher-level representation where the semantics (what the author wants the computer to do) become more apparent.</p><p id="6fe28b6a-95b7-4023-a161-5acfc51abe87" class="">
+</p><p id="0a6b7866-2030-4602-82cf-204b0ed80153" class="">At the peak, we have a bird&#x27;s eye view of the user&#x27;s program and can see what the code <em>means. </em>We begin our descent down the other side of the mountain, transforming the highest-level representation down to successively lower-level forms to get closer and closer to something we know how to make the CPU actually execute.</p><p id="26edf3fa-97c9-48de-b8b9-865faab3bba5" class="">
+</p><p id="f92fa2c2-41b6-4621-a75d-93a87a737131" class="">Starting with source code:</p><figure id="137ebba8-bef0-4d7e-82d3-7343cdd5c480" class="image"><a href="Introduction%20a11627186b7c43e994a4447d4096ace5/Untitled%201.png"><img style="width:1152px" src="Introduction%20a11627186b7c43e994a4447d4096ace5/Untitled%201.png"/></a></figure><h2 id="f26c3ac3-ab65-4c43-a91b-0e18255f3a3e" class="">Scanning</h2><p id="894c8e44-d602-4d34-af11-2b71155109f8" class=""><strong>Scanning</strong>, aka <strong>Lexing</strong>, aka (incase trying to impress your crush) <strong>lexical analysis</strong>.</p><p id="ca515b91-93d2-4f9e-a398-442ec92e0fdd" class="">
+</p><p id="e951e160-fd9c-4d54-92c8-3d907ea34c78" class="">A <strong>scanner </strong>(or <strong>lexer</strong>) takes in a linear stream of characters, and groups them together into chunks called <strong>tokens</strong>. White space is usually insignificant and often discarded by the scanner.</p><p id="738e85da-d4b8-4e76-b7c4-f464f21fbec3" class="">
+</p><p id="a547e844-e43a-463a-9813-b77501fb3b09" class="">Output from this phase:</p><figure id="cf657f64-89f2-4208-b8e8-c5d7433d79bb" class="image"><a href="Introduction%20a11627186b7c43e994a4447d4096ace5/Untitled%202.png"><img style="width:1152px" src="Introduction%20a11627186b7c43e994a4447d4096ace5/Untitled%202.png"/></a></figure><h2 id="e7e29c76-16d0-4b77-b7d9-750180d0a661" class="">Parsing</h2><p id="5abebd0e-c66b-41e8-9376-14f25de1169e" class="">This is where our syntax gets a <strong>grammer</strong>. The ability to use the tokens to compose larger expressions.</p><p id="09857088-3789-4cd9-87b2-3ad3c85ba9a3" class="">
+</p><p id="4510d9e8-ec0c-41a4-a493-d8db93e61c23" class="">A <strong>parser</strong> takes the flat sequence of tokens and builds a tree structure that mirrors the nested nature of the grammer. These trees have a couple of different names — <strong>parse tree</strong> or <strong>abstract syntax tree</strong> — depending on how close to the bare syntactic structure of the source language they are. In practice, they are called <strong>syntax trees, ASTs.</strong></p><p id="63ecaedf-b5f4-43a9-a24d-531f57c45958" class="">
+</p><figure id="1460f418-75a1-4f67-99d4-1fdd2b752845" class="image"><a href="Introduction%20a11627186b7c43e994a4447d4096ace5/Untitled%203.png"><img style="width:1152px" src="Introduction%20a11627186b7c43e994a4447d4096ace5/Untitled%203.png"/></a></figure><p id="d9eeea1d-4d67-41f0-9fa6-4fbee6e47e76" class="">Parser&#x27;s job is alose to report <strong>syntax errors.</strong></p><p id="4e315bb9-d900-4163-b4e6-47260c8a92df" class="">
+</p><p id="c0641ee0-c497-4384-95e5-b6432dbc898d" class=""><strong>Parsing </strong>and<strong> Scanning</strong>, as expected are similar across all implementations.</p><h2 id="e7749595-d191-4721-a1ad-50b642c271a7" class="">Static Analysis</h2><p id="5e2c7ba3-6480-4392-b006-9321fe77a510" class="">The first part of analysis is called <strong>binding</strong> or <strong>resolution</strong>. For each <strong>indetifier</strong>, we find out where that name is defined and wire the two together. This is where <strong>scope </strong>comes into play — the region of source code where a certain declaration can be found.</p><p id="167a2d3c-2436-433f-a04e-9de38b718c36" class="">
+</p><p id="3d68828b-211b-45c3-b3d0-2a9c98918ecf" class="">If the language is statically typed, this is where we type check. We report <strong>type error </strong>if any errors.</p><p id="67d41a3f-5683-4bb9-b63f-b2d573dcd1a0" class="">
+</p><p id="b93869f8-beb9-45f7-b964-86229f6ff0cc" class="">This part of the implementation is considered the <strong>frontend</strong>. Extracting information out of the language. </p><h3 id="69200df8-c691-4408-b579-360cb8a4913f" class="">Storing this information</h3><p id="243ce0b0-162d-45c1-9e6e-a9d25de0790a" class="">Places where we can store this information:</p><ol id="a0660609-9e0f-4fcb-9752-6c637387f1b4" class="numbered-list" start="1"><li><strong>Attributes</strong> in the syntax tree.</li></ol><ol id="84feaa28-8fa9-476f-ac5c-af54514a3023" class="numbered-list" start="2"><li>Additional <strong>symbol tree</strong> with all attributes for each identifier.</li></ol><ol id="e4dc6dac-db44-44ef-967a-b68a28602a5c" class="numbered-list" start="3"><li>Transform the tree into an entirely new data structure that more directly expresses the semantics of code.</li></ol><p id="f2cf4d00-423c-4f79-831c-1755e60e1e0d" class="">
+</p><p id="fc20a256-467d-457d-9a23-5a237b691aa2" class="">We now move on to <strong>middle end</strong> part.</p><h2 id="726063b8-dcd1-4eb6-890f-12258db1520f" class="">Intermediate representations</h2><p id="3c8a6c37-8f96-4f60-ab2b-14847426d765" class="">The frontend of the pipeline is specific to the source language the rpogram is written in. The backend is concerned with the final architecture where the program will run.</p><p id="ba6d0443-37d9-471d-927d-cfced4995a32" class="">
+</p><p id="dae79914-62ae-43d3-ba5e-919fed916997" class="">In the middle, the code may be stored as some <strong>intermediate representation (IR)</strong> that isn&#x27;t tightly tied to either the source or destination forms. The IR acts as an interface between two languages.</p><p id="c38b3afb-3b33-47dc-98c0-e01208d9123b" class="">
+</p><p id="117c0d7f-59b4-4b89-9630-4bbbf3ecedc7" class="">The <strong>IR </strong>allows to support multiple architectures by writing a single frontend for the language to convert it to the <strong>IR</strong> and multiple backends for each architecture.</p><p id="9f73a216-efbf-4dec-b0a0-a3778b60ab9e" class=""> </p><h2 id="bf75f5b2-5233-4c48-80c2-90c43ac3ab2e" class="">Optimization</h2><p id="f29858f2-7938-4a27-89ec-02703b652e49" class="">Once we extract the semantics of the program, we swap it with a different program that has the same semantics but implements them more efficently. This is called <strong>optimization.</strong></p><h2 id="3c293168-eaf2-448e-aa36-43cb82f29976" class="">Code generation</h2><p id="dd2d8e4d-6f46-441b-b322-e585b5bcb0fb" class="">This part is concerned with converting the IR after applying all optimizationsto something the machine can run. This part is the <strong>backend</strong> of implementation.</p><p id="1f5eba9e-e6cd-48ff-bb06-c02f98d516e5" class="">
+</p><p id="5237219e-0d7f-4ea8-adbb-ec937e050ee3" class="">We have to make a decision here. Do we generate instructions for a real CPU or a virtual one.</p><p id="82a8c561-f18a-40b3-81e1-b4a6194e11df" class="">Generating for a real CPU makes the native code fast but not portable. The counter this, we can also generate <strong>bytecode</strong> (because each instruction is usually one byte long).</p><p id="0740f12d-c448-40fe-a449-e59f5f6f9ea3" class="">The synthetic instructions are designed to be less tied to the peculiarities of any one computer architecture. These can be thought of as dense, binary encoding of the language&#x27;s low-level operations.</p><h2 id="e49e65f3-bf13-46a1-ad86-5aa894e5a560" class="">Virtual Machine</h2><p id="0a77490c-5f94-4706-b5cd-d941ee3ddade" class="">This phase only comes if bytecode is generated.</p><p id="2c6f3b20-d168-4356-bfe7-a2f1d34f8439" class="">
+</p><p id="70b5288e-8043-499f-90b8-e95a8f0625fc" class="">To run the bytecode, we can either write a mini-compiler to convert byte code to machine code for each architecture or you can write a <strong>virtual machien (VM)</strong> that emulates a hypothetical chip supporting your virtual architecture at runtime. The VM simulates each instruction at runtime. </p><h2 id="ca8aff4a-85d4-49f8-9803-bd0a378379ad" class="">Runtime</h2><p id="a81858c8-5955-406a-b612-99546c5b7843" class="">If compiled to machine code, we can just run the code on the machine. Otherwise, we start the virtual machine and load the program on it.</p><p id="ec78ed74-423e-424b-ab34-284f3dde6b67" class="">
+</p><p id="2df39e35-7fac-492c-b5d7-1e0734950403" class="">There also goes other kind of stuff during runtime, for example: Garbage collection.</p><h1 id="f84820b9-8f70-4d7c-b871-a2b8e8d42d3f" class="">Shortcuts and Alternative Routes</h1><h2 id="1e44936e-0407-4bc7-b7ca-9add83862bce" class="">Single-pass compilers</h2><p id="29215ea0-961c-43f5-b933-c7681ab88f8e" class="">Combine parsing, analysis and code generation into a single step. These <strong>single-pass compilers</strong> restrict the design of the language. No global information about the program, and you don&#x27;t revisit parsed parts of code. This means as soon as you see an expression, you need to know enough to correctly compile it.</p><p id="8935e36c-1d4f-4cae-b930-7cf0fc71a8b6" class="">
+</p><p id="fa7525ff-2d72-4365-84c0-480e9b8ec1b4" class="">Pascal and C were designed with this limitation due to less memory in old systems. This is the reason C cannot call a function unless declared before.</p><h2 id="523923d2-e737-46ef-a882-cc8e168074c4" class="">Tree-walk Interpreters</h2><p id="c3a86e55-7fed-4373-af77-5561590cbe18" class="">Some programming languages begin executing code right after parsing it to an AST.</p><h2 id="82d6c1a0-b8db-468f-b931-fc889e2b988b" class="">Transpilers</h2><p id="2f0bb371-e5e8-4e86-9ffe-c78301b889fd" class="">You write a frontend for your language to target an existing language and use existing compilation tools to compile the language.</p><p id="634d2ff8-639c-46e0-ba38-c9e8b702e00d" class="">
+</p><p id="3a36e33c-7186-4f0b-bae8-0f6d06b0a063" class="">These are called <strong>source-to-source compilers</strong> or a <strong>transcompiler</strong>.</p><h2 id="4273755f-1c58-4ded-a832-c8725ce1bbd1" class="">Just-in-time compilation</h2><p id="27059ebc-edb5-4a54-ae0d-0a3d5e1ad49a" class="">This is used when you do not know your end user&#x27;s architecture. This kind of compiler compiles just when the program is loaded.</p><p id="143d43c5-9aec-4b5f-a589-1aba9a5e6a06" class="">
+</p><p id="9227c47f-de92-46ac-b163-d5aa8d1b6584" class="">More sophisticated JITs insert profiling hooks into generated code to see performance critical code and what kind of data is flowing through them. Then, over time, they will automatically recompile those hot spots with more advanced optimizations. (HostSpot JVM).</p><h1 id="ca7593d9-0250-4567-b5cb-4b91d4a5a6f6" class="">Compilers and Interpreters</h1><ul id="a952f4d0-9de1-4b0b-b10e-f04caabe2022" class="bulleted-list"><li><strong>Compiling</strong>→ <em>implementation technique</em> that involves translating a source language to some other — usually lower-level — form. When generating bytecode or machine code, you are compiling. When you transpile to another higher language, you are compiling.</li></ul><ul id="c74ae3f7-f51a-460c-a2cb-6d568fbfe96e" class="bulleted-list"><li>Language implementation is compiler → Translates source code to some other form but doesn&#x27;t execute it. </li></ul><ul id="4db062ad-4949-4a2e-9856-be2f99ed1d93" class="bulleted-list"><li>Language implementation is interpreter → Takes in source code and executes immediately.</li></ul></div></article></body></html>
