@@ -1,0 +1,1076 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Go Tutorial Notes</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="25489239-9373-431d-8cfc-10614e6ed22a" class="page sans"><header><h1 class="page-title">Go Tutorial Notes</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><p id="430651f8-d797-499b-8640-2632666899b8" class="">Every Go program is made up of packages. Programs start running in package <code>main</code>.</p><p id="f8352874-84ed-432b-bde1-4cae686129a4" class="">By convention, the package name is the same as the last element of the import path. For instance, the <code>math/rand</code> package comprises files that begin with the statement package <code>rand.</code></p><p id="2b73dc34-3343-43b4-894a-fd47472bccf6" class="">By default the environment is deterministic, so <code>rand.Intn</code> will return the same numbers in each run. Can use <code>rand.Seed</code> to change this.</p><p id="657aeb2b-9e55-4593-a48d-4b8204495c7e" class="">This code groups the imports into a parenthesized, &quot;factored&quot; import statement which is a good Go coding practice. <code>import &quot;fmt&quot; ; import &quot;math&quot;</code> is written as:</p><pre id="f911d4d9-b6d6-48f7-97c0-cec8126c8bb9" class="code"><code> import (
+	&quot;fmt&quot;
+	&quot;math&quot;
+)</code></pre><p id="04e8307d-3cd6-4280-b66e-8524ada005ed" class="">In Go, a name is exported if it begins with a capital letter eg: Pizza, Pi. Unexported names are not accessible from outside the package.</p><p id="93fe2067-c13b-47c6-914c-02ca5d40a34d" class=""><strong>Functions</strong></p><pre id="0f4c26c5-1f4e-4c45-8a21-291c320d05ef" class="code"><code>func swap(x string, y string) (string, string) {
+	return y, x
+}
+
+func main() {
+	a, b := swap(&quot;hello&quot;, &quot;world&quot;)
+	fmt.Println(a, b)
+}</code></pre><p id="cda34d81-3c4c-4580-a3f1-73bdd981d5a3" class="">Notice that the type comes after the variable name, return value after name, args. Syntax:</p><p id="26507b18-588c-4ece-926b-b8ad6f1d9b1c" class=""><code>func &lt;name&gt;(arg1, arg2, ...) (ret1, ret2...) { body }</code></p><p id="259f1d1a-0be7-425e-889a-f1cad72464c1" class="">When two or more consecutive named function parameters share a type, you can omit the type from all but the last. i.e. <code>x, y, z int</code> is the same as <code>x int, y int, z int</code></p><p id="be6e578c-85b6-4ee7-88ba-57a02a58aaf1" class="">Go&#x27;s return values may be named. If so, they are treated as variables defined at the top of the function. A return statement without arguments returns the named return values. This is known as a &quot;naked&quot; return and is good coding practice only in short functions. Example:</p><pre id="072c077a-35f5-4090-8698-520197ce9bb9" class="code"><code>func split(sum int) (x, y int) {
+	x = sum * 4 / 9
+	y = sum - x
+	return
+}</code></pre><p id="03dbaf5b-3bb0-4fb7-8705-521c6edc7f89" class="">The var statement declares a list of variables eg: <code>var c, python, java bool</code> declares 3 bool vars.</p><p id="f59c2b97-c71e-4423-bb87-f88ba8c7b586" class="">A var declaration can include initializers, one per variable. If an initializer is present, the type can be omitted; the variable will take the type of the initializer. Examples:</p><p id="5dc20a3c-40c3-42b6-a0be-532b2862725b" class=""><code>var i, j int = 1, 2</code> (type present) and <code>var c, python, java = true, false, &quot;no!&quot;</code> (type inferred)</p><p id="be7999c2-6720-4076-b01e-075b4ea2156e" class="">
+</p><p id="c57cc7ed-2fbd-4e04-8ecc-f2f14cfa6d0d" class="">Inside a function, the <code>:=</code> short assignment statement can be used in place of a <code>var</code> declaration with implicit type. Eg: <code>c, python, java := true, false, &quot;no!&quot;</code></p><p id="ab068372-0f83-469a-99f8-9a5bf5a739d6" class="">Outside a function, every statement begins with a keyword (<code>var</code>, <code>func</code>, and so on) and so the <code>:=</code> construct is not available.</p><p id="08aeca4e-a44d-45b0-8432-206982cba79a" class=""><strong>Types</strong></p><figure id="b1d7ab20-272d-47f0-ba26-6a86df942f93" class="image"><a href="Go%20Tutorial%20Notes%20b1d7ab20272d47f0ba266a86df942f93/Untitled.png"><img style="width:945px" src="Go%20Tutorial%20Notes%20b1d7ab20272d47f0ba266a86df942f93/Untitled.png"/></a></figure><p id="a933f040-a980-4404-8d75-030e73a3161a" class="">Note there is no float, complex generic. generic <code>int</code> is int32 or int64 depending on machine.</p><p id="084d9dff-acdf-46df-be7d-9e22a240181c" class="">Example of factored variable declaration (math/cmplx is a package):</p><pre id="fae0b7b0-7f66-443f-ac4b-c838b22d41b6" class="code"><code>var (
+	ToBe   bool       = false
+	MaxInt uint64     = 1&lt;&lt;64 - 1
+	z      complex128 = cmplx.Sqrt(-5 + 12i)
+)</code></pre><p id="245662b6-1a51-4131-ac5a-d360917c4196" class="">Default 0 for int, false for bool, &quot;&quot; for strings.</p><pre id="b1ca9e1b-5d1c-4f72-96f0-716ae8cad6dc" class="code"><code>func main() {
+	var i int
+	var f float64
+	var b bool
+	var s string
+	fmt.Printf(&quot;%v %v %v %q\n&quot;, i, f, b, s)
+}</code></pre><p id="3ec3aed2-72b4-4c7f-84c1-8c19ab832ebb" class="">Output: <code>0, 0, false, &quot;&quot;</code></p><p id="1a84e590-31c3-4822-9678-35dc479e7fb0" class="">Unlike in C, in Go assignment between items of different type requires an explicit conversion. Examples:</p><pre id="2ad043c2-b55c-406b-a813-beda77bf80d8" class="code"><code>var i int = 42
+var f float64 = float64(i)
+var u uint = uint(f)
+//OR
+i := 42
+f := float64(i)
+u := uint(f)
+
+var x, y int = 3, 4
+var f float64 = math.Sqrt(float64(x*x + y*y))
+//Removing float64 throws an error</code></pre><p id="f7883bbf-7510-4705-8424-6f429038ebfe" class="">When the right hand side of the <code>:=</code> declaration is typed, the new variable is of that same type. Otherwise new variable&#x27;s type depends on the precision of the constant passed. Eg: <code>g := 0.867 + 0.5i</code> is of type complex128</p><p id="c1a31ddc-c341-4274-9e47-c5d8383a6cf6" class="">
+</p><p id="f140e0f4-2df9-44f7-89e6-5cdce4b28f9c" class="">Constants are declared like variables, but with the <code>const</code> keyword. Cannot be declared using the <code>:=</code> syntax. Can be character, string, boolean, or numeric values. Numeric constants are <strong>values</strong>. An untyped constant takes the type needed by its context. For eg if you pass constant to function that takes float args, it&#x27;ll convert to float. So constants do behave as if they have automatic type conversion (because actually only the value is passed, not the variable).</p><p id="f8fbd82c-3330-4d1b-9854-433260c6a871" class="">Overflows give explicit error in Go </p><h3 id="b0863567-2435-4e81-8f96-bcc0d40a6b6c" class="">Control Flow</h3><p id="5eb44187-3970-436b-bc5d-2a0fa301e315" class="">Unlike other languages like C, Java, or JavaScript there are no parentheses surrounding the three components of the for statement and the braces { } are always required.</p><pre id="306010de-c9c1-42f3-8b63-6c7ee33f9b08" class="code"><code>for i := 0; i &lt; 10; i++ {
+		sum += i
+	}</code></pre><p id="9030a5a3-9e92-4013-a950-217db2bad687" class="">The init and post statements are optional. Eg: <code>for ; sum &lt; 1000; {</code> but sum must be modified in the loop to prevent infinite. Can even drop the semicolons (<code>for sum &lt; 1000 {</code>) and then it is exactly like a while loop in C.</p><p id="4ab24ad7-4f40-4b77-94b3-dd01fa861f08" class="">Go&#x27;s if statements are like its for loops; the expression need not be surrounded by parentheses ( ) but the braces { } are required. <code>if &lt;condition&gt; { &lt;body&gt; }</code></p><p id="1930db8b-7dd0-40f3-80ec-3e826b2b76c3" class="">Like <code>for</code>, the <code>if</code> statement can start with a short statement to execute before the condition. Variables declared by the statement are only in scope until the end of the <code>if</code> control structure (so even available to <code>else</code>. Example:</p><pre id="64cdcb3a-f5a5-4d61-aeae-b51e68b734eb" class="code"><code>func pow(x, n, lim float64) float64 {
+	if v := math.Pow(x, n); v &lt; lim {
+		return v //can use
+	} else {
+		fmt.Printf(&quot;%g &gt;= %g\n&quot;, v, lim) // can use
+	}
+	// can&#x27;t use v here, though
+	return lim
+}</code></pre><p id="e321beb1-ba9c-44ee-b2ea-5432ee63413e" class="">Go&#x27;s switch is like the one in C, C++, Java, JavaScript, and PHP, except that Go only runs the selected case, not all the cases that follow (automatic breaking). Another important difference is that Go&#x27;s switch cases need not be constants, and the values involved need not be integers. Example:</p><pre id="80af7af4-dc94-4ec9-be21-d73bb60e2c27" class="code"><code>today := time.Now().Weekday() //gets weekend as time object
+	switch time.Saturday { //fixed time weekday object with value Saturday
+	case today + 0: //can use variables/expressions in case description
+		fmt.Println(&quot;Today.&quot;)
+	case today + 1: //no breaks required
+		fmt.Println(&quot;Tomorrow.&quot;)
+	case today + 2:
+		fmt.Println(&quot;In two days.&quot;)
+	default:
+		fmt.Println(&quot;Too far away.&quot;)
+	}</code></pre><p id="3d8f564b-edee-4cb2-9fe7-27380f29b24d" class="">A <strong>defer</strong> statement defers the execution of a function until the surrounding function returns. The deferred call&#x27;s arguments are evaluated immediately, but the function call is not executed until the surrounding function returns. Example:</p><pre id="84bcd718-2b33-464e-bd86-dc3223a07ce9" class="code"><code>func add(x, y int) int {
+	fmt.Println(&quot;adding&quot;)
+	return x + y
+}
+func main() {
+	defer fmt.Println(add(2, 3))
+	fmt.Println(&quot;body&quot;)
+	fmt.Println(&quot;returning&quot;)
+}</code></pre><p id="6d7ddddd-3354-4d83-bd06-238c2a29b752" class="">Output: <code>adding\n body\n returning\n 5</code></p><p id="802b5cef-96b9-4b1f-b431-3198d9b1ea53" class="">Infact, Deferred function calls are pushed onto a stack. When a function returns, its deferred calls are executed in last-in-first-out order. Example:</p><pre id="00ddc038-02fa-436b-b243-ca05757869dc" class="code"><code>fmt.Println(&quot;counting&quot;)
+
+	for i := 0; i &lt; 10; i++ {
+		defer fmt.Println(i)
+	}
+
+	fmt.Println(&quot;done&quot;)</code></pre><p id="9f08a47e-9fc8-49ed-9047-84a2d35730d1" class="">Output: <code>counting\n done\n 9\n 8\n 7\n 6\n .... 1\n</code></p><p id="793e79e9-b1aa-45ad-a606-dbaad0caf57a" class="">Really nice article: <a href="https://blog.golang.org/defer-panic-and-recover">https://blog.golang.org/defer-panic-and-recover</a></p><h3 id="52200391-75ab-41b1-9e19-dde716a4becb" class="">Data Structures</h3><p id="9223025a-fc68-4c1a-abb6-d7b051ec204d" class="">Go <strong>pointers</strong> are like C, with * and &amp; for dereferencing and indirecting. Unlike C, Go has no pointer arithmetic.</p><p id="3a4d9d5c-5a5f-4d5e-8c5d-7190b5431423" class="">Go has <strong>structs</strong> like with similar &#x27;.&#x27; to access. Can access struct pointer stuff directly with &#x27;.&#x27; too. Can pass values using variable names. :</p><pre id="57a50e75-3d92-44ee-a36f-872d82f2dedf" class="code"><code>type Vertex struct {
+	X int
+	Y int
+}
+
+func main() {
+	v := Vertex{1, 2}
+	p := &amp;v
+	p.X = 1e9
+	fmt.Println(v)
+}
+
+var (
+	v1 = Vertex{1, 2}  // has type Vertex
+	v2 = Vertex{X: 1}  // Y:0 is implicit
+	v3 = Vertex{}      // X:0 and Y:0
+	p  = &amp;Vertex{1, 2} // pointer to Vertex obje
+)</code></pre><p id="9603969b-5a3a-4082-bfda-7a8fc47c2d68" class="">The type [n]T is an <strong>array</strong> of n values of type T. An array&#x27;s length is part of its type, so arrays cannot be resized. Can print directly. Example: </p><pre id="b60a759b-0a11-48c1-ac8b-37bfb334a4ec" class="code"><code>var a [2]string
+	a[0] = &quot;Hello&quot;
+	a[1] = &quot;World&quot;
+	fmt.Println(a[0], a[1])
+	fmt.Println(a)
+
+	primes := [6]int{2, 3, 5, 7, 11, 13}
+	fmt.Println(primes)</code></pre><p id="cd804005-93e6-4bdd-91e4-170aa77a88ce" class="">Output: <code>Hello World\n [Hello World] [2 3 5 7 11 13]</code> (yes no commas)</p><p id="440d2789-197d-40bd-8e0a-e111842dd4e6" class="">Go&#x27;s arrays are values. An array variable denotes the entire array; it is not a pointer to the first array element (as would be the case in C). This means that when you assign or pass around an array value you will make a copy of its contents. </p><p id="a530ec1b-d098-4522-b2cc-4ca5860f2e93" class="">A slice, on the other hand, is a dynamically-sized, flexible view into the elements of an array. Lowerbound upperbound work like Python. Just see this honestly: <a href="https://blog.golang.org/slices-intro">https://blog.golang.org/slices-intro</a></p><p id="546a90e5-e858-43d1-89b8-e6d95701f0e8" class="">Slices are like references to arrays. A slice does not store any data, it just describes a section of an underlying array. Changing the elements of a slice modifies the corresponding elements of its underlying array. Other slices that share the same underlying array will see those changes. Example:</p><pre id="2d126284-2c76-48cf-b8b6-ee8f60f9b8c7" class="code"><code>primes := [6]int{2, 3, 5, 7, 11, 13}
+
+	var s []int = primes[1:4]
+	fmt.Println(s)</code></pre><p id="af49de18-4457-4e07-b648-1d882144bef2" class="">Output: <code>[3 5 7]</code></p><p id="25708d37-a0fa-4199-9908-18697ea113d5" class="">Slice literals build an array and then create a view/reference on them (useful for pass by ref). Example:</p><pre id="b0ac31ad-f254-49a8-8e66-d768c7e5bb9f" class="code"><code>s := []struct { //NOTICE struct can be declared inline like this
+		i int
+		b bool
+	}{
+		{2, true},
+		{3, false},
+		{5, true},
+		{7, true},
+		{11, false},
+		{13, true},
+	}
+	fmt.Println(s)</code></pre><p id="64eaecf1-22a5-4e3b-9e43-cfafb3fd7ad6" class="">Output: <code>[{2 true} {3 false} {5 true} {7 true} {11 false} {13 true}]</code></p><p id="ff2ca748-6420-4fa7-93bc-d4ee0ae0c88e" class="">
+</p><p id="b5824a1b-b47e-4e21-9593-5934a70894da" class="">A slice has both a length and a capacity. The length <code>len(s)</code>of a slice <code>s</code> is the number of elements it contains. The capacity <code>cap(s)</code> is the number of elements in the underlying array, counting from the first element in the slice. You can extend a slice&#x27;s length by re-slicing it, provided it has sufficient capacity. An empty slice == <code>nil</code> gives true. </p><p id="3ea5b657-f117-4eef-b946-56d497ba8b2f" class=""><em>Basically slice is a vector pointer but with python slice-based indexing. capacity = sizeof() i.e. under-the-hood memory allocated which can be more than length.</em></p><pre id="9c74c725-1dc6-46bd-8536-9602a27f6568" class="code"><code>func main() {
+	//Nil Slice
+	var s []int
+	printSlice(s) //Output: len=0 cap=0 []
+  //Assign values
+	s = {2, 3, 5, 7, 11, 13}
+	printSlice(s) //Output: len=6 cap=6 [2 3 5 7 11 13]
+	// Slice the slice to give it zero length.
+	s = s[:0]
+	printSlice(s) //Output: len=0 cap=6 []
+	// Extend its length.
+	s = s[:4]
+	printSlice(s) //Output: len=4 cap=6 [2 3 5 7]
+	// Drop its first two values.
+	s = s[2:]
+	printSlice(s) //Output: len=2 cap=4 [5 7], s[1] will now give error.
+	// NOTE that the capacity can be restored by doing s = s[:
+
+}
+
+func printSlice(s []int) {
+	fmt.Printf(&quot;len=%d cap=%d %v\n&quot;, len(s), cap(s), s)
+}</code></pre><p id="7e510420-bad7-4000-a901-0457dfdfffd1" class="">
+</p><p id="9c784eb8-2e00-4410-91ad-5a7f542d7df2" class=""> <code>make</code> function is how you create dynamically-sized arrays. The <code>make</code> function allocates a zeroed array and returns a slice that refers to that array: <code>a := make([]int, 5)  // len(a)=5</code></p><p id="dfacfdc4-c93a-4d16-9268-3d47e5fdbaa4" class="">To specify a capacity, pass a third argument to <code>make</code>:</p><pre id="c3d44765-381f-4f1a-bd88-9689110da91c" class="code code-wrap"><code>b := make([]int, 0, 5) // len(b)=0, cap(b)=5
+b = b[:cap(b)] // len(b)=5, cap(b)=5
+b = b[1:]      // len(b)=4, cap(b)=4</code></pre><p id="5f144048-dea5-435e-a06f-98e5a9813af8" class="">Template: <code>func make([]T, len, cap) []T</code></p><p id="f001df7d-2a24-4670-afcb-96fe859cdf19" class=""><code>func copy(dst, src []T) int</code> copies src slice to dst and returns no. of elements copied. Note that it will copy only up to the smaller number of elements</p><p id="b4ac3814-c843-4746-9cd8-373fed5f1c26" class=""><code>func append(s []T, x ...T) []T</code> concatenates passed elements and slices and returns a slice.</p><pre id="4c8df998-8bd9-4e72-8202-102e6e2dc053" class="code"><code>var s []int
+	printSlice(s) //Output: len=0 cap=0 []
+
+	// append works on nil slices as well.
+	s = append(s, 0) //Output: len=1 cap=1 [0]
+	printSlice(s)
+
+	// We can add more than one element at a time.
+	s = append(s, 1, 2, 3, 4) //Output: len=5 cap=6 [0 1 2 3 4]
+	printSlice(s)
+	
+  //To add an entire slice suffix it with ... (must be last argument)
+	s = append(s, s...)
+	printSlice(s) //Output: len=10 cap=12 [0 1 2 3 4 0 1 2 3 4]</code></pre><p id="ef1308af-637b-40f3-9a85-c7ef9fa870b2" class="">The <code>range</code> form of the <code>for</code> loop iterates over a slice or map. When ranging over a slice, two values are returned for each iteration. The first is the index, and the second is a copy of the element at that index. <code>for i, v := range pow {&lt;body&gt;}</code> i is the index and v is the value. If you only want the index, you can omit the second variable. <code>for i := range pow</code></p><p id="1eb252b0-dbaf-41d2-96be-b00876910e71" class="">
+</p><p id="ed28c6a3-638d-4d75-8d1e-33275ee347ca" class="">A <strong>map </strong>maps keys to values. The zero value of a map is <code>nil</code>. A <code>nil</code> map has no keys, nor can keys be added. The <code>make</code> function returns a map of the given type, initialized and ready for use. Map literals are like struct literals, but the keys are required.</p><pre id="9d3efcbf-d3d9-4ef1-8c79-0113ecb03570" class="code"><code>type Vertex struct {
+	Lat, Long float64
+}
+
+var m map[string]Vertex
+
+func main() {
+	m = make(map[string]Vertex)
+	m[&quot;Bell Labs&quot;] = Vertex{ //Example of adding data 1
+		40.68433, -74.39967,
+	}
+	fmt.Println(m[&quot;Bell Labs&quot;]) //Output: {40.68433 -74.39967}
+}
+
+var m = map[string]Vertex{ //Adding data at initialization
+	&quot;Bell Labs&quot;: Vertex{ //Can omit writing &#x27;Vertex&#x27;
+		40.68433, -74.39967,
+	},
+	&quot;Google&quot;: Vertex{
+		37.42202, -122.08408,
+	},
+}</code></pre><p id="35d06d47-a4fa-43bd-b44b-7b2731385adf" class="">
+</p><figure id="98da0ce2-0a4d-4b30-94b3-cd73530068d4" class="image"><a href="Go%20Tutorial%20Notes%20b1d7ab20272d47f0ba266a86df942f93/Untitled%201.png"><img style="width:480px" src="Go%20Tutorial%20Notes%20b1d7ab20272d47f0ba266a86df942f93/Untitled%201.png"/></a></figure><p id="140519af-bf07-458d-b0fb-dfb540299f7b" class="">
+</p><p id="c48d87f2-4677-475d-a129-d951101a5d3e" class="">Functions are values too. They can be passed around just like other values. Function values may be used as function arguments and return values. Example:</p><pre id="18eadd6e-a7ac-4bc9-8ae9-7da224c27d65" class="code"><code>func compute(fn func(float64, float64) float64) float64 {
+	return fn(3, 4)
+}
+
+func main() {
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x*x + y*y)
+	}
+	fmt.Println(hypot(5, 12)) //13
+
+	fmt.Println(compute(hypot)) //5
+	fmt.Println(compute(math.Pow)) //81
+}</code></pre><p id="42db0560-2754-4a5d-bb44-b32f5f2abcc5" class="">Go functions may be closures. A closure is a function value that references variables from outside its body. The function may access and assign to the referenced variables; in this sense the function is &quot;bound&quot; to the variables.</p><p id="749fb8a3-ece7-4b68-8793-907dc89f6b69" class="">For example, the <code>adder</code> function returns a closure. Each closure is bound to its own <code>sum</code> variable.</p><pre id="5c35d9c9-e23c-452f-8e79-de8784ae6cdc" class="code"><code>func adder() func(int) int {
+	sum := 0
+	return func(x int) int {
+		sum += x
+		return sum
+	}
+}
+
+func main() {
+	pos, neg := adder(), adder()
+	for i := 0; i &lt; 10; i++ {
+		fmt.Println(
+			pos(i),
+			neg(-2*i),
+		)
+	}
+}</code></pre><p id="86ec0d79-9614-4285-a6cc-8e5c5d607af8" class="">Makes sum a persistent variable.</p><h3 id="47fa8ceb-1b61-46c0-8925-fa348234407a" class="">GO OOP on Steroids</h3><p id="5a5bd092-2484-4edd-b991-31d7cc1580db" class="">Go does not have classes. However, you can define methods on types. A method is a function with a special receiver argument. The receiver appears in its own argument list between the <code>func</code> keyword and the method name: <code>func ((&lt;rec_name&gt;) &lt;rec_type&gt;) func_name(args) type{&lt;body&gt;}</code></p><p id="b31ba347-ac74-4e01-b144-7322cecdf48a" class="">In this example, the <code>Abs</code> method has a receiver of type <code>Vertex</code> named <code>v</code>:</p><pre id="d7e4449d-5b4b-4423-86b9-321cdb4c2048" class="code"><code>type Vertex struct {
+	X, Y float64
+}
+
+func (v Vertex) Abs() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func main() {
+	v := Vertex{3, 4}
+	fmt.Println(v.Abs()) //Output: 5
+}
+
+//NORMALLY (non-method) YOU WOULD WRITE AS:
+func Abs(v Vertex) float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func main() {
+	v := Vertex{3, 4}
+	fmt.Println(Abs(v))
+}</code></pre><p id="4f00be96-0a8c-41b6-8677-7e9f42b564bc" class="">
+</p><p id="ca8fcdd7-b209-41c7-b263-953351f37de6" class="">You can declare a method on non-struct types too. You cannot declare a method with a receiver whose type is defined in another package (which includes the built-in types such as <code>int</code>). In this example we see a numeric type <code>MyFloat</code> with an <code>Abs</code> method:</p><pre id="4e90b3a4-315b-4dd4-a51c-bb997ba2b252" class="code"><code>type MyFloat float64
+
+func (f MyFloat) Abs() float64 {
+	if f &lt; 0 {
+		return float64(-f)
+	}
+	return float64(f)
+}
+
+func main() {
+	f := MyFloat(-math.Sqrt2)
+	fmt.Println(f.Abs())
+}</code></pre><p id="f5ec216c-be40-4170-b5b7-b6240a7d67d4" class="">In practice, methods often take pointers to Type as receiver argument so that they can change values in the object (otherwise they would change them on a copy, yes the receiver argument is like a passed argument). When pointer is used as receiver argument, it&#x27;s not necessary to pass an address unlike when it&#x27;s used as a normal argument:</p><figure id="ab498058-30dc-4b3b-8faa-ef2b8f3e9b3c" class="image"><a href="Go%20Tutorial%20Notes%20b1d7ab20272d47f0ba266a86df942f93/Untitled%202.png"><img style="width:940px" src="Go%20Tutorial%20Notes%20b1d7ab20272d47f0ba266a86df942f93/Untitled%202.png"/></a></figure><figure id="eb31ed8f-c47c-4e4f-9261-a83f448d2258" class="image"><a href="Go%20Tutorial%20Notes%20b1d7ab20272d47f0ba266a86df942f93/Untitled%203.png"><img style="width:933px" src="Go%20Tutorial%20Notes%20b1d7ab20272d47f0ba266a86df942f93/Untitled%203.png"/></a></figure><p id="54e32431-95bd-4d52-9216-d619d7c8ac27" class="">
+</p><p id="009e47ff-72a4-4e63-9eca-75a5a7d87c9e" class="">An interface type is defined as a set of method signatures. A value of interface type can hold any value that implements those methods. In general, all methods on a given type should have either value or pointer receivers, but not a mixture of both so they can be accessed via interface in a similar manner. </p><p id="181f9974-c59d-42fa-b1f7-413826263dd8" class="">A type implements an interface by implementing its methods. There is no explicit declaration of intent, no &quot;implements&quot; keyword. Implicit interfaces decouple the definition of an interface from its implementation, which could then appear in any package without rearrangement. Under the hood, interface values can be thought of as a tuple of a value and a concrete type: <code>(value, type)</code>An interface value holds a value of a specific underlying concrete type. Calling a method on an interface value executes the method of the same name on its underlying type.</p><pre id="906ac606-fdea-47cb-9b0e-41dd4fa16ad4" class="code"><code>type I interface {
+	M()
+}
+
+type T struct {
+	S string
+}
+
+func (t *T) M() {
+	fmt.Println(t.S)
+}
+
+type F float64
+
+func (f F) M() {
+	fmt.Println(f)
+}
+
+func main() {
+	var i I //initialize interface
+
+	i = &amp;T{&quot;Hello&quot;} //can take both struct T and float F
+	describe(i)
+	i.M()
+
+	i = F(math.Pi)
+	describe(i)
+	i.M()
+}
+
+func describe(i I) {
+	fmt.Printf(&quot;(%v, %T)\n&quot;, i, I) //give value of i and type of I
+}</code></pre><p id="145bdef9-015b-4f59-bbeb-71b6bdfdd2a9" class="">If the concrete value inside the interface itself is nil, the method will be called with a nil receiver. In Go it is common to write methods that gracefully handle being called with a nil receiver. Note that an interface value that holds a nil concrete value is itself non-nil.</p><p id="1f262705-4bc3-44cf-b6e0-5c7b94734dff" class="">A nil interface value holds neither value nor concrete type. Calling a method on a nil interface is a run-time error because there is no type inside the interface tuple to indicate which concrete method to call.</p><p id="8e60e16b-ba5f-4058-a64d-f499dfd5c2d6" class="">The interface type that specifies zero methods is known as the empty interface: <code>interface{}</code>. An empty interface may hold values of any type. (Every type implements at least zero methods.). Empty interfaces are used by code that handles values of unknown type.</p><p id="2ef4202d-2fc3-49bc-8d70-b020f69fa3d3" class="">A type assertion provides access to an interface value&#x27;s underlying concrete value. <code>t := i.(T)</code> asserts that the interface value <code>i</code> holds the concrete type <code>T</code> and assigns the underlying <code>T</code> value to the variable <code>t</code>. If <code>i</code>does not hold a <code>T</code> assert fails and panic issued. Instead we could do <code>t, ok := i.(T)</code> which returns false to <code>ok</code> and zero-value of <code>T</code> to <code>t</code> if <code>i</code> does not hold a type <code>T</code>. Similar to map.</p><pre id="a9718ac5-4a51-4a55-a106-1481d16ce729" class="code"><code>var i interface{} = &quot;hello&quot;
+
+	s := i.(string)
+	fmt.Println(s) //Output: hello
+
+	s, ok := i.(string)
+	fmt.Println(s, ok) //Output: hello true
+
+	f, ok := i.(float64)
+	fmt.Println(f, ok) //Output: 0 false
+
+	f = i.(float64) // panic
+	fmt.Println(f)</code></pre><p id="3d8abec9-e8dd-494c-a851-27dc4d605dd6" class="">A type switch is a construct that permits several type assertions in series. A type switch is like a regular switch statement, but the cases in a type switch specify types (not values), and those values are compared against the type of the value held by the given interface value. Use <code>i.(type)</code> in switch header instead of specifying any particular type as usually done.</p><pre id="f01b3165-9512-48b4-b2b9-0723147b1e48" class="code"><code>func do(i interface{}) {
+	switch v := i.(type) {
+	case int:
+		fmt.Printf(&quot;Twice %v is %v\n&quot;, v, v*2)
+	case string:
+		fmt.Printf(&quot;%q is %v bytes long\n&quot;, v, len(v))
+	default:
+		fmt.Printf(&quot;I don&#x27;t know about type %T!\n&quot;, v)
+	}
+}</code></pre><p id="dc8fc415-47bf-4489-b8d2-ecbed79ed5d9" class="">To overwrite the &#x27;string representation&#x27; (used for printing etc.) of any type, implement <em>Stringer</em>:</p><pre id="2f451487-612b-439f-8db2-fffea74d45f4" class="code"><code>func (&lt;name&gt; &lt;type&gt;) String() string {
+	return fmt.Sprintf(&quot;required rep using &lt;name&gt; here&quot;)
+}</code></pre><p id="13fde0a3-db2c-4365-a46a-56b5fd08ac3b" class="">This is because <code>fmt</code> has an interface that handles string representations: </p><pre id="36a1f64b-9e9e-4801-8f43-33e995bb56a5" class="code code-wrap"><code>type Stringer interface {
+    String() string
+}</code></pre><p id="8e425097-ab16-4e2c-9bfe-36dcd5e4c04d" class="">Similarly <code>fmt</code> has an interface for handling the string representation (output) of errors:</p><pre id="46368cf0-223e-4d1f-8f8d-79aed0b6a7e6" class="code"><code>type error interface {
+    Error() string
+}</code></pre><p id="de02c7a5-f44c-424d-890f-ca14abf7ecb9" class="">Functions often return an <code>error</code> (which is a type) value, and calling code should handle errors by testing whether the error equals nil (success). <code>i, err := anyfunc()</code> and then check <code>if err!=nil</code> Example:</p><pre id="a03e6754-c223-46a4-a88e-36f2d6f21077" class="code"><code>type MyError struct {
+	When time.Time
+	What string
+}
+
+func (e *MyError) Error() string { //overload what is displayed on an error
+	return fmt.Sprintf(&quot;at %v, %s&quot;,
+		e.When, e.What)
+}
+
+func run() error { //note that error is a type here
+	return &amp;MyError{ //we are returning this struct as an error.
+		time.Now(),
+		&quot;it didn&#x27;t work&quot;,
+	}
+}
+
+func main() {
+	if err := run(); err != nil {
+		fmt.Println(err) //Output: at 2009-11-10 23:00:00 +0000 UTC, it didn&#x27;t work
+	}
+}</code></pre><p id="7c26b129-e604-496d-8c17-254df6d07033" class="">
+</p><p id="211d5395-c153-4aeb-b22a-098c30c40b65" class="">The <code>io</code> package specifies the <code>io.Reader</code> interface, which represents the read end of a stream of data. The Go standard library contains <a href="https://golang.org/search?q=Read#Global">many implementations</a> of this interface, including files, network connections, compressors, ciphers, and others. The <code>io.Reader</code> interface has a <code>Read</code> method: <code>func (T) Read(b []byte) (n int, err error)</code></p><p id="e5dd7ffb-7b73-4895-9645-10ff3bf2b437" class=""><code>Read</code> populates the given byte slice with data and returns the number of bytes populated and an error value. It returns an <code>io.EOF</code> error when the stream ends.</p><pre id="040229a5-0902-4502-968e-162822e84624" class="code"><code>func main() {
+	r := strings.NewReader(&quot;Hello, Reader!&quot;)
+
+	b := make([]byte, 8)
+	for {
+		n, err := r.Read(b)
+		fmt.Printf(&quot;n = %v err = %v b = %v\n&quot;, n, err, b)
+		fmt.Printf(&quot;b[:n] = %q\n&quot;, b[:n])
+		if err == io.EOF {
+			break
+		}
+	}
+} //OUTPUT:
+//n = 8 err = &lt;nil&gt; b = [72 101 108 108 111 44 32 82] - First 8 bytes
+//b[:n] = &quot;Hello, R&quot;
+//n = 6 err = &lt;nil&gt; b = [101 97 100 101 114 33 32 82] - Next 8 bytes
+//b[:n] = &quot;eader!&quot;
+//n = 0 err = EOF b = [101 97 100 101 114 33 32 82] - Remaining, notice EOF
+//b[:n] = &quot;&quot;</code></pre><p id="b21f2329-c554-4527-b526-b043ff4ce3b5" class="">
+</p><p id="3214582d-a1dd-4d0e-bfff-ba48a031175c" class="">A goroutine is a lightweight thread managed by the Go runtime. <code>go f(x, y, z)</code>starts a new goroutine running <code>f(x, y, z).</code>The evaluation of <code>f</code>, <code>x</code>, <code>y</code>, and <code>z</code> happens in the current goroutine and the execution of <code>f</code> happens in the new goroutine.Go routines run in the same address space, so access to shared memory must be synchronized.</p><p id="c2253780-42a4-42a6-b4a4-cdf5270699f2" class="">
+</p><p id="0311d8ab-19b8-44f6-95d3-d9ac8504ac06" class="">Channels are a typed conduit through which you can send and receive values with the channel operator, <code>&lt;-</code>. The data flows in the direction of the arrow.
+<code>ch &lt;- v    // Send v to channel ch.</code> 
+<code>v := &lt;-ch  // Receive from ch, and assign value to v.</code></p><p id="cdfb903c-e27c-4d8e-a64c-5a6a0f6f6cfe" class="">Like maps and slices, channels must be created before use: <code>ch := make(chan int)</code>By default, sends and receives block until the other side is ready. This allows goroutines to synchronize without explicit locks or condition variables. They are buffers (semaphores).</p><pre id="d43f5e47-07fe-4927-b445-46d849c1471b" class="code"><code>func sum(s []int, c chan int) {
+	sum := 0
+	for _, v := range s {
+		sum += v
+	}
+	c &lt;- sum // send sum to c
+}
+
+func main() {
+	s := []int{7, 2, 8, -9, 4, 0}
+
+	c := make(chan int)
+	go sum(s[:len(s)/2], c) //Sum first half in one routine
+	go sum(s[len(s)/2:], c) //Sum second half in other routine
+	x, y := &lt;-c, &lt;-c // receive from c
+
+	fmt.Println(x, y, x+y) //first half sum, second half sum, sum of array
+}</code></pre><p id="7ee54fd8-dce0-4b3c-8c35-007e54d17e67" class="">Channels can be buffered. Provide the buffer length as the second argument to <code>make</code> to initialize a buffered channel: <code>ch := make(chan int, 100)</code> Sends to a buffered channel block only when the buffer is full. Receives block when the buffer is empty.</p><pre id="a52b5560-befa-44b0-879c-cae6314cb2ce" class="code"><code>func main() {
+	ch := make(chan int, 2) //buffer size is 2, cant put 3 msgs.
+	ch &lt;- 1
+	ch &lt;- 2
+	ch &lt;- 3 //CODE ENDS: fatal error: all goroutines are asleep - deadlock!
+	fmt.Println(&lt;-ch)
+	fmt.Println(&lt;-ch)
+}</code></pre><p id="cdb6d4b9-edab-48ed-b9f0-7d5df719a45c" class="">A sender can <code>close</code> a channel to indicate that no more values will be sent. Receivers can test whether a channel has been closed by assigning a second parameter to the receive expression: after <code>v, ok := &lt;-ch</code> <code>ok</code> is <code>false</code> if there are no more values to receive and the channel is closed. Only the sender should close a channel, never the receiver. Sending on a closed channel will cause a panic.</p><p id="d79fb94f-71b9-474e-a558-ea5b2e9e6ef5" class="">The loop <code>for i := range c</code> receives values from the channel repeatedly until it is closed. Channels aren&#x27;t like files; you don&#x27;t usually need to close them. Closing is only necessary when the receiver must be told there are no more values coming, such as to terminate a range loop.</p><pre id="e611f7bc-9226-46f6-937f-c9a43e73b418" class="code"><code>func fibonacci(n int, c chan int) {
+	x, y := 0, 1
+	for i := 0; i &lt; n; i++ {
+		c &lt;- x
+		x, y = y, x+y
+	}
+	close(c)
+}
+
+func main() {
+	c := make(chan int, 10)
+	go fibonacci(cap(c), c) //compute first cap(c) fibo no.
+	for i := range c { //as fibo no. get computed and added to channel
+		fmt.Println(i) //they are received and printed in this routine.
+	}
+}</code></pre><p id="5604fdc3-5c55-47d2-b4c8-a16dea6a2e6b" class="">The <code>select</code> statement lets a goroutine wait on multiple communication operations. A <code>select</code> blocks until one of its cases can run, then it executes that case. It chooses one at random if multiple are ready.</p><pre id="95be20af-968b-45b5-9678-694bb82bc098" class="code"><code>func fibonacci(c, quit chan int) {
+	x, y := 0, 1
+	for {
+		select {
+		case c &lt;- x: //keeps running this until quit becomes true, as always doable.
+			x, y = y, x+y
+		case &lt;-quit: //as soon as quit nonempty, enters this and ends.
+			fmt.Println(&quot;quit&quot;)
+			return
+		}
+	}
+}
+
+func main() {
+	c := make(chan int)
+	quit := make(chan int)
+	go func() { //launches a parallel separate routine just for printing
+		for i := 0; i &lt; 10; i++ {
+			fmt.Println(&lt;-c)
+		} //loop controls how many nos. printed.
+		quit &lt;- 0 //at the end of loop, quit becomes non-empty so fibo returns.
+	}()
+	fibonacci(c, quit) //main routine starts running fibonacci
+}</code></pre><p id="80c50e5c-bf3d-4dac-8854-4e3cdf2466bf" class="">
+</p><p id="44dfa77d-1db2-41fa-92c8-843a18ce5972" class="">The <code>default</code> case in a <code>select</code> is run if no other case is ready. Use a <code>default</code> case to try a send or receive without blocking:</p><pre id="27ed08bb-a672-454a-9227-245aef744db6" class="code code-wrap"><code>select {
+case i := &lt;-c:
+    // use i
+default:
+    // receiving from c would block
+}</code></pre><pre id="4e7b12b0-3ed7-474b-b672-55946e235492" class="code"><code>func main() {
+	tick := time.Tick(100 * time.Millisecond)
+	boom := time.After(500 * time.Millisecond)
+	for {
+		select {
+		case &lt;-tick:
+			fmt.Println(&quot;tick.&quot;)
+		case &lt;-boom:
+			fmt.Println(&quot;BOOM!&quot;)
+			return
+		default:
+			fmt.Println(&quot;    .&quot;)
+			time.Sleep(50 * time.Millisecond)
+		}
+	}
+}</code></pre><ul id="acc7192c-cb51-44a6-b5da-a964676197c2" class="toggle"><li><details open=""><summary>Output</summary><pre id="95f05364-7518-48e9-bd32-9711566768ed" class="code code-wrap"><code>    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+BOOM!</code></pre></details></li></ul><p id="6cfacf08-ab08-426f-b0c9-8d4855c222d1" class="">
+</p><p id="9f597403-b26c-4fc1-8086-c88039e13cf8" class="">    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+BOOM!</p></div></article></body></html>

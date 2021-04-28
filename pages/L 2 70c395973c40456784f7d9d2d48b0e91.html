@@ -1,0 +1,651 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>L 2</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8975de50-eb2b-41ed-aa4a-a156d35c729d" class="page sans"><header><h1 class="page-title">L 2</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><figure id="70c39597-3c40-4567-84f7-d9d2d48b0e91" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled.png"><img style="width:1057px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled.png"/></a></figure><figure id="d823eac4-d55e-4773-a9c7-e3413213407e" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%201.png"><img style="width:755px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%201.png"/></a></figure><p id="000ef247-cd29-40d8-8874-1866765a65ae" class="">We study discrete.</p><p id="77118581-cd81-4872-a50a-fb8ee908240b" class="">
+</p><figure id="5b5b2841-fdba-4c8e-bade-16c794d4d926" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%202.png"><img style="width:732px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%202.png"/></a></figure><p id="2ae9ad1f-af15-48bc-9c0e-22ecea40a4bc" class="">Ideally should also help us reason about time required by the system [complexity]</p><p id="7323a185-4fc2-4620-801c-460346036982" class="">
+</p><figure id="0167836a-65d1-421f-aee2-908122bc546a" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%203.png"><img style="width:649px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%203.png"/></a></figure><p id="33345146-ea3a-4c30-8de0-635d0c916b01" class="">
+</p><figure id="cc09169d-7796-4c3c-b2c9-5c6e7c97a5e2" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%204.png"><img style="width:683px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%204.png"/></a></figure><p id="dbd937c8-abb4-4484-a5e6-0e9ef6f593de" class="">
+</p><figure id="a5bf03ec-a290-439a-9733-a758f06673a5" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%205.png"><img style="width:692px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%205.png"/></a></figure><p id="5b387695-5808-4fc5-ae9b-a62c835fe647" class="">Model system by combining nodes.</p><p id="e645c59e-a88f-4153-be38-9f92992d12f7" class="">
+</p><figure id="c7cc76f8-d37b-426a-b32f-6f59f8f34f0a" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%206.png"><img style="width:778px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%206.png"/></a></figure><p id="b37900bd-f7ab-4c8b-85e7-05eb57126b64" class="">
+</p><figure id="2ad6d58f-73ff-42ff-a03b-21440e4ad886" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%207.png"><img style="width:707px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%207.png"/></a></figure><p id="689b7bff-e927-45a5-bb40-78e4cb1b5735" class="">
+</p><figure id="882ab86b-24bd-4309-a8ea-337d64f7c207" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%208.png"><img style="width:682px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%208.png"/></a></figure><p id="6baf32b3-310d-4059-b3ab-5040e733014d" class="">
+</p><figure id="09d4fc00-6e3a-46a8-9e7c-071f96a9feda" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%209.png"><img style="width:742px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%209.png"/></a></figure><p id="55f6fc4a-5bc8-4b5b-87c0-0f253317df24" class="">
+</p><figure id="ef3005ac-78cc-4ffb-b893-ea8311978abe" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2010.png"><img style="width:716px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2010.png"/></a></figure><p id="82fc77e8-0e21-428e-97e0-b9bd4634cf38" class="">Called accessible state as node&#x27;s computation is a function of state and input buffer</p><p id="7a71afe4-50d3-4250-b31d-7558604a6a22" class="">
+</p><figure id="21a4c157-f052-404b-a0f7-147e967843d6" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2011.png"><img style="width:690px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2011.png"/></a></figure><figure id="9ed083fc-7b8b-4576-b3b7-8369005005c7" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2012.png"><img style="width:634px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2012.png"/></a></figure><figure id="f109b665-7d8a-4eee-bbd1-90068cfe95e1" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2013.png"><img style="width:708px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2013.png"/></a></figure><p id="055d61cf-d796-4290-9ede-77adb03e0339" class="">
+</p><figure id="bc81b604-aea3-455d-90d1-4a5a29a18432" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2014.png"><img style="width:638px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2014.png"/></a></figure><figure id="c8ba7410-f291-4ac6-9f9b-dfc2b0d3a440" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2015.png"><img style="width:691px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2015.png"/></a></figure><p id="6ca3b9fe-5b0e-4fef-8197-4ed1dcfa1eea" class="">
+</p><figure id="0d4ae8ae-218d-4985-94fc-1164d344eb75" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2016.png"><img style="width:712px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2016.png"/></a></figure><p id="5e0dade0-f585-45cd-9c7a-56ff07f9325f" class="">Take message from one output buffer to another input buffer through a channel</p><p id="ef9e6195-7822-4ebd-a47c-cc8284e12236" class="">
+</p><figure id="75d72be7-11c0-4585-b849-3806e9abef8b" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2017.png"><img style="width:766px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2017.png"/></a></figure><figure id="9db3a2cf-d1de-44e2-a293-fe7d22d9b878" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2018.png"><img style="width:788px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2018.png"/></a></figure><p id="08db0fcd-82f3-4cb9-886c-d20b2e5acceb" class="">
+</p><figure id="a74ce9e0-1f4d-4ad7-9681-82db8562557a" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2019.png"><img style="width:711px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2019.png"/></a></figure><p id="0b236718-3bf5-494c-b794-0d20f274e02c" class="">State of only node i is changed in comp(i). Node i and node j state is both changed in message delivery event from i to j.</p><p id="3988ea4a-e5d3-4500-9ac8-b51d41f9fabf" class="">
+</p><figure id="76f7fa7f-f1d4-406e-824c-ffe6b7456e1d" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2020.png"><img style="width:670px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2020.png"/></a></figure><p id="07fa7809-65d5-41e7-8e6b-c28c02d9a0e0" class="">
+</p><figure id="cd529811-8bc0-49d8-a428-2d68266bd1ab" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2021.png"><img style="width:715px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2021.png"/></a></figure><p id="edd98ed2-9c12-4b0d-a58d-97c9589fb1d9" class="">
+</p><figure id="8e82c2a3-a597-4457-b7b2-99ba08a2bd14" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2022.png"><img style="width:734px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2022.png"/></a></figure><figure id="78b8c913-097d-4cc9-9ac7-d708aff95e8e" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2023.png"><img style="width:709px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2023.png"/></a></figure><p id="2895e9c5-aa5d-4f33-912a-22d695f7d309" class="">
+</p><figure id="7b7aa1c3-9151-4ed8-9403-68eacd0e326c" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2024.png"><img style="width:695px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2024.png"/></a></figure><p id="74b6ac8b-ef11-4153-b8bf-c2715f300bc9" class="">
+</p><figure id="af555b78-3c10-498e-97e8-ca29962c6c63" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2025.png"><img style="width:727px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2025.png"/></a></figure><figure id="d5daa7f8-ba43-47ed-880b-6e7866f4b4d7" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2026.png"><img style="width:716px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2026.png"/></a></figure><p id="2972e2d2-27c8-462c-87b8-a1a114ef0f2e" class="">
+</p><figure id="97ba6589-8e56-4040-b774-c2aea5295dcb" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2027.png"><img style="width:679px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2027.png"/></a></figure><p id="e115e6e5-8144-4c43-91f0-a1f6d0d7e42d" class="">Can make finite infinite by adding dummy transitions after algo is finished. WHy? Lets wait and see later</p><p id="0e47e0f7-76bd-4000-ac16-ad4671eb1998" class="">
+</p><figure id="c1e92ac6-5ae8-4d67-a824-c2f7baa289c4" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2028.png"><img style="width:646px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2028.png"/></a></figure><p id="62a2df26-d074-4c64-b8bc-44e022f5b010" class="">
+</p><figure id="95c66887-c645-431c-ae04-439ebfba7081" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2029.png"><img style="width:705px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2029.png"/></a></figure><p id="eb84dc6c-7fc7-4bc0-8118-223064a46f25" class="">
+</p><figure id="d2783a61-4c4d-4b16-a3e4-25c01479cd3e" class="image"><a href="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2030.png"><img style="width:819px" src="L%202%2070c395973c40456784f7d9d2d48b0e91/Untitled%2030.png"/></a></figure><p id="13265b4c-d690-4e7b-b91e-9b0f71fb6231" class="">
+</p></div></article></body></html>
