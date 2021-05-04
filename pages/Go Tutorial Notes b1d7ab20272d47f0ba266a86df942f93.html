@@ -1058,19 +1058,33 @@ tick.
 tick.
     .
     .
-BOOM!</code></pre></details></li></ul><p id="6cfacf08-ab08-426f-b0c9-8d4855c222d1" class="">
-</p><p id="9f597403-b26c-4fc1-8086-c88039e13cf8" class="">    .
-    .
-tick.
-    .
-    .
-tick.
-    .
-    .
-tick.
-    .
-    .
-tick.
-    .
-    .
-BOOM!</p></div></article></body></html>
+BOOM!</code></pre></details></li></ul><p id="8b00eace-d67f-4b4c-a026-677143a9f763" class="">Go&#x27;s standard library provides mutual exclusion with <a href="https://golang.org/pkg/sync/#Mutex"><code>sync.Mutex</code></a> and itsmethods: <code>Lock</code> and <code>Unlock</code>. We can define a block of code to be executed in mutual exclusion by surrounding it with a call to <code>Lock</code> and <code>Unlock</code> as shown on the <code>Inc</code> method. We can also use <code>defer</code> to ensure the mutex will be unlocked as in the <code>Value</code> method:</p><pre id="36e85f11-af44-4170-b90a-36310dd5be9f" class="code"><code>// SafeCounter is safe to use concurrently.
+type SafeCounter struct {
+	mu sync.Mutex
+	v  map[string]int
+}
+
+// Inc increments the counter for the given key.
+func (c *SafeCounter) Inc(key string) {
+	c.mu.Lock()
+	c.v[key]++
+	c.mu.Unlock()
+}
+
+// Value returns the current value of the counter for the given key.
+func (c *SafeCounter) Value(key string) int {
+	c.mu.Lock()
+	defer c.mu.Unlock() //To ensure it gets unlocked after return.
+	return c.v[key]
+}
+
+func main() {
+	c := SafeCounter{v: make(map[string]int)}
+	for i := 0; i &lt; 1000; i++ {
+		go c.Inc(&quot;somekey&quot;)
+	}
+
+	time.Sleep(time.Second)
+	fmt.Println(c.Value(&quot;somekey&quot;))
+}</code></pre><p id="49549713-c96e-439f-a6ce-81c297f8f22b" class="">
+</p></div></article></body></html>
