@@ -1,0 +1,631 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>L4 - Primary-Backup Replication</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="cea06442-d858-46b5-86f6-05cbdc496391" class="page sans"><header><h1 class="page-title">L4 - Primary-Backup Replication</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><p id="bd3102b5-2a7a-4505-8be7-411ecd71bb6b" class="">What kind of failures can replication be expected to deal with?</p><p id="1d1f67d4-6db3-4cd6-a79d-530211b8ba3d" class="">Failure: Fail-stop faults <div class="indented"><p id="daf25076-3a3a-4b14-88eb-545a5882ea3a" class="">If something goes wrong, machine stops executing, example unplug power cable</p><p id="7fd113c8-b0f0-4abb-a44b-108613b99b98" class="">These failures are not wrong in terms of output they produce.</p><p id="700dd27e-c0d0-4118-abf7-c74535a2021b" class="">Failstop faults do not include bugs both in hardware and software.</p><p id="e38751ed-6615-48ab-8e30-4a7bf586f8bb" class="">In general we can only expect to handle fail stop failures. </p><p id="58bca857-f264-400f-89c2-fdf09328feac" class="">
+</p></div></p><p id="08391a46-92fb-4d15-9e1f-cc228ff42098" class="">We expect failures to be independent not correlated, as then the replica would also go down together. Replication is not good if failures stay correlated.</p><p id="4836a60b-cb9c-42f8-a0b1-dade35e43ffb" class="">Is replication worthwhile?<div class="indented"><p id="3b832412-b745-496f-84ab-012d99e3661d" class="">Takes twice as much resources even for one replica. Might be useful for banks where data is critical and losing it has more economic damage than running another replica.</p></div></p><p id="c16e15bb-e985-4672-92a6-f1fac7119910" class=""><strong>Approaches to Replication:</strong></p><ol id="4f5ca2fd-22a7-4c4f-a56a-2db46fe76436" class="numbered-list" start="1"><li><strong>State transfer: </strong>Keep sending entire state (contents of RAM, memory) of primary to backup. Backup takes off from last state. For efficiency will probably change only changes to memory (log)</li></ol><ol id="111c8ad3-533e-4043-8923-4dbac0ec8220" class="numbered-list" start="2"><li><strong>Replicated state machine: </strong>Most computers have internal operation that is deterministic except when external event comes in. Dont send state, just send external events in perfect sync. Just need to ensure same inputs at the same time always.</li></ol><p id="ab6b1cf1-ea70-4aea-9c95-dc37b0e19bf9" class="">People prefer RSM because operations are smaller than the entire state. But state transfer is simpler to implement, requires less assumptions. State transfer seems to currently be better for multi-core, RSM has problem with parallelism so it&#x27;s only used single core. N</p><p id="59b4179f-a4a0-472d-af65-a74ddcfa2e24" class="">How does RSM usually handle instructions like randomness/processor id etc which can differ for primary and backup? Backup takes the results of these instructions from primary instead of executing on it&#x27;s own. Designers have to ensure exhaustivity of such instructions on which backup will wait for primary to send instead of executing on its own.</p><ul id="2dd54b93-9aa7-4a9b-9b29-413dd60d7427" class="toggle"><li><details open=""><summary>Non-determinism</summary><p id="1c42f094-124d-437f-9d6d-70cb64146bc2" class=""><strong>Inputs</strong> - Assumed to be from the network, each packet gives data + interrupt (timing imp.)</p><p id="a801cc12-2ab7-441d-826a-4149d3f7316c" class=""><strong>Weird instructions </strong>- random number generator, get time(), multicore parallelism</p></details></li></ul><p id="bee39652-4bb6-4668-abf6-32dcaba8f0eb" class="">
+</p><p id="ff040c86-b794-4a0f-bec8-83ec9082ec8f" class="">When a primary fails and we switch to backup, there is going to be anomalies, some clients will definitely notice. We have to cope with them.</p><h3 id="0cc17e56-d1c5-4093-80b4-fb4bc6d070c0" class="">VMWare Fault tolerance</h3><p id="15480e5b-55c5-4759-b25c-c8ce2ae87547" class="">VMware replication replices entire state, including memory, registers everything. Not common, most systems replicate only application level, ensuring same visible set but can be internally different. Because they then don&#x27;t need to replicate each and every interrupt. Drawback of that is application needs to participate and be wary of replication. VMware&#x27;s level of detail allows any software to work on top, important for their business.</p><figure id="d3f6610a-7c94-4fcb-9a4f-71075ffddc79" class="image"><a href="L4%20-%20Primary-Backup%20Replication%20d3f6610a7c944fcb9a4f71075ffddc79/Untitled.png"><img style="width:214px" src="L4%20-%20Primary-Backup%20Replication%20d3f6610a7c944fcb9a4f71075ffddc79/Untitled.png"/></a></figure><p id="a66be4dd-8368-4d96-a333-5f157a2f0402" class="">Have a virtual machine monitor on top of which any number of machines can be emulated with any OS. Note it can run on a multi-core machine, but the <strong>exposed interface</strong> to application by VMM is single-core. The VMM can underneath make use of the multi-cores for speeding up it&#x27;s own work.</p><figure id="6a2ecb95-4a1a-4576-93a1-361785c96dc9" class="image"><a href="L4%20-%20Primary-Backup%20Replication%20d3f6610a7c944fcb9a4f71075ffddc79/Untitled%201.png"><img style="width:994px" src="L4%20-%20Primary-Backup%20Replication%20d3f6610a7c944fcb9a4f71075ffddc79/Untitled%201.png"/></a></figure><p id="b2d839df-63f3-4335-a20f-7e78f616563b" class="">Network connects primary and backup both running VMM instances and should be on different physical machines (otherwise no point, as perfectly correlated failure). There is a shared disk server on the network, which can be communicated with just like clients using network packets. </p><p id="4261a19c-c134-4414-a67d-9a857bd3a900" class="">VMM of primary handles all the communication to backup (called <em>logging channel</em>), which is also processed by the VMM at the backup. So essentially VMM communication over network also using disk server is what helps keep primary and backup in sync. </p><ul id="178b1cc0-7a67-4c9b-9012-3fec2115177e" class="bulleted-list"><li>Only the primary generates output, as VMM of backup drops output packet instead of sending to network.</li></ul><ul id="0eb665ca-873a-42ad-9e22-6018e1b38fa5" class="bulleted-list"><li>If backup doesnt get anything from primary for short time (timer interrupts continously, so must get soon) then backup <em>goes live</em> (becomes new primary) assuming primary dead.</li></ul><ul id="afa58f64-04a9-4735-9aa8-8c54bba79130" class="bulleted-list"><li>If primary doesnt get ack from backup, it assumes backup dead and initiates new backup creation, stops sending backup events.</li></ul><p id="6149e989-7aa7-4880-9060-0c0ab6d6defd" class=""><strong>Log entry</strong> has: <code>instruction #, type of interrupt, data (result on primary)</code></p><p id="0fc03018-51fd-47a3-adfd-7cf4070eab33" class=""><strong>Handling interrupt timing:</strong></p><p id="a08533e4-b45d-4b48-9d0d-5cf561524dd0" class="">Primary is being interrupted by it&#x27;s hardware, sending these interrupts upto the machine, and also sending instruction # of each interrupt as log entry to backup. </p><p id="d237152b-07cd-4425-be70-cd064a5c3ac5" class="">Backup is ignoring it&#x27;s own physical timer interrupts, taking the ones it gets on log channel and <em>gets</em> the physical machine underneath it to interrupt on the same instruction #. This requires specialized hardware, which turns out to be useful for other things like CPU profiling, so it&#x27;s provided. Backup will not execute forward until it has one timer interrupt waiting in it&#x27;s buffer, so that it doesn&#x27;t get ahead of primary in a position where it can&#x27;t execute the interrupt on the required instruction #.</p><p id="f3d86b70-d874-40cd-a13a-0ecb86feefb7" class=""><strong>Output Rule: </strong>The backup must acknowledge log entry associated with operation producing output before primary releases output to clients.</p><p id="cd32f4b1-d1f3-4f55-b98f-71bb5a7922cc" class="">This ensures that it&#x27;s not possible that output released to client, log entry transfer to backup failed, primary failed, and thus backup doesn&#x27;t know shit and does inconsistent stuff. Backup must surely know about output before output is actually sent. Creates performance bottleneck, and this is why other distributed systems don&#x27;t try to keep every single detail/piece of memory same, instead focus on being mostly consistent in output.</p><p id="0621e793-c7cd-4cdf-8083-ec97243012b3" class="">
+</p><p id="48458d71-6707-42b8-9ff0-e1c5616bc2a7" class=""><strong>Shashwat: </strong>Didn&#x27;t get disk access / buffers shit.</p><p id="636af6ea-407c-4e6a-ada1-63e65820ac4c" class="">
+</p></div></article></body></html>
