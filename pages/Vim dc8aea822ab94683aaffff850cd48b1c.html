@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Go Memory Model</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Vim</title><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -625,86 +625,8 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="cb845ade-ebe6-4b71-bfe5-2907564eeeb4" class="page sans"><header><h1 class="page-title">Go Memory Model</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><p id="50f2e090-b722-46b3-981d-abcd4de10d9e" class="">The compiler may reorder reads and writes executed within a single goroutine ojnly when the reordering does not change the behavior within the goroutine as defined by the language specification.</p><p id="31b6b975-cb1b-4ae5-bf3d-2f2f117b8d9f" class="">The execution order may differ from the order perceived by some other goroutine.</p><p id="ea819c38-0237-4065-a9a1-0b9714d4b343" class="">
-</p><p id="3f8fec23-5d49-4cee-8d4b-5249c82f8f28" class="">Partial order on the execution of memory operations:</p><ul id="01055ee5-0f53-4421-b2d5-79744b0fc738" class="bulleted-list"><li>Within a single goroutine, the happens-before order is the order expressed by the program.</li></ul><ul id="8613d4bc-40dc-416a-b01c-640a7956f9a1" class="bulleted-list"><li>A read r of a variable v is <strong>allowed</strong> to observe a write w to v if both of the following hold:<ol id="3581743a-e2c3-474e-bbd0-486cfb5f8b28" class="numbered-list" start="1"><li>r does not happen before w.</li></ol><ol id="b6df1a90-e325-428d-a51b-b7fe9c1ab8c1" class="numbered-list" start="2"><li>There is no other write w&#x27; to v that happens after w but before r.</li></ol></li></ul><ul id="294a18c1-1d8b-4909-bf17-5f4f6a60368a" class="bulleted-list"><li>r is <strong>guaranteed</strong> to observe w if both of the following hold:<ol id="8ce26433-42db-422e-b19c-c9d6d4fa337d" class="numbered-list" start="1"><li>w happens before r.</li></ol><ol id="29200248-8432-49aa-922a-505f9c046d29" class="numbered-list" start="2"><li>Any other write to the shared variable v either happens before w or after r.</li></ol></li></ul><p id="f9354ac4-995d-4beb-9ff6-bbdf35249811" class=""><strong>Guaranteed</strong> is stronger than <strong>Allowed</strong>.</p><p id="bc924c6c-bf13-4825-bed2-cc9fc17ee3d6" class="">Within a single goroutine, there is no concurrency, so the two definitions are equivalent</p><ul id="0b3737bb-fc20-4f67-87b0-e8ee980e9b81" class="toggle"><li><details open=""><summary><strong>Subtle points:</strong></summary><ol id="4933cd87-25b4-4c4e-af28-9425d78ff0a8" class="numbered-list" start="1"><li>The initialization of variable v with the zero value for v&#x27;s type behaves as a write in the memory model.</li></ol><ol id="9688f3a0-62fa-46d8-82fa-a14601f4c678" class="numbered-list" start="2"><li>Reads and writes of values larger than a single machine word behave as multiple machine-word-sized operations in an unspecified order.</li></ol><ol id="81f091bb-a41b-489d-9c3f-60029674eb3e" class="numbered-list" start="3"><li>If a package p imports package q, the completion of q&#x27;s init functions happens before the start of any of p&#x27;s</li></ol></details></li></ul><figure id="f5c46d25-2a8a-48ed-814d-9038218dc361" class="image"><a href="Go%20Memory%20Model%20f5c46d252a8a48ed814d9038218dc361/Untitled.png"><img style="width:993px" src="Go%20Memory%20Model%20f5c46d252a8a48ed814d9038218dc361/Untitled.png"/></a></figure><p id="c7b384db-fc13-4a12-b0f8-e05c52b1faca" class="">So if you want to prevent that bs, use a synchronization mechanism that establishes an ordering.</p><h3 id="b4e3995f-fc48-4bbd-852f-e18f3bb9e00b" class="">Channel communication</h3><ul id="1dd3833b-cc53-48ea-9aca-beff2a582eaa" class="bulleted-list"><li>A send on a channel happens before the corresponding receive from that channel completes.</li></ul><ul id="1674f553-ae40-4083-8be3-4306dd154220" class="bulleted-list"><li>The closing of a channel happens before a receive that returns a zero value because the channel is closed.</li></ul><ul id="0928164a-b1d5-40e0-a925-dc18dd7808eb" class="bulleted-list"><li>A receive from an unbuffered channel happens before the send on that channel completes. More details: <a href="https://stackoverflow.com/questions/18660533/why-does-the-use-of-an-unbuffered-channel-in-the-same-goroutine-result-in-a-dead">https://stackoverflow.com/questions/18660533/why-does-the-use-of-an-unbuffered-channel-in-the-same-goroutine-result-in-a-dead</a><p id="721bf371-9650-4443-bceb-31c589dd4986" class="">In the following program:</p><pre id="422fcde2-cf8b-476d-953f-aff26604e56f" class="code"><code>ar c = make(chan int)
-var a string
-
-func f() {
-	a = &quot;hello, world&quot;
-	&lt;-c
-}
-
-func main() {
-	go f()
-	c &lt;- 0
-	print(a)
-}</code></pre><p id="237cc23e-efa5-40b4-8ecb-7acd8d331361" class="">The <code>c &lt;- 0</code> will be blocked until someone receives from c. Printing hello world is thus guaranteed.</p><p id="588bd0b1-7cf8-423a-96d1-3993c04a0c29" class="">Bufferred channels can model semaphores: <code>The kth receive on a channel with capacity C happens before the k+Cth send from that channel completes.</code> This just generalizes the above rule of &#x27;receive before send complete&#x27; from unbuffered to buffered channels. (unbuffered can be thought of as channel of capacity 0)</p><p id="1d0e56dc-f0aa-4586-a0f4-fbf97cc9d0bc" class="">
-</p></li></ul><h3 id="8de65718-ada3-41e5-9472-ed71f5a588e9" class="">Locks</h3><p id="f730bbbf-2cb4-498d-b949-176399706c8c" class="">locks → sync.Mutex</p><pre id="d4c877b5-93eb-4648-a131-db6090dd6ed6" class="code"><code>var l sync.Mutex
-
-l.Lock() // Lock the lock
-l.Unlock() // Unlock the lock</code></pre><p id="a58f718b-ce85-4f1f-8f7f-be25e887630e" class=""><code>For any sync.Mutex or sync.RWMutex variable l and n &lt; m, call n of l.Unlock() happens before call m of l.Lock() returns.</code></p><p id="9a3b84ed-d4ad-4583-be2e-fb44afec42c9" class="">
-</p><h3 id="0f83ca9e-72b4-4616-8dd0-976befcbb9de" class="">Once</h3><p id="a00a0fca-6d7a-4a43-a33c-274576fb053b" class="">once → executes only once and all other threads are blocked until executed</p><p id="6ca38b1c-6741-408a-bc3b-068cc84f6b15" class="">Example:</p><pre id="5d0d51d8-a26e-4f69-993d-42c8f0c89b62" class="code"><code>var a string
-var once sync.Once
-
-func setup() {
-	a = &quot;hello, world&quot;
-}
-
-func doprint() {
- //can be equivalently implemented as: 
- //lock(); if flag==1 return; flag=1; unlock(); setup()
-	once.Do(setup)
-	print(a)
-}
-
-func twoprint() {
-	go doprint()
-	go doprint()
-}</code></pre><h2 id="ac4c9af9-4814-474f-8309-e0cc9ad8eb7a" class="">Incorrect Synchronizations [Common]</h2><p id="e7700331-7a0d-4ad3-bac3-70a637974554" class=""><code>Note that a read r may observe the value written by a write w that happens concurrently with r. Even if this occurs, it does not imply that reads happening after r will observe writes that happened before w.</code></p><pre id="630662dd-b8b3-4b6b-b78d-3e09f119e8f8" class="code"><code>var a, b int
-
-func f() {
-	a = 1
-	b = 2
-}
-
-func g() {
-	print(b)
-	print(a)
-}
-
-func main() {
-	go f()
-	g()
-}</code></pre><p id="01883434-5dbb-44a1-b462-bda342c4fca3" class="">it can happen that g prints 2 and then 0.</p><p id="09821fae-9f80-4eb0-a65f-c5f5e7cb6b13" class="">Many examples like this, in short, compiler reordering happens, and so in your concurrency be careful about it. Dont try shenanigans like below code to avoid synchronization.</p><pre id="72083a17-f41b-4212-8015-7a4d03d051c7" class="code"><code>var a string
-var done bool
-
-func setup() {
-	a = &quot;hello, world&quot;
-	done = true //might happen before initializaing a
-}
-
-func main() {
-	go setup()
-	for !done { //which breaks this loop, and empty string gets printed.
-	}
-	print(a)
-}</code></pre><h2 id="c871c50c-5427-4926-975c-90bc1ca81eb5" class="">Lecture Notes</h2><p id="7700d9a2-c2eb-4450-9fed-dcb525b1fcfa" class=""><a href="http://nil.csail.mit.edu/6.824/2020/notes/l-go-concurrency.txt">http://nil.csail.mit.edu/6.824/2020/notes/l-go-concurrency.txt</a> - This and codes should be enough reference to revise mostly.</p><h3 id="2f452491-f172-42a0-9951-c382656368b5" class="">General principles talked about</h3><p id="fd6bbc43-54ad-4f91-9182-2e3954b1177a" class="">
-</p><p id="d52e3ffb-7679-44c1-a27c-8d1849659867" class="">Fuck performance, me and my homies prefer correctness.</p><p id="9545d93f-a04e-4f74-b349-7ece62078f2f" class="">
-</p><p id="4f54200c-77e8-4b65-bd7e-097e38c8d01a" class="">If <code>main()</code> goroutine ends, all other goroutines are killed.</p><p id="8b9cfb29-9515-46ef-9784-d8a1f0ea51e5" class="">
-</p><p id="fd84745f-3505-45f9-91a2-ee029aca078e" class="">Dont put zyada dimaag, use locks everywhere you share variables across thread. Varna katega</p><p id="255057c9-1ad3-44e7-9278-e41f343685aa" class="">
-</p><p id="3f133bc5-0550-44c8-8d2a-cd941ec5199d" class=""><strong>Locks are meant to protect &#x27;invariants&#x27; and not just shared data.</strong> So if you want some operations to happen together s.t. the state before and after those operations is an invariant, do not unlock in between those operations.</p><p id="fc0bc978-e76c-40c7-a40e-5e8fa5dbf0cf" class="">
-</p><p id="a02ac235-2424-454d-b4a8-a09d7749f8ae" class="">If you are using arbitrary constant times for waiting, you should do better and just use condition variables. Busywaiting hatao. <code>cond.Broadcast()</code> <code>cond.Signal()</code> <code>cond.Wait()</code></p><p id="6811b993-41a5-42c6-a658-d7f60a4cbe7a" class="">Signal on condition variable wakes up one waiting thread while Broadcast wakes up all waiting threads. </p><p id="8bacaf1a-8648-44fa-871d-433019ea65c1" class="">Nice thread on condition variables in Go: <a href="https://kaviraj.me/understanding-condition-variable-in-go/">https://kaviraj.me/understanding-condition-variable-in-go/</a></p><p id="2436df09-4e6d-4a44-b561-f4281b25f10e" class="">
-</p><p id="027bf463-05b7-4b3f-ba13-c2b17a5d7ba8" class=""><strong>Pattern for condition variable / locking that avoids busywait:</strong></p><pre id="8b400bf0-7ea3-42fb-ad69-3aa13350aae5" class="code"><code>mu.Lock()
-// do something that might affect the condition
-cond.Broadcast()
-mu.Unlock()
-
-----
-
-mu.Lock()
-for condition == false {
-	cond.Wait() //gives up lock when it starts waiting, retains on return from wait
-}
-// now condition is true, and we have the lock
-mu.Unlock()</code></pre><p id="f7d332e1-4c81-44d4-8b63-dd83a592151c" class="">
-</p><p id="6003006a-e9d5-437b-8258-25a7e18ca496" class="">Unbuffered channels is not like a queue. Its more like a synchronization checkpoint. A reader and a writer wait till the other receives or sends.</p></div></article></body></html>
+</style></head><body><article id="dc8aea82-2ab9-4683-aaff-ff850cd48b1c" class="page sans"><header><h1 class="page-title">Vim</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><h2 id="4e1a09a5-4089-44bc-94ef-89c98d6954b4" class="">Coc-Clangd with CMake</h2><p id="47e0182d-79e4-4889-84d0-79e5367108aa" class="">Getting coc-clangd to recognize cmake build:</p><p id="88065d19-19ec-422c-98fd-7910d92cdbd7" class="">Build using the following command:</p><pre id="1dadef10-90c8-4218-9b71-f2ae59ba63b3" class="code"><code>mkdir build
+cd build
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..</code></pre><p id="affc3a95-ce08-425a-8e51-497c3052b359" class="">This should generate a <code>compile_commands.json</code> which contains location of header files.</p><p id="638788a4-8c52-4aff-b2ba-67e70afde025" class="">
+</p><p id="834d18ed-8ed9-4c54-b80e-c56352d532b7" class="">Symlink it to project root.</p><pre id="6ff0a871-db95-4814-8b02-e2be965e41c0" class="code"><code>ln -s ${PROJECT_ROOT_DIR}/build/compile_commands.json ${PROJECT_ROOT_DIR}/</code></pre><p id="d5a90683-02b4-4d60-a71f-38e22d78ad66" class="">
+</p></div></article></body></html>

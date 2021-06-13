@@ -1,0 +1,741 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Raft</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="fa79b596-fc02-4de0-a159-293ba4f75a11" class="page sans"><header><h1 class="page-title">Raft</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><figure id="d082ce98-29c0-4ae5-afa6-ee9c6e66a607" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled.png"><img style="width:577px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled.png"/></a></figure><figure id="8735d158-05f0-412d-b36b-3cff1d13eeaf" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%201.png"><img style="width:1010px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%201.png"/></a></figure><figure id="abe8ffe4-7f5a-4315-b1d4-c4c605f1b7d6" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%202.png"><img style="width:994px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%202.png"/></a></figure><figure id="1aa5e894-f795-4ce0-a927-3775c72c6e93" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%203.png"><img style="width:571px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%203.png"/></a></figure><figure id="ad8c1c9d-05a9-4bc3-9d07-c2e4de8cc2a2" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%204.png"><img style="width:567px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%204.png"/></a></figure><figure id="552487ff-c03f-4f51-9ae6-9868162d55f6" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%205.png"><img style="width:555px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%205.png"/></a></figure><figure id="8517639a-cb91-481b-8f52-20d903cfab06" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%206.png"><img style="width:589px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%206.png"/></a></figure><figure id="cb617ff4-36ce-4280-b070-1f1dc9c8934b" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%207.png"><img style="width:495px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%207.png"/></a></figure><figure id="d8e4ae7a-571a-4015-bd06-4dbac1c581c0" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%208.png"><img style="width:471px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%208.png"/></a></figure><p id="a4c81f76-c5a8-447e-895f-9db72893fa6d" class=""><strong>Important stuff: </strong><a href="http://nil.csail.mit.edu/6.824/2020/papers/raft-faq.txt">http://nil.csail.mit.edu/6.824/2020/papers/raft-faq.txt</a></p><p id="ad887718-b757-42f9-94dd-773efb93689c" class=""><strong>Motivation</strong>:</p><p id="ced887a6-87b3-4822-b6e4-39f620137b7c" class="">MapReduce, GFS use a single master. VMWare depends on a single test-and-set server to recover from failure. Despite replication system, there was a single entity who made critical decisions like which node was the primary. It&#x27;s a <strong>single point of failure</strong>. The good thing was that a single entity avoids splitbrain. From notes:</p><figure id="4f00e80a-2283-4fa5-9d7d-2f9af7a29ba2" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%209.png"><img style="width:288px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%209.png"/></a></figure><pre id="30ddc288-5d16-4b12-a363-74a6a210c507" class="code code-wrap"><code> [C1, C2, S1, S2]
+  suppose client C1 can contact replica S1, but not replica S2
+  should C1 proceed with just replica S1?
+  if S2 has really crashed, C1 *must* proceed without S2,
+    otherwise the service doesn&#x27;t tolerate faults!
+  if S2 is up but network prevents C1 from contacting S2,
+    C1 should *not* proceed without S2,
+    since S2 might be alive and serving client C2
+  with this setup, we&#x27;re faced with a nasty choice:
+    either no ability to tolerate faults, despite replication, or
+    the possibility of incorrect operation due to split brain</code></pre><p id="1f61dcf0-90a3-406e-8f66-f0fabc264f3f" class="">So for a lot of time people tried to use un-failable networks to avoid split-brain. It&#x27;s not undoable, for eg wires inside your laptop cannot fail. Under failure, they required humans to go and make decisions. So handling split-brain was not impossible but required lot of money/time. Not automated</p><pre id="50d63318-f74a-42ba-8488-5615665f90a8" class="code code-wrap"><code>the problem: computers cannot distinguish &quot;server crashed&quot; vs &quot;network broken&quot;
+  the symptom is the same: no response to a query over the network
+  the bad situation is often called &quot;network partition&quot;:
+    C1 can talk to S1, C2 can talk to S2,
+    but C1+S1 see no responses from C2+S2
+  this difficulty seemed insurmountable for a long time
+  seemed to require outside agent (a human) to decide when to cut over
+    or a single perfectly reliable server (FT&#x27;s test-and-set server)
+    or a perfectly reliable network (so &quot;no response&quot; == &quot;crashed&quot;)
+  BUT these are all single points of failure -- not desirable
+  can one do better?</code></pre><pre id="50276fd8-0f2b-4a1d-81f4-293d371e33f6" class="code code-wrap"><code>The big insight for coping w/ partition: majority vote
+  require an odd number of servers, e.g. 3
+  agreement from a majority is required to do anything -- 2 out of 3
+  why does majority help avoid split brain?
+    at most one partition can have a majority
+    breaks the symmetry we saw with just two servers
+  note: majority is out of all servers, not just out of live ones
+  more generally 2f+1 can tolerate f failed servers
+    since the remaining f+1 is a majority of 2f+1
+    if more than f fail (or can&#x27;t be contacted), no progress
+  often called &quot;quorum&quot; systems
+
+a key property of majorities is that any two must intersect
+  e.g. successive majorities for Raft leader election must overlap
+  and the intersection can convey information about previous decisions</code></pre><p id="f260d0af-1519-4480-b5dd-eb5106b9b156" class="">So atleast one server in the new term&#x27;s majority will know the previous term&#x27;s leader&#x27;s term no. As well as the commits of the previous leader.</p><p id="6e2ea94d-ecbd-415e-acb6-a449d8dc973f" class="">Raft is just a library included in each replica running an application layer on top. Raft helps to manage the application&#x27;s state as a layer below it. Clients query the application, not Raft. Clients shouldn&#x27;t get to know they&#x27;re talking to a Raft/distributed service, their behavior can be normal.</p><p id="e75ef3da-bdc6-4fa2-8dc4-bf6406a4903c" class="">Leader executes the operation only when a majority knows about it and agrees, at which point it tells the application to go ahead. Then the followers get to know the operation has been <em>committed</em> and tell the application layers above them in their replica to also go ahead.</p><p id="b63780dd-c15f-4c58-8a21-1678a72fd07d" class="">The commit message from leader to follower is piggybacked on the next append RPC (performance opti). Delay doesn&#x27;t matter as the client isn&#x27;t waiting for replicas to execute, and correctness doesn&#x27;t matter on timing.</p><p id="caa280e6-1c03-43dc-889b-0831a9b0314c" class=""><strong>Time diagrams</strong>: The servers are put as columns and time flows downwards. </p><figure id="8854b8c9-6756-489d-80b5-b94cb9bc7531" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%2010.png"><img style="width:643px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%2010.png"/></a></figure><p id="85b79396-6784-457d-a2dd-5e1dc104db97" class="">Example time diagram of Raft: AE = Append Entry, Ex = Execute, Put = Client request.</p><pre id="c709e10f-e20c-456d-a727-4812059f942d" class="code code-wrap"><code>why the logs?
+  the service keeps the state machine state, e.g. key/value DB
+    why isn&#x27;t that enough?
+  the log orders the commands
+    to help replicas agree on a single execution order
+    to help the leader ensure followers have identical logs
+  the log stores tentative commands (on followers) until committed
+  the log stores commands in case leader must re-send to followers
+  the log stores commands persistently for replay after reboot</code></pre><p id="62045f7a-9bea-4b09-bf3e-844435d09a77" class="">The log persists on disk. </p><pre id="6dee14be-59c1-4758-a9c1-01daffbf675b" class="code code-wrap"><code>are the servers&#x27; logs exact replicas of each other?
+  no: some replicas may lag
+  no: we&#x27;ll see that they can temporarily have different entries
+  the good news:
+    they&#x27;ll eventually converge to be identical
+    the commit mechanism ensures servers only execute stable entries</code></pre><p id="750f13e1-acbd-420b-acbf-f50e1a37175e" class="">Raft takes a leader-ed approach because it takes much less messages (only 1 round) to decide on actions if there is a leader. Leader-less systems need one round to decide a sorta temporary leader and then another to manage the same commit stuff. So it&#x27;s sort of a 2x speedup, while making it easier to reason about the system. </p><pre id="330cf6ca-ed52-4201-8735-5e716bfd554b" class="code code-wrap"><code>why a leader?
+  ensures all replicas execute the same commands, in the same order
+  (some designs, e.g. Paxos, don&#x27;t have a leader)
+
+Raft numbers the sequence of leaders
+  new leader -&gt; new term
+  a term has at most one leader; might have no leader
+  the numbering helps servers follow latest leader, not superseded leader
+
+when does a Raft peer start a leader election?
+  when it doesn&#x27;t hear from current leader for an &quot;election timeout&quot;
+  increments local currentTerm, tries to collect votes
+  note: this can lead to un-needed elections; that&#x27;s slow but safe
+  note: old leader may still be alive and think it is the leader
+
+how to ensure at most one leader in a term?
+  (Figure 2 RequestVote RPC and Rules for Servers)
+  leader must get &quot;yes&quot; votes from a majority of servers
+  each server can cast only one vote per term
+    if candidate, votes for itself
+    if not a candidate, votes for first that asks (within Figure 2 rules)
+  at most one server can get majority of votes for a given term
+    -&gt; at most one leader even if network partition
+    -&gt; election can succeed even if some servers have failed
+
+how does a server learn about newly elected leader?
+  new leader sees yes votes from majority
+  others see AppendEntries heart-beats with a higher term number
+    i.e. from the new leader
+  the heart-beats suppress any new election
+
+an election may not succeed for two reasons:
+  * less than a majority of servers are reachable
+  * simultaneous candidates split the vote, none gets majority
+
+what happens if an election doesn&#x27;t succeed?
+  another timeout (no heartbeat), a new election (and new term)
+  higher term takes precedence, candidates for older terms quit
+
+how does Raft avoid split votes?
+  each server picks a random election timeout
+  [diagram of times at which servers&#x27; timeouts expire]
+  randomness breaks symmetry among the servers
+    one will choose lowest random delay
+  hopefully enough time to elect before next timeout expires
+  others will see new leader&#x27;s AppendEntries heartbeats and
+    not become candidates
+  randomized delays are a common pattern in network protocols
+
+how to choose the election timeout?
+  * at least a few heartbeat intervals (in case network drops a heartbeat)
+    to avoid needless elections, which waste time
+  * random part long enough to let one candidate succeed before next starts
+  * short enough to react quickly to failure, avoid long pauses
+	* long enough that round of voting can complete, which is usually ~2 rounds of messages (candidate to followers, follower to candidate)
+	* Choose fresh timeout everytime otherwise if the timeout is fixed and 2 chosen random values are similar, then your system will be slow/stuck throughout.</code></pre><p id="a49247f1-d1bc-44cf-bb4a-d947d348eca0" class="">Each term has <em>atmost</em> 1 leader. There might be no leader if no candidate gets elected in that term.
+a) &lt; <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></span><span>﻿</span></span> servers alive, or b) multiple leaders become candidates at roughly same time, and split votes</p><p id="bab9a30a-050c-43a1-a66b-6e250acd9695" class="">If the network drops packets for a heartbeat or 2 to any server, it might start a new election even though the current leader is working perfectly fine.</p><p id="9f4a3548-8541-4400-bca4-5011ec40e4b1" class=""><strong><em>Note: </em></strong>The paper&#x27;s Raft description is not exactly complete, as there are network failure cases when the system breaks down. However the beauty of Raft is that these cases are all fix-able. 
+For eg it&#x27;s possible the leader is able to send heartbeats to everyone, but it&#x27;s incoming network wire is misbehaving, so it doesn&#x27;t receive anything. In this scenario it&#x27;ll keep repeating Append RPCs, other&#x27;s wont start a new election because they&#x27;re getting heartbeats, but no progress is made as the leader is not getting responses. This can be fixed with a &#x27;2-way heartbeat&#x27; (say Ack)</p><p id="ace534e1-4cce-45bb-bc3b-3693181750b5" class="">Server&#x27;s get to know an election is over as the chosen leader will start sending them append entries with that term, and only leaders are allowed to send append entries.</p><pre id="03d4b204-c386-4ee9-b395-b168a658c8b3" class="code code-wrap"><code>what if old leader isn&#x27;t aware a new leader is elected?
+  perhaps old leader didn&#x27;t see election messages
+  perhaps old leader is in a minority network partition
+  new leader means a majority of servers have incremented currentTerm
+    so old leader (w/ old term) can&#x27;t get majority for AppendEntries
+    so old leader won&#x27;t commit or execute any new log entries
+    thus no split brain
+    but a minority may accept old server&#x27;s AppendEntries
+      so logs may diverge at end of old term</code></pre><p id="1148025c-3dd3-4460-bcda-8d361054ad0d" class="">Server always appends to it&#x27;s own log before sending out messages. [<strong>Why? What breaks otherwise?</strong>]. It can crash in between before sending though :P</p><figure id="fb902f40-846d-4a5f-b557-944d06fe39eb" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%2011.png"><img style="width:489px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%2011.png"/></a></figure><p id="3e34c3e2-88f4-4c1e-a454-19a28e90a272" class="">Even though it&#x27;s not necessary that 11th index was committed (the leader might have crash before committing), since it&#x27;s possible, and new leader in Raft can&#x27;t know what happened, it has to assume it was committed and behaves like so (as commits send an output to the client, so you can&#x27;t go overwrite them).</p><p id="9d31bdcb-edf2-4487-ab3f-e415f437a9f0" class="">
+</p><h2 id="a10eefa6-bbe9-48ee-9934-d42adb6953bb" class="">Doubts</h2><p id="c1f68e75-13d5-4857-b2e8-3a573c1ea126" class="">Index in logs matters:</p><figure id="1bcf3f47-7da2-432e-a7e1-e5280d942296" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%2012.png"><img style="width:661px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%2012.png"/></a></figure><p id="fbc1ca05-54fa-414d-8b59-44cee8cbb3f9" class="">Each server votes for a server ONCE in each TERM:</p><figure id="204876c4-a24f-43c1-88f4-c8a1ea6fa68e" class="image"><a href="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%2013.png"><img style="width:911px" src="Raft%20d082ce9829c04ae5afa6ee9c6e66a607/Untitled%2013.png"/></a></figure></div></article></body></html>

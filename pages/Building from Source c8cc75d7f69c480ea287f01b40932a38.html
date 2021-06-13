@@ -1,4 +1,5 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Week 2</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Building from Source</title><style>
+/* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
 	-webkit-print-color-adjust: exact;
@@ -624,5 +625,22 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="1d46e189-085d-46e7-ae54-6ce629df9709" class="page sans"><header><h1 class="page-title">Week 2</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><p id="b5a624b9-c1e7-4743-ab3e-7bfd4556a426" class="">
-</p></div></article></body></html>
+</style></head><body><article id="c8cc75d7-f69c-480e-a287-f01b40932a38" class="page sans"><header><h1 class="page-title">Building from Source</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><p id="48326481-10d7-40f6-96cf-643f1cda0ac8" class="">For building projects:</p><pre id="8e76667a-4e9e-48ea-8300-5f62113ebac7" class="code"><code>cmake -G Ninja ../llvm \
+-DCMAKE_INSTALL_PREFIX=/home/kunwar/LLVM \
+-DLLVM_ENABLE_PROJECTS=&quot;clang;lldb;polly;lld&quot; \ # Add whatever projects you want
+-DLLVM_USE_SPLIT_DWARF=ON \
+-DLLVM_USE_LINKER=gold \
+-DLLVM_LINK_LLVM_DYLIB=true \
+-DLLVM_PARALLEL_LINK_JOBS=1</code></pre><p id="893152e5-f342-40e0-9def-4f52605a08b7" class="">
+</p><p id="e7a06239-a3e4-457b-bdf8-5a8068ffd0ae" class="">For building MLIR:</p><pre id="0c80a1f9-4a65-42b1-8445-d3834dd0038a" class="code"><code>cmake -G Ninja ../llvm \
+-DLLVM_ENABLE_PROJECTS=mlir \
+-DLLVM_BUILD_EXAMPLES=ON \
+-DLLVM_TARGETS_TO_BUILD=&quot;X86;NVPTX;AMDGPU&quot; \
+-DLLVM_ENABLE_ASSERTIONS=ON \
+-DCMAKE_C_COMPILER=clang \
+-DCMAKE_CXX_COMPILER=clang++ \
+-DLLVM_ENABLE_LLD=ON \
+-DLLVM_LINK_LLVM_DYLIB=true \
+-DLLVM_PARALLEL_LINK_JOBS=1 \
+-DLLVM_USE_SPLIT_DWARF=ON </code></pre><p id="a9aaa0ac-defb-41c5-8a26-2242e3dff4dc" class="">
+</p><p id="47d6c395-dd66-4f9a-95b2-e30dd0dec98d" class="">In case you only want the headers and don&#x27;t want to modify the source code:</p><pre id="207a1a79-e5f4-4aed-a0cf-da6657311651" class="code"><code>sudo apt install llvm-11</code></pre><p id="8ecd4811-ad57-46ae-aab3-297d482d1951" class="">Headers should be install globally. You can find where they are by: <code>whereis llvm-11</code>.</p></div></article></body></html>
